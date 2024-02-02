@@ -90,7 +90,7 @@ export async function generateMetadata(
     console.log(imgParams.toString())
 
     frameContent.frameImageUrl = HOST_URL
-        + `/api/image/title?ca=${tokenDetails.ca}&name=${name}&symbol=${symbol}&totalMinted=${nftCount}=&mintStatus=${mintStatus}&networkName=${networkInfo.network}&description=${description}&totalSupply=${totalSupply}`
+        + `/api/image/title?${imgParams.toString()}`
     frameContent.frameButtonNames = ["see Again", "see Latest Mints"]
     frameContent.framePostUrl = HOST_URL + '/'
 
