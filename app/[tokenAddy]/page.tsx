@@ -98,10 +98,10 @@ export async function generateMetadata(
         image: frameContent.frameImageUrl,
         buttons: [
             {
-                label: 'see Again'
+                label: 'see again'
             },
             {
-                label: 'see Latest Mints'
+                label: 'see latest mints'
             }
         ],
         post_url: frameContent.framePostUrl,
