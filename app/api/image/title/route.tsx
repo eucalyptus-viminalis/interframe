@@ -2,6 +2,8 @@ import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
 export const runtime = "edge";
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 export async function GET(req: NextRequest) {
     // Fonts
