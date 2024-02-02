@@ -69,7 +69,7 @@ export async function GET(req: NextRequest) {
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: 40
+                            fontSize: 20
                         }}
                     >
                         {'/' + ca}
