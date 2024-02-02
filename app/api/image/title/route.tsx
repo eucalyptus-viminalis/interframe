@@ -136,11 +136,11 @@ export async function GET(req: NextRequest) {
                         height: '15%',
                         width: '100%',
                         display: 'flex',
-                        fontSize: 80,
+                        fontSize: 88,
                         alignItems: "flex-end",
                         justifyContent: "flex-start",
-                        letterSpacing: '-.05em',
-                        gap: 50
+                        letterSpacing: '-.08em',
+                        gap: 48
                     }}
                 >
 
