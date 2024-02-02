@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
                     alignItems: "center",
                     letterSpacing: '-.02em',
                     fontWeight: 700,
-                    fontSize: 36,
+                    fontSize: 60,
                     padding: 16,
                     background: "linear-gradient(to bottom right, #343E90, #210446)",
                     flexDirection: "column",
@@ -66,10 +66,10 @@ export async function GET(req: NextRequest) {
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center',
+                            fontSize: 60
                         }}
                     >
-                        {/* /0x040cABdDC5C1Ed83B66e0126E74E7F97e6eC36BC */}
                         {ca}
                     </div>
 
@@ -100,7 +100,7 @@ export async function GET(req: NextRequest) {
                                 tw="p-1"
                                 style={{
                                     fontFamily: '"barcode"',
-                                    fontSize: 64
+                                    fontSize: 80
                                 }}
                             >
                                 {mintStatus}
@@ -136,7 +136,7 @@ export async function GET(req: NextRequest) {
                         height: '15%',
                         width: '100%',
                         display: 'flex',
-                        fontSize: 50,
+                        fontSize: 80,
                         alignItems: "flex-end",
                         justifyContent: "flex-start",
                         letterSpacing: '-.05em',
