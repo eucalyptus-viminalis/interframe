@@ -140,7 +140,7 @@ export async function GET(req: NextRequest) {
                         alignItems: "flex-end",
                         justifyContent: "flex-start",
                         letterSpacing: '-.05em',
-                        gap: 52
+                        gap: 50
                     }}
                 >
 
