@@ -1,12 +1,14 @@
+import { Frame200Response } from "@/fc/Frame200Response";
 import { FrameContent } from "@/fc/FrameContent";
+import { FrameSignaturePacket } from "@/fc/FrameSignaturePacket";
 import { zdk } from "@/zora/zsk";
 import { Chain, Network } from "@zoralabs/zdk/dist/queries/queries-sdk";
-import { Metadata } from "next";
-import { getFrameMetadata } from '@coinbase/onchainkit';
+import { NextRequest } from "next/server";
 
-
+// ENV VARS //
 const HOST_URL = process.env['HOST'] as string
 
+// FRAME CONTENT //
 const frameContent: FrameContent = {
     frameButtonNames: [""],
     frameImageUrl: "",
@@ -14,6 +16,8 @@ const frameContent: FrameContent = {
     frameTitle: "see Zora",
     frameVersion: "vNext"
 }
+
+// FUNCTIONS //
 
 // Function to convert TypeScript object to URLSearchParams
 function objectToSearchParams(obj: Record<string, any>): URLSearchParams {
@@ -42,13 +46,9 @@ export type TokenDetails = {
     totalMinted: number | null | undefined
 }
 
-export async function generateMetadata(
-    { params }: {params: {tokenAddy: string}}
-  ): Promise<Metadata> {
-   
-    const { tokenAddy } = params
-    // const tokenInfo = fetch(ZORA_API + '/tokens/' + tokenAddy)
-
+export async function GET(req: NextRequest) {
+    const searchParams = req.nextUrl.searchParams
+    const tokenAddy = searchParams.get('tokenAddy') as `0x${string}`
     // Get contract details
     const res = await zdk.collection({
         address: tokenAddy,
@@ -90,42 +90,44 @@ export async function generateMetadata(
     console.log(imgParams.toString())
 
     frameContent.frameImageUrl = HOST_URL
-        + `/api/image/title?${imgParams.toString()}`
-    frameContent.frameButtonNames = ["see Again", "see Latest Mints"]
-    frameContent.framePostUrl = HOST_URL + '/'
+        + "/api/image/title?" + imgParams.toString()
+    frameContent.frameButtonNames = ["<Home>", "<Latest Mints>"]
+    frameContent.framePostUrl = HOST_URL + `/api/home?tokenAddy=${tokenAddy}`
+    return Frame200Response(frameContent)
+}
 
-    const frameMetadata = getFrameMetadata({
-        image: frameContent.frameImageUrl,
-        buttons: [
-            {
-                label: 'see again'
+export async function POST(req: NextRequest) {
+    const searchParams = req.nextUrl.searchParams
+    const tokenAddy = searchParams.get('tokenAddy')
+    const data: FrameSignaturePacket = await req.json()
+    // If buttonIndex == 2, take user to Latest Mint page
+    const buttonIndex = data.untrustedData.buttonIndex
+    if (buttonIndex === 2) {
+        const response = await fetch(HOST_URL + `/api/latest-mints?from=home&tokenAddy=${tokenAddy}`, {
+            method: 'POST', // specify the method of your original request
+            headers: {
+                'Content-Type': 'application/json', // adjust headers if needed
             },
-            {
-                label: 'see latest mints'
-            }
-        ],
-        post_url: frameContent.framePostUrl,
-        refresh_period: 60
-    })
-   
-    return {
-      title: frameContent.frameTitle,
-      openGraph: {
-        title: frameContent.frameTitle,
-        images: [frameContent.frameImageUrl],
-      },
-      other: {
-        ...frameMetadata
-      }
-    }
-  }
+            body: JSON.stringify(data), // send the original request body
+        });
 
-export default async function RootPage({ params }: { params: { tokenAddy: string } }) {
-    const {tokenAddy} = params
-    return (
-        <div>
-            <h1>{tokenAddy}</h1>
-        </div>
-    )
+        // Handle the response and return it
+        if (response.ok) {
+            console.log('RESPONSE OK!')
+            const responseData = response.body;
+            return new Response(responseData, {
+                status: response.status,
+                headers: {
+                    'Content-Type': 'text/html',
+                },
+            });
+            return new Response()
+        } else {
+            return new Response('Error handling the request', {
+                status: response.status,
+            });
+        }
+    }
+
 
 }

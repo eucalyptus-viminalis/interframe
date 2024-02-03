@@ -1,6 +1,6 @@
 import { FrameContent } from "./FrameContent";
 
-export function frame200Response(frameContent: FrameContent): Response {
+export function Frame200Response(frameContent: FrameContent): Response {
     const { frameButtonNames, frameImageUrl, framePostUrl, frameTitle, frameVersion} = frameContent
     const html = `
       <!DOCTYPE html> 
@@ -19,12 +19,12 @@ export function frame200Response(frameContent: FrameContent): Response {
         </head>
         <body>
           <h1>ipfs timer</h1>
-          <p>Farcaster Frame for measuring IPFS gateway latency</p>
+          <p>Farcaster Frame to see a Zora collection's stats and latest mints at a glance.</p>
           <dl>
             <dt>In action</dt>
             <dd><a href="https://warpcast.com/3070/0x07bf940d">https://warpcast.com/3070/0x07bf940d</a></dd>
             <dt>Code</dt>
-            <dd><a href="https://github.com/eucalyptus-viminalis/nah-dont">GitHub</a></dd>
+            <dd><a href="https://github.com/eucalyptus-viminalis/see-zora">GitHub</a></dd>
           </dl>
           <hr>
           <p>Built by 3070 (<a href="https://warpcast.com/3070">Warpcast Profile</a>)
