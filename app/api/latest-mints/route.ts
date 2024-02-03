@@ -38,11 +38,12 @@ async function MintFrame(idx: number, collectionAddress: string) {
         includeMarkets: false
     })
     const mint = res.mints.nodes[idx]
+    console.log(`mint: ${JSON.stringify(mint, null, 2)}`)
     const img = mint.token?.image?.mediaEncoding?.original
     const tokenId = mint.mint.tokenId
     const mintTimestamp = mint.mint.transactionInfo.blockTimestamp
     const to = mint.mint.toAddress
-    frameContent.frameImageUrl += `/api/image/mint?img=${img}&tokenId=${tokenId}&mintTimestamp=${mintTimestamp}&to=${to}`
+    frameContent.frameImageUrl += `/api/image/mint?img=${img}&tokenId=${tokenId}&mintTimestamp=${mintTimestamp}&to=${to}&date=${Date.now()}`
 
     // TODO: GET FARCASTER USER DETAILS
     let frameImageUrl;
@@ -54,9 +55,7 @@ async function MintFrame(idx: number, collectionAddress: string) {
         const username = user.result.user.username
         const pfp = user.result.user.pfp.url
         frameContent.frameImageUrl += `&username=${username}&pfp=${pfp}`
-        console.log(`user: ${JSON.stringify(user, null, 2)}`);
     } catch {
-        console.log('user not found')
     }
     return Frame200Response(frameContent)
 
