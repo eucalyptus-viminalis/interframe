@@ -94,8 +94,9 @@ export async function GET(req: NextRequest) {
 
             {pfp ? (
               <img
-                alt="avatar"
+                alt="pfp"
                 width="64"
+                height="64"
                 src={`${pfp}`}
                 style={{
                   borderRadius: 128,
