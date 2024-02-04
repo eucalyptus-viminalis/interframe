@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
     // Get collection details (zdk)
     const collection = await zdk.collection({
         address: tokenAddy,
-        includeFullDetails: false
+        includeFullDetails: true
     })
     console.log(`collection: ${JSON.stringify(collection, null, 2)}`)
     // Get collection stats (zdk)
