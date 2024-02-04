@@ -11,9 +11,13 @@ const zoraMainnet: NetworkInfo = {
     network: ZDKNetwork.Zora,
     chain: ZDKChain.ZoraMainnet
 }
+const baseMainnet: NetworkInfo = {
+    network: ZDKNetwork.Base,
+    chain: ZDKChain.BaseMainnet
+}
 const args = {
     endPoint: ZORA_GRAPHQL,
-    networks: [ethMainnet, zoraMainnet],
+    networks: [ethMainnet, zoraMainnet, baseMainnet],
 }
 
 export const zdk = new ZDK(args)

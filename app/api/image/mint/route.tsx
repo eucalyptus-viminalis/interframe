@@ -11,6 +11,12 @@ export async function GET(req: NextRequest) {
   const bodoni = await fetch(
     new URL('../../../../assets/LibreBodoni-Regular.ttf', import.meta.url),
   ).then((res) => res.arrayBuffer());
+  const anon = await fetch(
+    new URL('../../../../assets/AnonymousPro-Regular.ttf', import.meta.url),
+  ).then((res) => res.arrayBuffer());
+  const roboto = await fetch(
+    new URL('../../../../assets/RobotoMono-Regular.ttf', import.meta.url),
+  ).then((res) => res.arrayBuffer());
 
   // Query Params
   const { searchParams } = req.nextUrl
@@ -40,13 +46,15 @@ export async function GET(req: NextRequest) {
           height: "100%",
           color: "white",
           alignItems: "center",
-          letterSpacing: '-.02em',
+          // letterSpacing: '-.02em',
           fontWeight: 700,
           fontSize: 60,
-          padding: 16,
+          // padding: 16,
           background: "linear-gradient(to bottom right, #343E90, #210446)",
           flexDirection: "column",
-          justifyContent: "space-between"
+          justifyContent: "space-between",
+          fontFamily: 'roboto',
+          opacity: 0.8
           // textAlign: "center",
         }}
       >
@@ -70,10 +78,11 @@ export async function GET(req: NextRequest) {
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: 20
+              fontSize: 64,
+              opacity: 0.3
             }}
           >
-            Minted to:
+            Minted
           </div>
 
           <div
@@ -81,7 +90,7 @@ export async function GET(req: NextRequest) {
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: 'flex-end',
+              alignItems: 'center',
               justifyContent: 'flex-end',
             }}
           >
@@ -100,8 +109,10 @@ export async function GET(req: NextRequest) {
             <span
               tw="p-1"
               style={{
-                fontFamily: '"barcode"',
-                fontSize: 80
+                fontSize: 50,
+                width: '200',
+                wordBreak: 'break-all',
+                opacity: 0.3
               }}
             >
               {username ? '@' + username : ens ?? to}
@@ -110,26 +121,39 @@ export async function GET(req: NextRequest) {
           </div>
         </div>
 
-
+        <div
+          id="mid-section"
+          style={{
+            height: '400',
+            width: '100%',
+            display: 'flex',
+            fontSize: 42,
+            alignItems: "center",
+            justifyContent: "center",
+            // letterSpacing: '-.08em',
+            gap: 48
+          }}
+        >
+          <div>
+            {'#' + tokenId}
+          </div>
         <img
           id="token-image"
           alt="tokenImage"
-          height="420"
+          height="400"
           src={`${img}`}
           style={{
-            // 
+            opacity: 1
           }}
         />
-
-        <div
+        {/* <div
           id="token-id"
           tw=""
-          style={{
-            fontSize: '20px'
-          }}
         >
-          {tokenId}
+          {'#' + tokenId}
+        </div> */}
         </div>
+
 
         <div
           id="bottom-bar"
@@ -141,7 +165,8 @@ export async function GET(req: NextRequest) {
             alignItems: "flex-end",
             justifyContent: "flex-start",
             letterSpacing: '-.08em',
-            gap: 48
+            gap: 48,
+            opacity: 0.3
           }}
         >
 
@@ -149,10 +174,11 @@ export async function GET(req: NextRequest) {
             id="mint-timestamp"
             tw="p-2 m-0"
             style={{
-              fontFamily: '"barcode"'
+              fontFamily: '"barcode"',
+
             }}
           >
-            Timestamp: {mintTimestamp ?? "Unknown"}
+            @ {mintTimestamp ?? "Unknown"}
           </span>
 
           {mintPrice ? (
@@ -167,15 +193,17 @@ export async function GET(req: NextRequest) {
             </span>
           ) : null}
 
-          <span
-            id="network"
-            tw="p-2 m-0"
-            style={{
-              fontFamily: '"barcode"'
-            }}
-          >
-            Network: {networkName} - {networkId}
-          </span>
+          {networkName ? (
+            <span
+              id="network"
+              tw="p-2 m-0"
+              style={{
+                fontFamily: '"barcode"'
+              }}
+            >
+              @: {networkName} - {networkId}
+            </span>
+          ) : null}
           <span
             id="price"
             tw="p-2 m-0"
@@ -218,6 +246,16 @@ export async function GET(req: NextRequest) {
           data: fontData,
           style: 'normal',
         },
+        {
+          name: 'anon',
+          data: anon,
+          style: 'normal',
+        },
+        {
+          name: 'roboto',
+          data: roboto,
+          style: 'normal',
+        }
       ],
     }
   );
