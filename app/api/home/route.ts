@@ -93,8 +93,9 @@ export async function POST(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const tokenAddy = searchParams.get('tokenAddy')
     const data: FrameSignaturePacket = await req.json()
-    // If buttonIndex == 2, take user to Latest Mint page
     const buttonIndex = data.untrustedData.buttonIndex
+
+    // Case 1: If pressed "Latest Mints" button
     if (buttonIndex === 2) {
         const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?from=home&tokenAddy=${tokenAddy}`, {
             method: 'POST', // specify the method of your original request
@@ -120,6 +121,9 @@ export async function POST(req: NextRequest) {
                 status: response.status,
             });
         }
+    } else if (buttonIndex == 1) {
+        // Case 2: pressed "Refresh" button
+        return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
     }
 
 
