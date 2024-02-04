@@ -1,6 +1,6 @@
 import {ZDK, ZDKChain, ZDKNetwork} from "@zoralabs/zdk"
-import { ZORA_GRAPHQL } from "./consts"
 import { NetworkInfo } from "@zoralabs/zdk/dist/queries/queries-sdk"
+import { AppConfig } from "@/app/AppConfig"
 
 // NetworkInfo
 const ethMainnet: NetworkInfo = {
@@ -16,7 +16,7 @@ const baseMainnet: NetworkInfo = {
     chain: ZDKChain.BaseMainnet
 }
 const args = {
-    endPoint: ZORA_GRAPHQL,
+    endPoint: AppConfig.zoradGraphql,
     networks: [ethMainnet, zoraMainnet, baseMainnet],
 }
 

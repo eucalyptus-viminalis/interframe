@@ -1,9 +1,8 @@
 // Argument defitions
 
 import { CollectionQueryArgs, CollectionSortKey, CollectionsQueryArgs, SortDirection, TokenQueryArgs } from "@zoralabs/zdk"
-import { CA_BLITMAP, CA_ZAIBS } from "./consts"
 import { zdk } from "./zsk"
-import { Chain, CollectionStatsAggregateQuery, Network, NetworkInput } from "@zoralabs/zdk/dist/queries/queries-sdk"
+import { Chain, Network } from "@zoralabs/zdk/dist/queries/queries-sdk"
 
 // where: Parameters that grab a specific set of NFT data, e.g. collectionAddress
 // filter: Filters down the results from the where parameters into a smaller data set
