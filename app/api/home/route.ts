@@ -7,7 +7,7 @@ import { Chain, Network } from "@zoralabs/zdk/dist/queries/queries-sdk";
 import { NextRequest } from "next/server";
 
 // Data we want to display in the frame image
-type TokenDetails = {
+type ImageParams = {
     ca: `0x${string}`
     networkName: string | null | undefined
     name: string | null | undefined
@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
         : collection.totalSupply - stats.aggregateStat.nftCount == 0
             ? "Fully allocated" : "Minting"
 
-    const tokenDetails: TokenDetails = {
+    const tokenDetails: ImageParams = {
         ca: tokenAddy as `0x${string}`,
         description: collection.description,
         name: collection.name,

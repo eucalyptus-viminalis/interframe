@@ -17,11 +17,10 @@ export async function GET(req: NextRequest) {
         new URL('../../../../assets/RobotoMono-Regular.ttf', import.meta.url),
     ).then((res) => res.arrayBuffer());
 
-
     // Token details
     const ca = searchParams.get("ca")
-    const tokenName = searchParams.get("name")
-    const totalMinted = searchParams.get('totalMinted')
+    const tokenName = searchParams.get('name') ? decodeURIComponent(searchParams.get("name")!) : 'Unknown'
+    // const totalMinted = searchParams.get('totalMinted')
     const mintStatus = searchParams.get('mintStatus')
     const networkName = searchParams.get('networkName')
     const mintPrice = searchParams.get('mintPrice')
