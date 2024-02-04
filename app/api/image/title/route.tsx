@@ -6,14 +6,17 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export async function GET(req: NextRequest) {
+
+    const searchParams = req.nextUrl.searchParams
+
     // Fonts
-    const fontData = await fetch(
+    const barcode = await fetch(
         new URL('../../../../assets/LibreBarcode128Text-Regular.ttf', import.meta.url),
     ).then((res) => res.arrayBuffer());
-    const bodoni = await fetch(
-        new URL('../../../../assets/LibreBodoni-Regular.ttf', import.meta.url),
+    const roboto = await fetch(
+        new URL('../../../../assets/RobotoMono-Regular.ttf', import.meta.url),
     ).then((res) => res.arrayBuffer());
-    const { searchParams } = req.nextUrl;
+
 
     // Token details
     const ca = searchParams.get("ca")
@@ -27,12 +30,16 @@ export async function GET(req: NextRequest) {
     const totalSupply = searchParams.get("totalSupply");
     const tokenDescription = searchParams.get("desc")
 
+    // Styles
+    const secondaryTextOpacity = 0.35
+
     // const total = searchParams.get("total");
     // const timestamp = searchParams.get("timestamp");
 
     return new ImageResponse(
         (
             <div
+                id= "frame"
                 style={{
                     display: "flex",
                     width: "100%",
@@ -40,9 +47,9 @@ export async function GET(req: NextRequest) {
                     color: "white",
                     alignItems: "center",
                     letterSpacing: '-.02em',
+                    fontFamily: 'roboto',
                     fontWeight: 700,
                     fontSize: 60,
-                    padding: 16,
                     background: "linear-gradient(to bottom right, #343E90, #210446)",
                     flexDirection: "column",
                     justifyContent: "space-between"
@@ -59,22 +66,22 @@ export async function GET(req: NextRequest) {
                         height: "12%",
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        alignItems: 'flex-start'
+                        alignItems: 'flex-start',
+                        opacity: secondaryTextOpacity
                     }}
                 >
                     <div
-                        id="contractAddress"
+                        id="contract-address"
                         style={{
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: 20
+                            fontSize: 40
                         }}
                     >
                         {'/' + ca}
                     </div>
-
                     <div
                         id="mint-status"
                         style={{
@@ -84,54 +91,44 @@ export async function GET(req: NextRequest) {
                             justifyContent: 'flex-end',
                         }}
                     >
-
-                        {mintStatus == "Minting" ? (
-                            <span
-                                tw="m-1"
-                                style={{
-                                    width: '23px',
-                                    height: '23px',
-                                    background: '#1BE33B',
-                                    borderRadius: 100
-                                }}
-                            />
-                        ) : null}
-
-                        {mintStatus ? (
-                            <span
-                                tw="p-1"
-                                style={{
-                                    fontFamily: '"barcode"',
-                                    fontSize: 80
-                                }}
-                            >
-                                {mintStatus}
-                            </span>
-                        ) : null}
-
+                    {mintStatus == "Minting" ? (
+                        <span
+                            tw="m-1"
+                            style={{
+                                width: '23px',
+                                height: '23px',
+                                background: '#1BE33B',
+                                borderRadius: 100
+                            }}
+                        />
+                    ) : null}
+                    {mintStatus ? (
+                        <span
+                            tw="p-1"
+                            style={{
+                                fontFamily: '"barcode"',
+                                fontSize: 80
+                            }}
+                        >
+                            {mintStatus}
+                        </span>
+                    ) : null}
                     </div>
                 </div>
-
-
                 <div
                     id="token-name"
                     style={{
-                        fontFamily: '"bodoni"',
                         fontSize: "100px",
                         margin: 0,
                     }}
                 >{tokenName}</div>
-
                 <div
                     id="description"
                     tw=""
                     style={{
                         fontSize: '20px'
                     }}
-                >
-                    {tokenDescription}
-                </div>
-
+                >{tokenDescription}</div>
                 <div
                     id="bottom-bar"
                     style={{
@@ -142,32 +139,26 @@ export async function GET(req: NextRequest) {
                         alignItems: "flex-end",
                         justifyContent: "flex-start",
                         letterSpacing: '-.08em',
-                        gap: 48
+                        gap: 48,
+                        opacity: secondaryTextOpacity
                     }}
                 >
-
                     <span
                         id="total-supply"
                         tw="p-2 m-0"
                         style={{
                             fontFamily: '"barcode"'
                         }}
-                    >
-                        Total supply: {totalSupply ?? "Unknown"}
-                    </span>
-
-                    {mintPrice ? (
-                        <span
-                            id="mint-price"
-                            tw="p-2 m-0"
-                            style={{
-                                fontFamily: '"barcode"'
-                            }}
-                        >
-                            Mint price: {mintPrice}E
-                        </span>
-                    ) : null}
-
+                    >Total supply: {totalSupply ?? "Unknown"}</span>
+                {mintPrice ? (
+                    <span
+                        id="mint-price"
+                        tw="p-2 m-0"
+                        style={{
+                            fontFamily: '"barcode"'
+                        }}
+                    >Mint price: {mintPrice}E</span>
+                ) : null}
                     <span
                         id="network"
                         tw="p-2 m-0"
@@ -178,7 +169,7 @@ export async function GET(req: NextRequest) {
                         Network: {networkName} - {networkId}
                     </span>
                     <span
-                        id="price"
+                        id="safe-area"
                         tw="p-2 m-0"
                         style={{
                             fontFamily: '"barcode"',
@@ -210,15 +201,15 @@ export async function GET(req: NextRequest) {
             height: 630,
             fonts: [
                 {
-                    name: 'bodoni',
-                    data: bodoni,
+                    name: 'barcode',
+                    data: barcode,
                     style: 'normal',
                 },
                 {
-                    name: 'barcode',
-                    data: fontData,
+                    name: 'roboto',
+                    data: roboto,
                     style: 'normal',
-                },
+                }
             ],
         }
     );
