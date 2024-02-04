@@ -1,5 +1,6 @@
 export const AppConfig = {
     hostUrl: process.env['HOST']!,
+    hubUrl: process.env['HUB_URL'] || "nemes.farcaster.xyz:2283",
     zoraRestUrl: "https://explorer.zora.energy/api/v2",
     neynarApiKey: process.env['NEYNAR_API_KEY']!,
     neynarGrpc: process.env['NEYNAR_GRPC']!,

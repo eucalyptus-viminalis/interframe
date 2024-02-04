@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
 
     frameContent.frameImageUrl = AppConfig.hostUrl
         + "/api/image/title?" + imgParams.toString()
-    frameContent.frameButtonNames = ["<Home>", "<Latest Mints>"]
+    frameContent.frameButtonNames = ["<Home>", "<Latest Mints>", "<Holders>"]
     frameContent.framePostUrl = AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`
     return Frame200Response(frameContent)
 }
@@ -95,9 +95,36 @@ export async function POST(req: NextRequest) {
     const data: FrameSignaturePacket = await req.json()
     const buttonIndex = data.untrustedData.buttonIndex
 
-    // Case 1: If pressed "Latest Mints" button
-    if (buttonIndex === 2) {
+    // Case 1: pressed "Refresh" button
+    if (buttonIndex == 1) {
+        return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
+    } else if (buttonIndex === 2) {
+    // Case 2: If pressed "Latest Mints" button
         const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?from=home&tokenAddy=${tokenAddy}`, {
+            method: 'POST', // specify the method of your original request
+            headers: {
+                'Content-Type': 'application/json', // adjust headers if needed
+            },
+            body: JSON.stringify(data), // send the original request body
+        });
+
+        // Handle the response and return it
+        if (response.ok) {
+            const responseData = response.body;
+            return new Response(responseData, {
+                status: response.status,
+                headers: {
+                    'Content-Type': 'text/html',
+                },
+            });
+        } else {
+            return new Response('Error handling the request', {
+                status: response.status,
+            });
+        }
+    } else if (buttonIndex == 3) {
+        // Case 3: If "Holders" button clicked
+        const response = await fetch(AppConfig.hostUrl + `/api/holders?from=home&tokenAddy=${tokenAddy}`, {
             method: 'POST', // specify the method of your original request
             headers: {
                 'Content-Type': 'application/json', // adjust headers if needed
@@ -115,16 +142,11 @@ export async function POST(req: NextRequest) {
                     'Content-Type': 'text/html',
                 },
             });
-            return new Response()
         } else {
             return new Response('Error handling the request', {
                 status: response.status,
             });
         }
-    } else if (buttonIndex == 1) {
-        // Case 2: pressed "Refresh" button
-        return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
     }
-
 
 }

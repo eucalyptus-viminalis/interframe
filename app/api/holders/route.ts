@@ -7,42 +7,42 @@ import { client } from "@/neynar/client";
 import { FrameContent } from "@/fc/FrameContent";
 import { ipfsSrcToUrl } from "@/ipfs/ipfs";
 import { SortDirection } from "@zoralabs/zdk";
-import { MintSortKey } from "@zoralabs/zdk/dist/queries/queries-sdk";
+import { MintSortKey, OwnerCountSortKey } from "@zoralabs/zdk/dist/queries/queries-sdk";
 
 // export const config = {
 //   runtime: 'edge',
 // }
 
-async function MintFrame(idx: number, collectionAddress: string) {
+async function HolderFrame(idx: number, collectionAddress: string) {
     const frameContent: FrameContent = {
         frameButtonNames: [""],
         frameImageUrl: AppConfig.hostUrl,
-        framePostUrl: AppConfig.hostUrl + `/api/latest-mints?idx=${idx}&tokenAddy=${collectionAddress}`,
-        frameTitle: "see Zora | latest mints",
+        framePostUrl: AppConfig.hostUrl + `/api/holders?idx=${idx}&tokenAddy=${collectionAddress}`,
+        frameTitle: "see Zora | Holders",
         frameVersion: 'vNext',
     }
     // Get mint transfers
-    const res = await zdk.mints({
+    const res = await zdk.ownersByCount({
         where: {
             collectionAddresses: [collectionAddress],
         },
-        includeFullDetails: false,
-        includeMarkets: false,
+        pagination: {
+            limit: 10
+        },
         sort: {
             sortDirection: "DESC" as SortDirection,
-            sortKey: "TIME" as MintSortKey
+            sortKey: "COUNT" as OwnerCountSortKey
         }
     })
     // Set button names
-    frameContent.frameButtonNames = res.mints.nodes.length - 1 <= idx ? ['<< Back'] : ['<< Back', 'Next >>']
-    const mint = res.mints.nodes[idx]
-    console.log(`mint.token.image.url: ${JSON.stringify(mint.token?.image?.url, null, 2)}`)
-    const img = ipfsSrcToUrl(mint.token!.image!.url!)
-    // const img = sanitiseForPossibleIPFS(mint.token?.image?.url)
-    const tokenId = mint.mint.tokenId
-    const mintTimestamp = mint.mint.transactionInfo.blockTimestamp
-    const to = mint.mint.toAddress
-    frameContent.frameImageUrl += `/api/image/mint?img=${img}&tokenId=${tokenId}&mintTimestamp=${mintTimestamp}&to=${to}&date=${Date.now()}`
+    frameContent.frameButtonNames = res.aggregateStat.ownersByCount.nodes.length - 1 <= idx ? ['<< Back'] : ['<< Back', 'Next >>']
+    const holder = res.aggregateStat.ownersByCount.nodes[idx]
+    console.log(`holder: ${JSON.stringify(holder, null, 2)}`)
+    const to = holder.owner
+    const count = holder.count
+    const rank = idx + 1
+
+    frameContent.frameImageUrl += `/api/image/holder?tokenAddy=${collectionAddress}&to=${to}&count=${count}&rank=${rank}&date=${Date.now()}`
 
     try {
         // Example
@@ -54,6 +54,8 @@ async function MintFrame(idx: number, collectionAddress: string) {
         frameContent.frameImageUrl += `&username=${username}&pfp=${pfp}`
     } catch {
     }
+
+    // TODO: Other interesting stats? Last purchase, last sale? how many minted? 
     return Frame200Response(frameContent)
 }
 
@@ -67,17 +69,17 @@ export async function POST(req: NextRequest) {
     // Case 1: Called from /api/home
     // - show latest mint
     if (from == "home") {
-        const res = await MintFrame(0, tokenAddy)
+        const res = await HolderFrame(0, tokenAddy)
         return res
     } else if (data.untrustedData.buttonIndex == 1 && idx == 0) {
         // Case 2: Pressed Back button from page index 0
         return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
     } else if (data.untrustedData.buttonIndex == 1) {
         // Case 3: Pressed Back button from page index not 0
-        return await MintFrame(idx - 1, tokenAddy)
+        return await HolderFrame(idx - 1, tokenAddy)
     } else if (data.untrustedData.buttonIndex == 2) {
         // Case 4: Pressed Next button
-        return await MintFrame(idx + 1, tokenAddy)
+        return await HolderFrame(idx + 1, tokenAddy)
     }
     // Case 5: Pressed redirect to Zora button
     console.log(`FIXME: routing case not found`)
