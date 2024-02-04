@@ -43,7 +43,7 @@ export type TokenDetails = {
     totalMinted: number | null | undefined
 }
 
-export async function generateMetadata(
+async function generateMetadata(
     { params }: {params: {tokenAddy: string}}
   ): Promise<Metadata> {
    
