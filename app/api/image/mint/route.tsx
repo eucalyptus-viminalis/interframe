@@ -4,15 +4,10 @@ import { NextRequest } from 'next/server'
 export const runtime = "edge";
 
 export async function GET(req: NextRequest) {
+
   // Fonts
-  const fontData = await fetch(
+  const barcode = await fetch(
     new URL('../../../../assets/LibreBarcode128Text-Regular.ttf', import.meta.url),
-  ).then((res) => res.arrayBuffer());
-  const bodoni = await fetch(
-    new URL('../../../../assets/LibreBodoni-Regular.ttf', import.meta.url),
-  ).then((res) => res.arrayBuffer());
-  const anon = await fetch(
-    new URL('../../../../assets/AnonymousPro-Regular.ttf', import.meta.url),
   ).then((res) => res.arrayBuffer());
   const roboto = await fetch(
     new URL('../../../../assets/RobotoMono-Regular.ttf', import.meta.url),
@@ -37,6 +32,8 @@ export async function GET(req: NextRequest) {
   const pfp = searchParams.get('pfp')
   const ens = searchParams.get('ens')
 
+  const secondaryTextOpacity = 0.35
+
   return new ImageResponse(
     (
       <div
@@ -54,7 +51,7 @@ export async function GET(req: NextRequest) {
           flexDirection: "column",
           justifyContent: "space-between",
           fontFamily: 'roboto',
-          opacity: 0.8
+          opacity: 1
           // textAlign: "center",
         }}
       >
@@ -79,7 +76,7 @@ export async function GET(req: NextRequest) {
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: 64,
-              opacity: 0.3
+              opacity: secondaryTextOpacity
             }}
           >
             Minted
@@ -106,17 +103,29 @@ export async function GET(req: NextRequest) {
               />
             ) : null}
 
-            <span
-              tw="p-1"
-              style={{
-                fontSize: 50,
-                width: '200',
-                wordBreak: 'break-all',
-                opacity: 0.3
-              }}
-            >
-              {username ? '@' + username : ens ?? to}
-            </span>
+            {username || ens ? (
+              <span
+                tw="p-1"
+                style={{
+                  fontSize: 50,
+                  opacity: secondaryTextOpacity
+                }}
+              >
+                {username ? '@' + username : ens}
+              </span>
+            ) : (
+              <span
+                tw="p-1"
+                style={{
+                  fontSize: 50,
+                  width: '200',
+                  wordBreak: 'break-all',
+                  opacity: secondaryTextOpacity
+                }}
+              >
+                {to}
+              </span>
+            )}
 
           </div>
         </div>
@@ -137,16 +146,16 @@ export async function GET(req: NextRequest) {
           <div>
             {'#' + tokenId}
           </div>
-        <img
-          id="token-image"
-          alt="tokenImage"
-          height="400"
-          src={`${img}`}
-          style={{
-            opacity: 1
-          }}
-        />
-        {/* <div
+          <img
+            id="token-image"
+            alt="tokenImage"
+            height="400"
+            src={`${img}`}
+            style={{
+              opacity: 1
+            }}
+          />
+          {/* <div
           id="token-id"
           tw=""
         >
@@ -237,18 +246,8 @@ export async function GET(req: NextRequest) {
       height: 630,
       fonts: [
         {
-          name: 'bodoni',
-          data: bodoni,
-          style: 'normal',
-        },
-        {
           name: 'barcode',
-          data: fontData,
-          style: 'normal',
-        },
-        {
-          name: 'anon',
-          data: anon,
+          data: barcode,
           style: 'normal',
         },
         {
