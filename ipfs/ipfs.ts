@@ -11,9 +11,6 @@ type erc1155UriContent = {
 }
 
 export function ipfsSrcToUrl(ipfsSrc: string, ipfsApi: IPFS_API = IPFS_API.PINATA) {
-    // DEBUG
-    // console.log(ipfsSrc)
-
     if (ipfsSrc.includes("ipfs://")) {
         return ipfsApi + ipfsSrc.split("//")[1];
     } else return ipfsSrc;
@@ -28,5 +25,4 @@ export async function erc1155UriToImage(
     const content: erc1155UriContent = await res.json()
     console.log(`content.image: ${content.image}`)
     return ipfsSrcToUrl(content.image, ipfsApi)
-
 }
