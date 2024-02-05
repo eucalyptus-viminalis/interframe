@@ -7,6 +7,10 @@ import { Chain, Network } from "@zoralabs/zdk/dist/queries/queries-sdk";
 import { RedirectType, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
+export const dynamic = 'force-dynamic'
+export const revalidate = '0'
+export const fetchCache = 'force-no-store'
+
 // Data we want to display in the frame image
 type ImageParams = {
     ca: `0x${string}`
