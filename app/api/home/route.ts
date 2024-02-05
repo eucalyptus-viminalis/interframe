@@ -185,7 +185,8 @@ export async function POST(req: NextRequest) {
                 }
             ]
             const msg = 'Input error. Enter a valid Ethereum address'
-            frameContent.frameImageUrl += `/api/image/error?tokenAddy=${tokenAddy}&msg=${msg}`
+            frameContent.frameImageUrl = AppConfig.hostUrl + `/api/image/error?tokenAddy=${tokenAddy}&msg=${msg}`
+            frameContent.input = false
             return Frame200Response(frameContent)
         } else {
             return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${input}`)
