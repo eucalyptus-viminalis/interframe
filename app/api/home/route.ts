@@ -102,6 +102,10 @@ export async function GET(req: NextRequest) {
             action: "post",
             label: "<Holders>"
         },
+        {
+            action: "post",
+            label: "<Submit Input>"
+        }
         // {
         //     action: "post_redirect",
         //     label: "<See Zora>"
