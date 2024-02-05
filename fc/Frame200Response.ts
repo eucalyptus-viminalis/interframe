@@ -1,8 +1,8 @@
 import { FrameContent } from "./FrameContent";
 
 export function Frame200Response(frameContent: FrameContent): Response {
-    const { frameButtons, frameImageUrl, framePostUrl, frameTitle, frameVersion} = frameContent
-    const html = `
+  const { frameButtons, frameImageUrl, framePostUrl, frameTitle, frameVersion } = frameContent
+  const html = `
       <!DOCTYPE html> 
       <html>
         <head>
@@ -14,11 +14,13 @@ export function Frame200Response(frameContent: FrameContent): Response {
           <meta name="fc:frame:image" content="${frameImageUrl}" />
           <meta name="fc:frame:post_url" content="${framePostUrl}" />
           ${frameButtons.map(
-            (bn, i) => `<meta name="fc:frame:button:${i+1}" content="${bn.label}" />`
-          )}
+    (bn, i) => `<meta name="fc:frame:button:${i + 1}" content="${bn.label}" />`
+  )}
           ${frameButtons.map(
-            (bn, i) => `<meta name="fc:frame:button:${i+1}:action" content="${bn.action}" />`
-          )}
+    (bn, i) => {
+      bn.action == 'post' ? null : `<meta name="fc:frame:button:${i + 1}:action" content="${bn.action}" />`
+    }
+  )}
         </head>
         <body>
           <h1>ipfs timer</h1>
@@ -34,12 +36,11 @@ export function Frame200Response(frameContent: FrameContent): Response {
         </body>
       </html>
     `;
-  
-    return new Response(html, {
-      status: 200,
-      headers: {
-        "content-type": "text/html",
-      },
-    });
-  }
-  
+
+  return new Response(html, {
+    status: 200,
+    headers: {
+      "content-type": "text/html",
+    },
+  });
+}
