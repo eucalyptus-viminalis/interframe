@@ -92,19 +92,19 @@ export async function GET(req: NextRequest) {
     frameContent.frameButtons = [
         {
             action: "post",
-            label: "<Home>"
+            label: "Home"
         },
         {
             action: "post",
-            label: "<Latest Mints>"
+            label: "Latest Mints"
         },
         {
             action: "post",
-            label: "<Holders>"
+            label: "Holders"
         },
         {
             action: "post",
-            label: "<Submit Input>"
+            label: "Submit Input"
         }
         // {
         //     action: "post_redirect",
