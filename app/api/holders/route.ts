@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { AppConfig } from "@/app/AppConfig";
 import { FrameSignaturePacket } from "@/fc/FrameSignaturePacket";
 import { Frame200Response } from "@/fc/Frame200Response";
@@ -105,6 +105,20 @@ export async function POST(req: NextRequest) {
     } else if (data.untrustedData.buttonIndex == 2) {
         // Case 4: Pressed Next button
         return await HolderFrame(idx + 1, tokenAddy)
+    } else if (data.untrustedData.buttonIndex == 3) {
+        return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
+    } else if (data.untrustedData.buttonIndex == 4) {
+        const collection = await zdk.collection({
+            address: tokenAddy!,
+            includeFullDetails: true
+        })
+        console.log(`collection: ${JSON.stringify(collection, null, 2)}`)
+        const networkName = collection.networkInfo.network!.toLowerCase()
+        console.log(`networkName: ${networkName}`)
+        return new NextResponse(null, {
+            status: 302,
+            headers: { Location: `https://zora.co/${networkName}:${tokenAddy}` },
+          });
     }
     // Case 5: Pressed redirect to Zora button
     console.log(`FIXME: routing case not found`)
