@@ -189,7 +189,7 @@ export async function GET(req: NextRequest) {
 
             }}
           >
-            @ {mintTimestamp ?? "Unknown"}
+            At: {mintTimestamp ?? "Unknown"}
           </span>
 
           {mintPrice ? (
@@ -212,7 +212,7 @@ export async function GET(req: NextRequest) {
                 fontFamily: '"barcode"'
               }}
             >
-              @: {networkName} - {networkId}
+              Network: {networkName}
             </span>
           ) : null}
           <span
