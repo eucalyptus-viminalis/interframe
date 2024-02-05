@@ -104,7 +104,7 @@ export async function GET(req: NextRequest) {
         },
         {
             action: "post_redirect",
-            label: "<See on Zora>"
+            label: "<See Zora>"
         }
     ]
     frameContent.framePostUrl = AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`
