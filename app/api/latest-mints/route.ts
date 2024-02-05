@@ -105,6 +105,8 @@ export async function POST(req: NextRequest) {
     } else if (data.untrustedData.buttonIndex == 2) {
         // Case 4: Pressed Next button
         return await MintFrame(idx + 1, tokenAddy)
+    } else if (data.untrustedData.buttonIndex == 3) {
+        return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
     }
     // Case 5: Pressed redirect to Zora button
     console.log(`FIXME: routing case not found`)
