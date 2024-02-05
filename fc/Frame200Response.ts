@@ -14,7 +14,10 @@ export function Frame200Response(frameContent: FrameContent): Response {
           <meta name="fc:frame:image" content="${frameImageUrl}" />
           <meta name="fc:frame:post_url" content="${framePostUrl}" />
           ${frameButtons.map(
-            (bn, i) => `<meta name="fc:frame:button:${i+1}:${bn.action}" content="${bn.label}" />`
+            (bn, i) => `<meta name="fc:frame:button:${i+1}" content="${bn.label}" />`
+          )}
+          ${frameButtons.map(
+            (bn, i) => `<meta name="fc:frame:button:${i+1}:action" content="${bn.action}" />`
           )}
         </head>
         <body>
