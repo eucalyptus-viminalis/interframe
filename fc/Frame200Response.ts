@@ -16,7 +16,7 @@ export function Frame200Response(frameContent: FrameContent): Response {
           ${frameButtons.map(
             (bn, i) => `<meta name="fc:frame:button:${i+1}" content="${bn.label}" />`
           )}
-          ${frameButtons.map(
+          ${frameButtons.filter(bn => bn.action == 'post_redirect').map(
             (bn, i) => `<meta name="fc:frame:button:${i+1}:action" content="${bn.action}" />`
           )}
         </head>
