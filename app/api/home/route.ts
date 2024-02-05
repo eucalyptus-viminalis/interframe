@@ -108,6 +108,7 @@ export async function GET(req: NextRequest) {
         // }
     ]
     frameContent.framePostUrl = AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`
+    frameContent.input = true
     return Frame200Response(frameContent)
 }
 

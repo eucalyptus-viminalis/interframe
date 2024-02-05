@@ -5,5 +5,6 @@ export type FrameContent = {
     frameVersion: "vNext",
     frameImageUrl: string,
     framePostUrl: string,
-    frameButtons: FrameButton[]
+    frameButtons: FrameButton[],
+    input?: boolean
 }

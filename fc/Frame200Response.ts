@@ -1,7 +1,7 @@
 import { FrameContent } from "./FrameContent";
 
 export function Frame200Response(frameContent: FrameContent): Response {
-  const { frameButtons, frameImageUrl, framePostUrl, frameTitle, frameVersion } = frameContent
+  const { frameButtons, frameImageUrl, framePostUrl, frameTitle, frameVersion, input } = frameContent
   const html = `
       <!DOCTYPE html> 
       <html>
@@ -13,6 +13,7 @@ export function Frame200Response(frameContent: FrameContent): Response {
           <meta name="fc:frame" content="${frameVersion}" />
           <meta name="fc:frame:image" content="${frameImageUrl}" />
           <meta name="fc:frame:post_url" content="${framePostUrl}" />
+          ${input ? `<meta name="fc:frame:input:text" />` : null}
           ${frameButtons.map(
     (bn, i) => `<meta name="fc:frame:button:${i + 1}" content="${bn.label}" />`
   )}
