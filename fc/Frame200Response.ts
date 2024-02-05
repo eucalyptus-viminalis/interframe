@@ -13,7 +13,7 @@ export function Frame200Response(frameContent: FrameContent): Response {
           <meta name="fc:frame" content="${frameVersion}" />
           <meta name="fc:frame:image" content="${frameImageUrl}" />
           <meta name="fc:frame:post_url" content="${framePostUrl}" />
-          ${input ? `<meta name="fc:frame:input:text" content="Enter another token addr:"/>` : null}
+          ${input ? `<meta name="fc:frame:input:text" content="Enter a different token address:"/>` : null}
           ${frameButtons.map(
     (bn, i) => `<meta name="fc:frame:button:${i + 1}" content="${bn.label}" />`
   )}

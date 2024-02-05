@@ -5,6 +5,7 @@ export const runtime = "edge";
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
+
 export async function GET(req: NextRequest) {
 
     const searchParams = req.nextUrl.searchParams
