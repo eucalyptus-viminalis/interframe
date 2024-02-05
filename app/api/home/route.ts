@@ -176,8 +176,8 @@ export async function POST(req: NextRequest) {
         }
     } else if (buttonIndex == 4) {
         // Try input
-        const input = data.untrustedData.inputText
-        if (!isValidEthereumAddress) {
+        const input = data.untrustedData.inputText!
+        if (!isValidEthereumAddress(input)) {
             frameContent.frameButtons = [
                 {
                     action: 'push',
@@ -188,7 +188,7 @@ export async function POST(req: NextRequest) {
             frameContent.frameImageUrl += `/api/image/error?tokenAddy=${tokenAddy}&msg=${msg}`
             return Frame200Response(frameContent)
         } else {
-            return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
+            return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${input}`)
         }
         
     }
