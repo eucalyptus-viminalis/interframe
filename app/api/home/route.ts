@@ -171,17 +171,28 @@ export async function POST(req: NextRequest) {
             });
         }
     } else if (buttonIndex == 4) {
-        const collection = await zdk.collection({
-            address: tokenAddy!,
-            includeFullDetails: true
-        })
-        console.log(`collection: ${JSON.stringify(collection, null, 2)}`)
-        const networkName = collection.networkInfo.network!.toLowerCase()
-        console.log(`networkName: ${networkName}`)
-        return new NextResponse(null, {
-            status: 302,
-            headers: { Location: `https://zora.co/${networkName}:${tokenAddy}` },
-          });
+        // Try input
+        const input = data.untrustedData.inputText
+        if (!isValidEthereumAddress) {
+            frameContent.frameButtons = [
+                {
+                    action: 'push',
+                    label: '<Home>'
+                }
+            ]
+            const msg = 'Input error. Enter a valid Ethereum address'
+            frameContent.frameImageUrl += `/api/image/error?tokenAddy=${tokenAddy}&msg=${msg}`
+            return Frame200Response(frameContent)
+        } else {
+            return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
+        }
+        
     }
 
 }
+
+function isValidEthereumAddress(address: string): boolean {
+    const ethereumAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/;
+  
+    return ethereumAddressRegex.test(address);
+  }

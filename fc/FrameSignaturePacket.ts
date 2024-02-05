@@ -6,6 +6,7 @@ export type FrameSignaturePacket = {
         timestamp: string,
         network: number,
         buttonIndex: number,
+        inputText: string | undefined
         castId: {
             fid: number,
             hash: string
