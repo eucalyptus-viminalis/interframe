@@ -6,9 +6,6 @@ export const runtime = "edge";
 export async function GET(req: NextRequest) {
 
     // Fonts
-    const barcode = await fetch(
-        new URL('../../../../assets/LibreBarcode128Text-Regular.ttf', import.meta.url),
-    ).then((res) => res.arrayBuffer());
     const roboto = await fetch(
         new URL('../../../../assets/RobotoMono-Regular.ttf', import.meta.url),
     ).then((res) => res.arrayBuffer());
@@ -16,14 +13,8 @@ export async function GET(req: NextRequest) {
     // Query Params
     const { searchParams } = req.nextUrl
 
-    const count = searchParams.get('count')
-    const rank = searchParams.get('rank')
-
-    const to = searchParams.get('to')
-    const username = searchParams.get('username')
-    const pfp = searchParams.get('pfp')
-    const ens = searchParams.get('ens')
     const tokenAddy = searchParams.get('tokenAddy')
+    const msg = searchParams.get('msg')
 
     const secondaryTextOpacity = 0.35
 
@@ -72,7 +63,7 @@ export async function GET(req: NextRequest) {
                             opacity: secondaryTextOpacity
                         }}
                     >
-                        Holder
+                        Error
                     </div>
                     <span
                         tw="p-1"
@@ -81,65 +72,16 @@ export async function GET(req: NextRequest) {
                             opacity: secondaryTextOpacity
                         }}
                     >
-                        Top {rank}
                     </span>
 
                 </div>
-
                 <div
-                    id="mid-section"
+                    id="token-name"
                     style={{
-                        height: '400',
-                        width: '100%',
-                        display: 'flex',
-                        fontSize: 42,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        // letterSpacing: '-.08em',
-                        gap: 48
+                        fontSize: "100px",
+                        margin: 0,
                     }}
-                >
-                {pfp ? (
-                    <div
-                        id="fc-user"
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                        }}
-                    >
-                        <img
-                            id="pfp"
-                            alt="pfp"
-                            height="400"
-                            src={`${pfp}`}
-                            style={{
-                                opacity: 1,
-                                borderRadius: '100%'
-                            }}
-                        />
-                        <span>{username}</span>
-                    </div>
-                ) : (
-                    <span
-                        tw="p-1"
-                        style={{
-                            fontSize: 50,
-                            width: '200',
-                            wordBreak: 'break-all',
-                            // opacity: secondaryTextOpacity
-                        }}
-                    >
-                        {to}
-                    </span>
-                )}
-                    <div
-                        style={{
-                            fontSize: 100
-                        }}
-                    >
-                        {count}
-                    </div>
-                </div>
+                >{msg}</div>
                 <div
                     id="bottom-bar"
                     style={{
@@ -180,11 +122,6 @@ export async function GET(req: NextRequest) {
             width: 1200,
             height: 630,
             fonts: [
-                {
-                    name: 'barcode',
-                    data: barcode,
-                    style: 'normal',
-                },
                 {
                     name: 'roboto',
                     data: roboto,

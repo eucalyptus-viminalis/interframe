@@ -33,28 +33,40 @@ async function HolderFrame(idx: number, collectionAddress: string) {
             sortDirection: "DESC" as SortDirection,
             sortKey: "COUNT" as OwnerCountSortKey
         },
+
     })
+    if (res.aggregateStat.ownersByCount.nodes.length == 0) {
+        frameContent.frameButtons = [
+            {
+                action: 'push',
+                label: '<Home>'
+            }
+        ]
+        const msg = 'API error: No holder information found.'
+        frameContent.frameImageUrl += `/api/image/error?tokenAddy=${collectionAddress}&msg=${msg}`
+        return Frame200Response(frameContent)
+    }
     // Set button names
     frameContent.frameButtons = res.aggregateStat.ownersByCount.nodes.length - 1 <= idx ?
         [
             {
                 action: 'push',
-                label: '<< Back'
+                label: '<<Back'
             },
             {
                 action: 'push',
-                label: 'Home'
+                label: '<Home>'
             }
         ] 
         : 
         [
             {
                 action: 'push',
-                label: '<< Back'
+                label: '<<Back'
             },
             {
                 action: 'push',
-                label: 'Next >>'
+                label: 'Next>>'
             },
             {
                 action: 'push',
