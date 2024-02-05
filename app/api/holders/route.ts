@@ -32,7 +32,7 @@ async function HolderFrame(idx: number, collectionAddress: string) {
         sort: {
             sortDirection: "DESC" as SortDirection,
             sortKey: "COUNT" as OwnerCountSortKey
-        }
+        },
     })
     // Set button names
     frameContent.frameButtons = res.aggregateStat.ownersByCount.nodes.length - 1 <= idx ?
