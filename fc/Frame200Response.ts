@@ -18,7 +18,7 @@ export function Frame200Response(frameContent: FrameContent): Response {
   )}
           ${frameButtons.map(
     (bn, i) => {
-      return bn.action == 'post' ? null : `<meta name="fc:frame:button:${i + 1}:action" content="${bn.action}" />`
+      return `<meta name="fc:frame:button:${i + 1}:action" content="${bn.action}" />`
     }
   )}
         </head>
