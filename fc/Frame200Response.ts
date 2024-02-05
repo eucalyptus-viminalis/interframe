@@ -16,11 +16,6 @@ export function Frame200Response(frameContent: FrameContent): Response {
           ${frameButtons.map(
     (bn, i) => `<meta name="fc:frame:button:${i + 1}" content="${bn.label}" />`
   )}
-          ${frameButtons.map(
-    (bn, i) => {
-      return `<meta name="fc:frame:button:${i + 1}:action" content="${bn.action}" />`
-    }
-  )}
         </head>
         <body>
           <h1>ipfs timer</h1>

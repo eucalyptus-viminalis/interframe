@@ -5,7 +5,7 @@ import { FrameSignaturePacket } from "@/fc/FrameSignaturePacket";
 import { zdk } from "@/zora/zsk";
 import { Chain, Network } from "@zoralabs/zdk/dist/queries/queries-sdk";
 import { RedirectType, redirect } from "next/navigation";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = 'force-dynamic'
 export const revalidate = '0'
@@ -102,10 +102,10 @@ export async function GET(req: NextRequest) {
             action: "post",
             label: "<Holders>"
         },
-        {
-            action: "post_redirect",
-            label: "<See Zora>"
-        }
+        // {
+        //     action: "post_redirect",
+        //     label: "<See Zora>"
+        // }
     ]
     frameContent.framePostUrl = AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`
     return Frame200Response(frameContent)
@@ -170,8 +170,6 @@ export async function POST(req: NextRequest) {
             });
         }
     } else if (buttonIndex == 4) {
-        // Do a redirect
-        // Get collection details (zdk)
         const collection = await zdk.collection({
             address: tokenAddy!,
             includeFullDetails: true
@@ -179,8 +177,10 @@ export async function POST(req: NextRequest) {
         console.log(`collection: ${JSON.stringify(collection, null, 2)}`)
         const networkName = collection.networkInfo.network!.toLowerCase()
         console.log(`networkName: ${networkName}`)
-        // Get collection stats (zdk)
-        return redirect(`https://zora.co/collect/${networkName}`, RedirectType.push)
+        return new NextResponse(null, {
+            status: 302,
+            headers: { Location: `https://zora.co/${networkName}:${tokenAddy}` },
+          });
     }
 
 }
