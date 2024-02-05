@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
     const ca = searchParams.get("ca")
     const tokenName = searchParams.get('name') ? decodeURIComponent(searchParams.get("name")!) : 'Unknown'
     // const totalMinted = searchParams.get('totalMinted')
-    const mintStatus = searchParams.get('mintStatus')
+    const mintStatus = searchParams.get('mintStatus') ? decodeURIComponent(searchParams.get('minStatus')!): 'Unknown'
     const networkName = searchParams.get('networkName')
     const mintPrice = searchParams.get('mintPrice')
     // const img = searchParams.get("img");
@@ -76,7 +76,7 @@ export async function GET(req: NextRequest) {
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: 40
+                            fontSize: 32
                         }}
                     >
                         {'/' + ca}
@@ -88,6 +88,7 @@ export async function GET(req: NextRequest) {
                             flexDirection: "row",
                             alignItems: 'flex-end',
                             justifyContent: 'flex-end',
+                            letterSpacing: '-.035em',
                         }}
                     >
                     {mintStatus == "Minting" ? (

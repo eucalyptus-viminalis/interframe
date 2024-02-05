@@ -2,6 +2,7 @@ import { ImageResponse } from '@vercel/og'
 import { NextRequest } from 'next/server'
 
 export const runtime = "edge";
+export const fetchCache = 'force-cache'
 
 export async function GET(req: NextRequest) {
 
