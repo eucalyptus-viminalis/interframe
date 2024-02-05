@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
     const data: FrameSignaturePacket = await req.json()
     // Case 1: Called from /api/home
     // - show latest mint
-    if (from == "home" || data.untrustedData.buttonIndex == 3) {
+    if (from == "home") {
         const res = await MintFrame(0, tokenAddy)
         return res
     } else if (data.untrustedData.buttonIndex == 1 && idx == 0) {
