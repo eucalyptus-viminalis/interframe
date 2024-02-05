@@ -5,9 +5,8 @@ import { Frame200Response } from "@/fc/Frame200Response";
 import { zdk } from "@/zora/zsk";
 import { client } from "@/neynar/client";
 import { FrameContent } from "@/fc/FrameContent";
-import { ipfsSrcToUrl } from "@/ipfs/ipfs";
 import { SortDirection } from "@zoralabs/zdk";
-import { MintSortKey, OwnerCountSortKey } from "@zoralabs/zdk/dist/queries/queries-sdk";
+import { OwnerCountSortKey } from "@zoralabs/zdk/dist/queries/queries-sdk";
 
 // export const config = {
 //   runtime: 'edge',
@@ -15,12 +14,13 @@ import { MintSortKey, OwnerCountSortKey } from "@zoralabs/zdk/dist/queries/queri
 
 async function HolderFrame(idx: number, collectionAddress: string) {
     const frameContent: FrameContent = {
-        frameButtonNames: [""],
+        frameButtons: [],
         frameImageUrl: AppConfig.hostUrl,
         framePostUrl: AppConfig.hostUrl + `/api/holders?idx=${idx}&tokenAddy=${collectionAddress}`,
         frameTitle: "see Zora | Holders",
         frameVersion: 'vNext',
     }
+
     // Get mint transfers
     const res = await zdk.ownersByCount({
         where: {
@@ -35,7 +35,32 @@ async function HolderFrame(idx: number, collectionAddress: string) {
         }
     })
     // Set button names
-    frameContent.frameButtonNames = res.aggregateStat.ownersByCount.nodes.length - 1 <= idx ? ['<< Back'] : ['<< Back', 'Next >>']
+    frameContent.frameButtons = res.aggregateStat.ownersByCount.nodes.length - 1 <= idx ?
+        [
+            {
+                action: 'push',
+                label: '<< Back'
+            },
+            {
+                action: 'push',
+                label: 'Home'
+            }
+        ] 
+        : 
+        [
+            {
+                action: 'push',
+                label: '<< Back'
+            },
+            {
+                action: 'push',
+                label: 'Next >>'
+            },
+            {
+                action: 'push',
+                label: 'Home'
+            }
+        ]
     const holder = res.aggregateStat.ownersByCount.nodes[idx]
     console.log(`holder: ${JSON.stringify(holder, null, 2)}`)
     const to = holder.owner

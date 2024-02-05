@@ -13,9 +13,11 @@ import { MintSortKey } from "@zoralabs/zdk/dist/queries/queries-sdk";
 //   runtime: 'edge',
 // }
 
+
+
 async function MintFrame(idx: number, collectionAddress: string) {
     const frameContent: FrameContent = {
-        frameButtonNames: [""],
+        frameButtons: [],
         frameImageUrl: AppConfig.hostUrl,
         framePostUrl: AppConfig.hostUrl + `/api/latest-mints?idx=${idx}&tokenAddy=${collectionAddress}`,
         frameTitle: "see Zora | latest mints",
@@ -34,7 +36,32 @@ async function MintFrame(idx: number, collectionAddress: string) {
         }
     })
     // Set button names
-    frameContent.frameButtonNames = res.mints.nodes.length - 1 <= idx ? ['<< Back'] : ['<< Back', 'Next >>']
+    frameContent.frameButtons = res.mints.nodes.length - 1 <= idx ?
+        [
+            {
+                action: 'push',
+                label: '<< Back'
+            },
+            {
+                action: 'push',
+                label: 'Home'
+            }
+        ] 
+        : 
+        [
+            {
+                action: 'push',
+                label: '<< Back'
+            },
+            {
+                action: 'push',
+                label: 'Next >>'
+            },
+            {
+                action: 'push',
+                label: 'Home'
+            }
+        ]
     const mint = res.mints.nodes[idx]
     console.log(`mint.token.image.url: ${JSON.stringify(mint.token?.image?.url, null, 2)}`)
     const img = ipfsSrcToUrl(mint.token!.image!.url!)
@@ -66,7 +93,7 @@ export async function POST(req: NextRequest) {
     const data: FrameSignaturePacket = await req.json()
     // Case 1: Called from /api/home
     // - show latest mint
-    if (from == "home") {
+    if (from == "home" || data.untrustedData.buttonIndex == 3) {
         const res = await MintFrame(0, tokenAddy)
         return res
     } else if (data.untrustedData.buttonIndex == 1 && idx == 0) {

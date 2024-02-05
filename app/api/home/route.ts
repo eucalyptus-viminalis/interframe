@@ -4,6 +4,7 @@ import { FrameContent } from "@/fc/FrameContent";
 import { FrameSignaturePacket } from "@/fc/FrameSignaturePacket";
 import { zdk } from "@/zora/zsk";
 import { Chain, Network } from "@zoralabs/zdk/dist/queries/queries-sdk";
+import { RedirectType, redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 
 // Data we want to display in the frame image
@@ -34,7 +35,7 @@ function objectToSearchParams(obj: Record<string, any>): URLSearchParams {
 
 // FRAME CONTENT //
 const frameContent: FrameContent = {
-    frameButtonNames: [""],
+    frameButtons: [],
     frameImageUrl: "",
     framePostUrl: AppConfig.hostUrl,
     frameTitle: "see Zora",
@@ -84,7 +85,24 @@ export async function GET(req: NextRequest) {
 
     frameContent.frameImageUrl = AppConfig.hostUrl
         + "/api/image/title?" + imgParams.toString()
-    frameContent.frameButtonNames = ["<Home>", "<Latest Mints>", "<Holders>"]
+    frameContent.frameButtons = [
+        {
+            action: "post",
+            label: "<Home>"
+        },
+        {
+            action: "post",
+            label: "<Latest Mints>"
+        },
+        {
+            action: "post",
+            label: "<Holders>"
+        },
+        {
+            action: "post_redirect",
+            label: "<See on Zora>"
+        }
+    ]
     frameContent.framePostUrl = AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`
     return Frame200Response(frameContent)
 }
@@ -95,11 +113,11 @@ export async function POST(req: NextRequest) {
     const data: FrameSignaturePacket = await req.json()
     const buttonIndex = data.untrustedData.buttonIndex
 
-    // Case 1: pressed "Refresh" button
+    // Case 1: pressed "Home" button
     if (buttonIndex == 1) {
         return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
     } else if (buttonIndex === 2) {
-    // Case 2: If pressed "Latest Mints" button
+        // Case 2: If pressed "Latest Mints" button
         const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?from=home&tokenAddy=${tokenAddy}`, {
             method: 'POST', // specify the method of your original request
             headers: {
@@ -147,6 +165,18 @@ export async function POST(req: NextRequest) {
                 status: response.status,
             });
         }
+    } else if (buttonIndex == 4) {
+        // Do a redirect
+        // Get collection details (zdk)
+        const collection = await zdk.collection({
+            address: tokenAddy!,
+            includeFullDetails: true
+        })
+        console.log(`collection: ${JSON.stringify(collection, null, 2)}`)
+        const networkName = collection.networkInfo.network!.toLowerCase()
+        console.log(`networkName: ${networkName}`)
+        // Get collection stats (zdk)
+        return redirect(`https://zora.co/collect/${networkName}`, RedirectType.push)
     }
 
 }

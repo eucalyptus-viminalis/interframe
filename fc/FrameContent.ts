@@ -1,7 +1,9 @@
+import { FrameButton } from "./FrameButton"
+
 export type FrameContent = {
     frameTitle: string,
     frameVersion: "vNext",
     frameImageUrl: string,
     framePostUrl: string,
-    frameButtonNames: string[]
+    frameButtons: FrameButton[]
 }
