@@ -21,11 +21,10 @@ export async function GET(req: NextRequest) {
     const ca = searchParams.get("ca")
     const tokenName = searchParams.get('name') ? decodeURIComponent(searchParams.get("name")!) : 'Unknown'
     // const totalMinted = searchParams.get('totalMinted')
-    const mintStatus = searchParams.get('mintStatus') ? decodeURIComponent(searchParams.get('minStatus')!): 'Unknown'
+    const mintStatus = searchParams.get('mintStatus') ? decodeURIComponent(searchParams.get('mintStatus')!): 'Unknown'
     const networkName = searchParams.get('networkName')
     const mintPrice = searchParams.get('mintPrice')
     // const img = searchParams.get("img");
-    const networkId = searchParams.get("networkId");
     const totalSupply = searchParams.get("totalSupply");
     const tokenDescription = searchParams.get("desc")
 
@@ -76,7 +75,7 @@ export async function GET(req: NextRequest) {
                             flexDirection: 'column',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            fontSize: 32
+                            fontSize: 34
                         }}
                     >
                         {'/' + ca}
@@ -166,7 +165,7 @@ export async function GET(req: NextRequest) {
                             fontFamily: '"barcode"'
                         }}
                     >
-                        Network: {networkName} - {networkId}
+                        Network: {networkName}
                     </span>
                     <span
                         id="safe-area"
