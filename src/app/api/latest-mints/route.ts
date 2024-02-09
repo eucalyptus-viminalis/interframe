@@ -1,10 +1,10 @@
 import { NextRequest } from "next/server";
 import { AppConfig } from "@/src/app/AppConfig";
-import { FrameSignaturePacket } from "@/src/_fc/FrameSignaturePacket";
-import { Frame200Response } from "@/src/_fc/Frame200Response";
-import { zdk } from "@/src/_zora/zsk";
-import { client } from "@/src/_neynar/client";
-import { FrameContent } from "@/src/_fc/FrameContent";
+import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
+import { Frame200Response } from "@/src/fc/Frame200Response";
+import { zdk } from "@/src/zora/zsk";
+import { client } from "@/src/neynar/client";
+import { FrameContent } from "@/src/fc/FrameContent";
 import { ipfsSrcToUrl } from "@/src/_ipfs/ipfs";
 import { SortDirection } from "@zoralabs/zdk";
 import { MintSortKey } from "@zoralabs/zdk/dist/queries/queries-sdk";

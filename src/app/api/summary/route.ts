@@ -1,8 +1,8 @@
 import { AppConfig } from "@/src/app/AppConfig";
-import { Frame200Response } from "@/src/_fc/Frame200Response";
-import { FrameContent } from "@/src/_fc/FrameContent";
-import { FrameSignaturePacket } from "@/src/_fc/FrameSignaturePacket";
-import { zdk } from "@/src/_zora/zsk";
+import { Frame200Response } from "@/src/fc/Frame200Response";
+import { FrameContent } from "@/src/fc/FrameContent";
+import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
+import { zdk } from "@/src/zora/zsk";
 import { NextRequest } from "next/server";
 
 // Route segment config

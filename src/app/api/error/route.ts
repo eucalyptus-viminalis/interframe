@@ -1,8 +1,8 @@
-import { FrameContent } from "@/src/_fc/FrameContent";
+import { FrameContent } from "@/src/fc/FrameContent";
 import { AppConfig } from "../../AppConfig";
-import { Frame200Response } from "@/src/_fc/Frame200Response";
+import { Frame200Response } from "@/src/fc/Frame200Response";
 import { NextRequest } from "next/server";
-import { FrameSignaturePacket } from "@/src/_fc/FrameSignaturePacket";
+import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 
 function RoutingErrorFrame(errorMsg: string, tokenAddy: string) {
     // Init frameContent

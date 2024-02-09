@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AppConfig } from "@/src/app/AppConfig";
-import { FrameSignaturePacket } from "@/src/_fc/FrameSignaturePacket";
-import { Frame200Response } from "@/src/_fc/Frame200Response";
-import { rankedOwnerByZdk, zdk } from "@/src/_zora/zsk";
-import { client } from "@/src/_neynar/client";
-import { FrameContent } from "@/src/_fc/FrameContent";
+import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
+import { Frame200Response } from "@/src/fc/Frame200Response";
+import { rankedOwnerByZdk, zdk } from "@/src/zora/zsk";
+import { client } from "@/src/neynar/client";
+import { FrameContent } from "@/src/fc/FrameContent";
 import { Chain } from "@zoralabs/zdk/dist/queries/queries-sdk";
 import {
     GraphCall,
     eth1155Holder,
     eth721Holder,
 } from "@/src/the-graph/queries";
-import { zoraRankedHolderByREST } from "@/src/_zora/blockscout";
+import { zoraRankedHolderByREST } from "@/src/zora/blockscout";
 
 // export const config = {
 //   runtime: 'edge',
