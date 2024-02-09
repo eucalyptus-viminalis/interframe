@@ -5,7 +5,7 @@ import { Frame200Response } from "@/src/fc/Frame200Response";
 import { zdk } from "@/src/zora/zsk";
 import { client } from "@/src/neynar/client";
 import { FrameContent } from "@/src/fc/FrameContent";
-import { ipfsSrcToUrl } from "@/src/_ipfs/ipfs";
+import { ipfsSrcToUrl } from "@/src/ipfs/ipfs";
 import { SortDirection } from "@zoralabs/zdk";
 import { MintSortKey } from "@zoralabs/zdk/dist/queries/queries-sdk";
 
