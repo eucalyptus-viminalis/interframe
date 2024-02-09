@@ -17,9 +17,6 @@ export async function GET(req: NextRequest) {
     const interBold = await fetch(
         new URL("@/assets/Inter-Bold.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
-    const roboto = await fetch(
-        new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
-    ).then((res) => res.arrayBuffer());
 
     // Styles
     const secondaryTextOpacity = 0.35;
@@ -125,7 +122,6 @@ export async function GET(req: NextRequest) {
                         // height: "15%",
                         width: "100%",
                         display: "flex",
-                        // fontFamily: '"roboto"',
                         fontSize: 50,
                         alignItems: "center",
                         fontFamily: "interBold",
@@ -184,12 +180,7 @@ export async function GET(req: NextRequest) {
                     name: "interBold",
                     data: interBold,
                     style: "normal"
-                },
-                {
-                    name: "roboto",
-                    data: roboto,
-                    style: "normal",
-                },
+                }
             ],
         }
     );
