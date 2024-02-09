@@ -4,13 +4,13 @@ import { Frame200Response } from "@/src/fc/Frame200Response";
 import { NextRequest } from "next/server";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 
-function RoutingErrorFrame(errorMsg: string, tokenAddy: string) {
+function RoutingErrorFrame(errorMsg?: string, tokenAddy?: string) {
     // Init frameContent
     const frameContent: FrameContent = {
         frameButtons: [
             {
                 action: "post",
-                label: "<Home>",
+                label: "home",
             },
         ],
         frameImageUrl:
@@ -34,7 +34,7 @@ function RoutingErrorFrame(errorMsg: string, tokenAddy: string) {
 export function GET(req: NextRequest) {
     const errorMsg = req.nextUrl.searchParams.get("errorMsg");
     const tokenAddy = req.nextUrl.searchParams.get("tokenAddy");
-    return RoutingErrorFrame(errorMsg!, tokenAddy!);
+    return RoutingErrorFrame(errorMsg ?? undefined, tokenAddy ?? undefined);
 }
 
 export async function POST(req: NextRequest) {
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
         // Case 1: Home button is pressed
         // - take user to home route
         return await fetch(
-            AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`
+            AppConfig.hostUrl + `/api/home`
         );
     } else {
         // Case 2: Routing failure

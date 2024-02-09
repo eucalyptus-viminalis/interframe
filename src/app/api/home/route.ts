@@ -2,15 +2,12 @@ import { AppConfig } from "@/src/app/AppConfig";
 import { Frame200Response } from "@/src/fc/Frame200Response";
 import { FrameContent } from "@/src/fc/FrameContent";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
-import { zdk } from "@/src/zora/zsk";
 import { NextRequest } from "next/server";
 
 // Route segment config
 // export const dynamic = 'force-dynamic'
 // export const revalidate = '0'
 // export const fetchCache = 'force-no-store'
-
-// Data we want to display in the frame image
 
 // FRAME CONTENT //
 const frameContent: FrameContent = {
@@ -29,107 +26,50 @@ export async function GET(req: NextRequest) {
     frameContent.frameButtons = [
         {
             action: "post",
-            label: "Refresh"
+            label: "home"
         },
         {
             action: "post",
-            label: "Browse"
+            label: "browse"
         },
         {
             action: "post",
-            label: "Search"
+            label: "search"
         },
-        // TODO: Some redirect
-        // {
-        //     action: "post_redirect",
-        //     label: "<See Zora>"
-        // }
+        {
+            action: "post",
+            label: "interframe?"
+        },
     ]
     return Frame200Response(frameContent)
 }
 
+// POST: /api/home
 export async function POST(req: NextRequest) {
-    const searchParams = req.nextUrl.searchParams
-    const tokenAddy = searchParams.get('tokenAddy')
     const data: FrameSignaturePacket = await req.json()
     const buttonIndex = data.untrustedData.buttonIndex
 
-    // Case 1: pressed "Home" button
+    // Route request
     if (buttonIndex == 1) {
-        return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
+        // Case 1: pressed "home" button
+        // - go to home page (refresh)
+        return await fetch(AppConfig.hostUrl + `/api/home`)
     } else if (buttonIndex === 2) {
-        // Case 2: If pressed "Latest Mints" button
-        const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?from=home&tokenAddy=${tokenAddy}`, {
-            method: 'POST', // specify the method of your original request
-            headers: {
-                'Content-Type': 'application/json', // adjust headers if needed
-            },
-            body: JSON.stringify(data), // send the original request body
-        });
-
-        // Handle the response and return it
-        if (response.ok) {
-            const responseData = response.body;
-            return new Response(responseData, {
-                status: response.status,
-                headers: {
-                    'Content-Type': 'text/html',
-                },
-            });
-        } else {
-            return new Response('Error handling the request', {
-                status: response.status,
-            });
-        }
+        // Case 2: pressed "browse" button
+        // - go to browse page
+        return await fetch(AppConfig.hostUrl + `/api/browse`)
     } else if (buttonIndex == 3) {
-        // Case 3: If "Holders" button clicked
-        const response = await fetch(AppConfig.hostUrl + `/api/holders?from=home&tokenAddy=${tokenAddy}`, {
-            method: 'POST', // specify the method of your original request
-            headers: {
-                'Content-Type': 'application/json', // adjust headers if needed
-            },
-            body: JSON.stringify(data), // send the original request body
-        });
-
-        // Handle the response and return it
-        if (response.ok) {
-            console.log('RESPONSE OK!')
-            const responseData = response.body;
-            return new Response(responseData, {
-                status: response.status,
-                headers: {
-                    'Content-Type': 'text/html',
-                },
-            });
-        } else {
-            return new Response('Error handling the request', {
-                status: response.status,
-            });
-        }
+        // Case 3: pressed "search" button
+        // - go to search page
+        return await fetch(AppConfig.hostUrl + `/api/search`)
     } else if (buttonIndex == 4) {
-        // Try input
-        const input = data.untrustedData.inputText!
-        if (!isValidEthereumAddress(input)) {
-            frameContent.frameButtons = [
-                {
-                    action: 'push',
-                    label: '<Home>'
-                }
-            ]
-            const msg = 'Input error. Enter a valid Ethereum address'
-            frameContent.frameImageUrl = AppConfig.hostUrl + `/api/image/error?tokenAddy=${tokenAddy}&msg=${msg}`
-            frameContent.input = false
-            return Frame200Response(frameContent)
-        } else {
-            return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${input}`)
-        }
-        
+        // Case 4: pressed "interframe"
+        // - go to interframe page
+        return await fetch(AppConfig.hostUrl + `/api/interframe`)
+    } else {
+        // Case 5: bad request
+        const errorMsg = `Bad request\nat route: ${req.nextUrl}\nbuttonIndex: ${data.untrustedData.buttonIndex}`
+        return await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
     }
 
 }
-
-function isValidEthereumAddress(address: string): boolean {
-    const ethereumAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/;
-  
-    return ethereumAddressRegex.test(address);
-  }
