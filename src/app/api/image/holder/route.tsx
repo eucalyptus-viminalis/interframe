@@ -7,12 +7,12 @@ export async function GET(req: NextRequest) {
     // Fonts
     const barcode = await fetch(
         new URL(
-            "../../../../assets/LibreBarcode128Text-Regular.ttf",
+            "@/assets/LibreBarcode128Text-Regular.ttf",
             import.meta.url
         )
     ).then((res) => res.arrayBuffer());
     const roboto = await fetch(
-        new URL("../../../../assets/RobotoMono-Regular.ttf", import.meta.url)
+        new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
     // Query Params
