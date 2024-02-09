@@ -26,6 +26,7 @@ export function MyButton(props: MyButtonProps) {
                 borderColor: disabled ? borderColorDisabled : borderColor,
                 color: disabled ? colorDisabled : "",
                 borderRadius: "38px",
+                fontFamily: "robotoMonoBold",
                 textAlign: "center",
                 alignItems: "center",
                 justifyContent: "center",

@@ -11,12 +11,12 @@ const HOST_URL = AppConfig.hostUrl;
 
 export async function GET(req: NextRequest) {
     // Fonts
-    const inter = await fetch(
-        new URL("@/assets/Inter-Regular.ttf", import.meta.url)
-    ).then((res) => res.arrayBuffer());
-    const interBold = await fetch(
-        new URL("@/assets/Inter-Bold.ttf", import.meta.url)
-    ).then((res) => res.arrayBuffer());
+    const robotoMonoBold = await fetch(
+        new URL("@/assets/RobotoMono-Bold.ttf", import.meta.url)
+    ).then(res => res.arrayBuffer())
+    const robotoMono = await fetch(
+        new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
+    ).then(res => res.arrayBuffer())
 
     // Styles
     const secondaryTextOpacity = 0.35;
@@ -32,8 +32,8 @@ export async function GET(req: NextRequest) {
                     color: "white",
                     alignItems: "center",
                     letterSpacing: "-.02em",
-                    fontFamily: "inter",
-                    fontSize: 60,
+                    fontFamily: "robotoMono",
+                    fontSize: 50,
                     background:
                         "linear-gradient(to bottom right, #343E90, #210446)",
                     flexDirection: "column",
@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
                         flexDirection: "row",
                         justifyContent: "space-between",
                         alignItems: "flex-start",
-                        opacity: secondaryTextOpacity,
+                        // opacity: secondaryTextOpacity,
                     }}
                 >
                     <div
@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
                             flexDirection: "column",
                             alignItems: "center",
                             justifyContent: "center",
-                            fontSize: 34,
+                            opacity: 0.8
                         }}
                     >
                         {"/" + "home"}
@@ -82,7 +82,6 @@ export async function GET(req: NextRequest) {
                     id="supported-chains"
                     tw=""
                     style={{
-                        fontSize: "20px",
                         display: "flex",
                         flexDirection: "row",
                         gap: 50,
@@ -95,18 +94,17 @@ export async function GET(req: NextRequest) {
                 <div
                     id="title"
                     style={{
-                        fontSize: "100px",
+                        fontSize: 100,
                         margin: 0,
                         // letterSpacing: "0.35em"
                     }}
                 >
-                    interframe
+                    &interframe
                 </div>
                 <div
                     id="supported-tokens"
                     tw=""
                     style={{
-                        fontSize: "20px",
                         display: "flex",
                         flexDirection: "row",
                         gap: 50,
@@ -114,7 +112,7 @@ export async function GET(req: NextRequest) {
                 >
                     <MyButton id="721-btn" text="721" />
                     <MyButton id="1155-btn" text="1155" />
-                    <MyButton id="420-btn" text="420" disabled/>
+                    <MyButton id="404-btn" text="404" disabled/>
                 </div>
                 <div
                     id="bottom-bar"
@@ -122,9 +120,7 @@ export async function GET(req: NextRequest) {
                         // height: "15%",
                         width: "100%",
                         display: "flex",
-                        fontSize: 50,
                         alignItems: "center",
-                        fontFamily: "interBold",
                         justifyContent: "space-between",
                         // letterSpacing: "-.08em",
                         gap: 32,
@@ -172,13 +168,13 @@ export async function GET(req: NextRequest) {
             height: 630,
             fonts: [
                 {
-                    name: "inter",
-                    data: inter,
+                    name: "robotoMono",
+                    data: robotoMono,
                     style: "normal"
                 },
                 {
-                    name: "interBold",
-                    data: interBold,
+                    name: "robotoMonoBold",
+                    data: robotoMonoBold,
                     style: "normal"
                 }
             ],
