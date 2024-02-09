@@ -14,7 +14,7 @@ const frameContent: FrameContent = {
     frameButtons: [],
     frameImageUrl: "",
     framePostUrl: AppConfig.hostUrl + '/api/home',
-    frameTitle: "see Zora",
+    frameTitle: "interframe",
     frameVersion: "vNext"
 }
 
