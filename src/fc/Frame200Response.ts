@@ -11,6 +11,8 @@ export function Frame200Response(frameContent: FrameContent): Response {
           <meta property="og:description" content="${frameTitle}" />
           <meta property="og:image" content="${frameImageUrl}" />
           <meta name="fc:frame" content="${frameVersion}" />
+          <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
+
           <meta name="fc:frame:image" content="${frameImageUrl}" />
           <meta name="fc:frame:post_url" content="${framePostUrl}" />
           ${input ? `<meta name="fc:frame:input:text" content="Enter a different token address:"/>` : null}
@@ -19,13 +21,12 @@ export function Frame200Response(frameContent: FrameContent): Response {
   )}
         </head>
         <body>
-          <h1>ipfs timer</h1>
-          <p>Farcaster Frame to see a Zora collection's stats and latest mints at a glance.</p>
+          <h1>inteframe</h1>
           <dl>
             <dt>In action</dt>
-            <dd><a href="https://warpcast.com/3070/0x07bf940d">https://warpcast.com/3070/0x07bf940d</a></dd>
+            <dd><a href="https://warpcast.com/3070">https://warpcast.com/3070</a></dd>
             <dt>Code</dt>
-            <dd><a href="https://github.com/eucalyptus-viminalis/see-zora">GitHub</a></dd>
+            <dd><a href="https://github.com/eucalyptus-viminalis/interframe">GitHub</a></dd>
           </dl>
           <hr>
           <p>Built by 3070 (<a href="https://warpcast.com/3070">Warpcast Profile</a>)
