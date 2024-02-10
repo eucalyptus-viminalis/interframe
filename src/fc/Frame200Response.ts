@@ -2,6 +2,9 @@ import { FrameContent } from "./FrameContent";
 
 export function Frame200Response(frameContent: FrameContent): Response {
   const { frameButtons, frameImageUrl, framePostUrl, frameTitle, frameVersion, input } = frameContent
+  const imgUrlWithDate = frameImageUrl.includes('?') ? 
+    frameImageUrl + `&date=${Date.now()}`
+    : frameImageUrl + `?date=${Date.now()}`
   const html = `
       <!DOCTYPE html> 
       <html>
@@ -9,11 +12,11 @@ export function Frame200Response(frameContent: FrameContent): Response {
           <title>${frameTitle}</title>
           <meta property="og:title" content="${frameTitle}" />
           <meta property="og:description" content="${frameTitle}" />
-          <meta property="og:image" content="${frameImageUrl + '&date=' + Date.now()}" />
+          <meta property="og:image" content="${imgUrlWithDate}" />
           <meta name="fc:frame" content="${frameVersion}" />
           <meta name="fc:frame:image:aspect_ratio" content="1.91:1" />
 
-          <meta name="fc:frame:image" content="${frameImageUrl + '&date=' + Date.now()}" />
+          <meta name="fc:frame:image" content="${imgUrlWithDate}" />
           <meta name="fc:frame:post_url" content="${framePostUrl}" />
           ${input ? `<meta name="fc:frame:input:text" content="Enter a different token address:"/>` : null}
           ${frameButtons.map(
