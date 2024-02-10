@@ -1,3 +1,4 @@
+import { CurrentRoute } from '@/src/components/CurrentRoute';
 import { ImageResponse } from '@vercel/og'
 import { NextRequest } from 'next/server'
 
@@ -6,7 +7,7 @@ export const runtime = "edge";
 export async function GET(req: NextRequest) {
 
     // Fonts
-    const roboto = await fetch(
+    const robotoMono = await fetch(
         new URL('@/assets/RobotoMono-Regular.ttf', import.meta.url),
     ).then((res) => res.arrayBuffer());
 
@@ -29,13 +30,13 @@ export async function GET(req: NextRequest) {
                     alignItems: "center",
                     // letterSpacing: '-.02em',
                     fontWeight: 700,
-                    fontSize: 60,
+                    fontSize: 50,
                     // padding: 16,
                     background: "linear-gradient(to bottom right, #343E90, #210446)",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    fontFamily: 'roboto',
-                    opacity: 1
+                    fontFamily: 'robotoMono',
+                    opacity: 100
                     // textAlign: "center",
                 }}
             >
@@ -49,22 +50,11 @@ export async function GET(req: NextRequest) {
                         height: "12%",
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        alignItems: 'flex-start'
+                        alignItems: 'flex-start',
+                        opacity: secondaryTextOpacity
                     }}
                 >
-                    <div
-                        id="route-name"
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: 64,
-                            opacity: secondaryTextOpacity
-                        }}
-                    >
-                        Error
-                    </div>
+                    <CurrentRoute pathname={req.nextUrl.pathname}/>
                     <span
                         tw="p-1"
                         style={{
@@ -76,9 +66,9 @@ export async function GET(req: NextRequest) {
 
                 </div>
                 <div
-                    id="token-name"
+                    id="error-msg"
                     style={{
-                        fontSize: "100px",
+                        fontSize: 80,
                         margin: 0,
                     }}
                 >{msg}</div>
@@ -93,18 +83,13 @@ export async function GET(req: NextRequest) {
                         justifyContent: "flex-start",
                         letterSpacing: '-.08em',
                         gap: 48,
-                        opacity: 0.3
                     }}
                 >
                     <span
-                        id="tokenAddy"
+                        id="home-btn"
                         tw="p-2 m-0"
-                        style={{
-                            fontFamily: '"roboto"',
-
-                        }}
                     >
-                        {'/' + tokenAddy}
+                        🟣 home
                     </span>
                     <span
                         id="empty"
@@ -123,8 +108,8 @@ export async function GET(req: NextRequest) {
             height: 630,
             fonts: [
                 {
-                    name: 'roboto',
-                    data: roboto,
+                    name: 'robotoMono',
+                    data: robotoMono,
                     style: 'normal',
                 }
             ],
