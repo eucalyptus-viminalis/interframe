@@ -44,7 +44,9 @@ const frameContent: FrameContent = {
     frameVersion: "vNext"
 }
 
-// GET /api/summary?tokenAddy=
+// GET /api/summary
+// Params:
+// tokenAddy
 export async function GET(req: NextRequest) {
     const tokenAddy = req.nextUrl.searchParams.get('tokenAddy') as `0x${string}`
 
@@ -103,7 +105,9 @@ export async function GET(req: NextRequest) {
     return Frame200Response(frameContent)
 }
 
-// POST: /api/summary?tokenAddy=
+// POST: /api/summary
+// Params:
+// tokenAddy
 export async function POST(req: NextRequest) {
     const tokenAddy = req.nextUrl.searchParams.get('tokenAddy')
 

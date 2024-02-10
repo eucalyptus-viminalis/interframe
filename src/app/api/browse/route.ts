@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
         const res = await fetch(AppConfig.hostUrl + '/api/browse')
         return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
     } else {
-        const errorMsg = "Bad route. Watch this cast to be notified of updates."
+        const errorMsg = encodeURIComponent("Bad route. Watch this cast to be notified of updates.")
         const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
         return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
     }
