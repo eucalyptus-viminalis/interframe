@@ -57,26 +57,26 @@ export async function POST(req: NextRequest) {
         // - go to browse page
         // return await fetch(AppConfig.hostUrl + `/api/browse`)
         // DEBUG: Testing validator is working
-        frameContent.frameImageUrl = AppConfig.hostUrl + "/api/image/home";
-        frameContent.frameButtons = [
-            {
-                action: "post",
-                label: "it",
-            },
-            {
-                action: "post",
-                label: "is",
-            },
-            {
-                action: "post",
-                label: "working",
-            },
-            {
-                action: "post",
-                label: "!!!",
-            },
-        ];
-        return Frame200Response(frameContent);
+
+        const response = await fetch(AppConfig.hostUrl + `/api/browse`, {
+            method: 'GET', // specify the method of your original request
+        });
+
+        // Handle the response and return it
+        if (response.ok) {
+            console.log('RESPONSE OK!')
+            const responseData = response.body;
+            return new Response(responseData, {
+                status: response.status,
+                headers: {
+                    'Content-Type': 'text/html',
+                },
+            });
+        } else {
+            return new Response('Error handling the request', {
+                status: response.status,
+            });
+        }
     } else if (buttonIndex == 3) {
         // Case 3: pressed "search" button
         // - go to search page
