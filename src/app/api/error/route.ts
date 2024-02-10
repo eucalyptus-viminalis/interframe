@@ -39,13 +39,13 @@ export async function POST(req: NextRequest) {
     if (data.untrustedData.buttonIndex == 1) {
         // Case 1: Home button is pressed
         // - take user to home route
-        return await fetch(
-            AppConfig.hostUrl + `/api/home`
-        );
+        const res = await fetch(AppConfig.hostUrl + `/api/home`);
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     } else {
         // Case 2: Routing failure
         // - take user to error page
-        const errorMsg = "DEBUG: API routing failed."
-        return await fetch(AppConfig.hostUrl + `/api/error?tokenAddy=${tokenAddy}&msg=${errorMsg}`)
+        const errorMsg = "Bad route. Watch this cast to be notified of changes."
+        const res = await fetch(AppConfig.hostUrl + `/api/error?tokenAddy=${tokenAddy}&errorMsg=${errorMsg}`)
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }
 }
