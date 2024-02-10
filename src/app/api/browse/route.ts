@@ -43,12 +43,18 @@ export async function POST(req: NextRequest) {
         return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
     } else if (data.untrustedData.buttonIndex == 1) {
         // Case 2: pressed action button 1
-        return await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy1}`)
+        // - go to summary page for selected token
+        const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy1}`)
+        return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
     } else if (data.untrustedData.buttonIndex == 2) {
         // Case 3: pressed action button 2
-        return await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy1}`)
+        // - go to summary page for selected token
+        const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy1}`)
+        return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
     } else if (data.untrustedData.buttonIndex == 4) {
         // Case 4: pressed "random" button
-        return await fetch(AppConfig.hostUrl + '/api/browse')
+        // - return with a different random selection of tokens
+        const res = await fetch(AppConfig.hostUrl + '/api/browse')
+        return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
     }
 }
