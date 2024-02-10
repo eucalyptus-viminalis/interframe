@@ -36,7 +36,7 @@ async function HolderFrame(idx: number, collectionAddress: string) {
 
     })
     if (res.aggregateStat.ownersByCount.nodes.length == 0) {
-        const errorMsg = 'API error: No holder information found.'
+        const errorMsg = encodeURIComponent('API error: No holder information found.')
         const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}tokenAddy=${collectionAddress}`)
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }
@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
     //       });
     } else {
         // Case 5: Routing error
-        const errorMsg = 'Bad route. Watch this cast to be notified of updates.'
+        const errorMsg = encodeURIComponent('Bad route. Watch this cast to be notified of updates.')
         const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}tokenAddy=${tokenAddy}`)
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }

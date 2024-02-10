@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
     } else if (data.untrustedData.buttonIndex == 2) {
         // Case 2: pressed "top holders" button
         // - take user to top holders page
-        const response = await fetch(AppConfig.hostUrl + `/api/holders?&tokenAddy=${tokenAddy}`)
+        const response = await fetch(AppConfig.hostUrl + `/api/holders-graph?&tokenAddy=${tokenAddy}`)
         return new Response(response.body, { headers: { 'Content-Type': 'text/html' }})
     } else if (data.untrustedData.buttonIndex == 3) {
         // Case 3: pressed "home" button 

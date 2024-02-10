@@ -221,16 +221,16 @@ async function HolderFrame(idx: number, collectionAddress: string) {
             }
         } else {
             console.log(`Could not get holder info results.`);
-            // frameContent.frameButtons = [
-            //     {
-            //         action: "push",
-            //         label: "<Home>",
-            //     },
-            // ];
-            // frameContent.frameImageUrl += `/api/image/error?tokenAddy=${collectionAddress}&msg=${errorMsg}`;
-            // return Frame200Response(frameContent);
-            const errorMsg = "DEBUG: No holder information found.";
-            return await fetch(AppConfig.hostUrl + `/api/error?tokenAddy=${collectionAddress}&msg=${errorMsg}`)
+            const errorMsg = encodeURIComponent(
+                "No holder information found. Watch this cast to be notified about updates."
+            );
+            const res = await fetch(
+                AppConfig.hostUrl +
+                    `/api/error?errorMsg=${errorMsg}tokenAddy=${collectionAddress}`
+            );
+            return new Response(res.body, {
+                headers: { "Content-Type": "text/html" },
+            });
         }
     } else {
         console.log("Unsupported chain: " + networkInfo.chain);
@@ -263,64 +263,68 @@ async function HolderFrame(idx: number, collectionAddress: string) {
 //     return Frame200Response(frameContent);
 // }
 
+// GET: /api/holder-graph
+// Params:
+// idx?
+// tokenAddy
+export async function GET(req: NextRequest) {
+    const tokenAddy = req.nextUrl.searchParams.get('tokenAddy') as string
+    const idx = req.nextUrl.searchParams.get('idx')
+    return await HolderFrame(idx ? +idx : 0, tokenAddy)
+}
+
 // POST /api/holders-graph?idx=&tokenAddy=&from=
 export async function POST(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
-    const prevIdx = +searchParams.get("idx")!; // Index of top holder idx 0 == top 1 holder
-    const tokenAddy = searchParams.get("tokenAddy") as string; // token address `0x${string}`
-    const from = searchParams.get("from"); // the previous route where the user came from (e.g. home)
-
+    const idx = +searchParams.get("idx")!;
+    const tokenAddy = searchParams.get("tokenAddy") as string;
     const data: FrameSignaturePacket = await req.json();
 
     // Route request
-    if (from == "home") {
-        // Case 1: Called from /api/home
-        // - show top holder
-        return await HolderFrame(0, tokenAddy);
-    } else if (data.untrustedData.buttonIndex == 1 && prevIdx == 0) {
+    if (data.untrustedData.buttonIndex == 1 && idx == 0) {
         // Case 2: Pressed Back button from page index 0
-        // - take user to home route
-        return await fetch(
-            AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`
+        const res = await fetch(
+            AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy}`
         );
-    } else if (data.untrustedData.buttonIndex == 1 && prevIdx != 0) {
+        return new Response(res.body, {
+            headers: { "Content-Type": "text/html" },
+        });
+    } else if (data.untrustedData.buttonIndex == 1) {
         // Case 3: Pressed Back button from page index not 0
-        // - show previous page
-        return await HolderFrame(prevIdx - 1, tokenAddy);
+        return await HolderFrame(idx - 1, tokenAddy);
     } else if (data.untrustedData.buttonIndex == 2) {
         // Case 4: Pressed Next button
-        // - show next page
-        // Note: Next button is not shown at LAST_INDEX
-        return await HolderFrame(prevIdx + 1, tokenAddy);
+        return await HolderFrame(idx + 1, tokenAddy);
     } else if (data.untrustedData.buttonIndex == 3) {
-        // Case 5: Pressed Home button
-        // - take user to home route
-        return await fetch(
-            AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`
-        );
-    } else if (data.untrustedData.buttonIndex == 4) {
-        // TODO: Redirect user to external site
-        const collection = await zdk.collection({
-            address: tokenAddy!,
-            includeFullDetails: true,
+        // Case 5: pressed "home" button
+        const res = await fetch(AppConfig.hostUrl + `/api/home`);
+        return new Response(res.body, {
+            headers: { "Content-Type": "text/html" },
         });
-        console.log(`collection: ${JSON.stringify(collection, null, 2)}`);
-        const networkName = collection.networkInfo.network!.toLowerCase();
-        console.log(`networkName: ${networkName}`);
-        return new NextResponse(null, {
-            status: 302,
-            headers: {
-                Location: `https://zora.co/${networkName}:${tokenAddy}`,
-            },
-        });
+        // TODO: Linkout
+        // } else if (data.untrustedData.buttonIndex == 4) {
+        //     const collection = await zdk.collection({
+        //         address: tokenAddy!,
+        //         includeFullDetails: true
+        //     })
+        //     console.log(`collection: ${JSON.stringify(collection, null, 2)}`)
+        //     const networkName = collection.networkInfo.network!.toLowerCase()
+        //     console.log(`networkName: ${networkName}`)
+        //     return new NextResponse(null, {
+        //         status: 302,
+        //         headers: { Location: `https://zora.co/${networkName}:${tokenAddy}` },
+        //       });
     } else {
-        console.log(`FIXME: routing options not found for ${req.nextUrl}`);
-        return new Response();
+        // Case 5: Routing error
+        const errorMsg = encodeURIComponent(
+            "Bad route. Watch this cast to be notified of updates."
+        );
+        const res = await fetch(
+            AppConfig.hostUrl +
+                `/api/error?errorMsg=${errorMsg}tokenAddy=${tokenAddy}`
+        );
+        return new Response(res.body, {
+            headers: { "Content-Type": "text/html" },
+        });
     }
-    // Case 5: Pressed redirect to Zora button
-}
-
-export async function GET(req: NextRequest) {
-    console.log("GET /api/mint");
-    return new Response();
 }
