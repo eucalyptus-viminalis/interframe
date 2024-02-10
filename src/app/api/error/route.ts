@@ -4,30 +4,23 @@ import { Frame200Response } from "@/src/fc/Frame200Response";
 import { NextRequest } from "next/server";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 
-function RoutingErrorFrame(errorMsg?: string, tokenAddy?: string) {
+function RoutingErrorFrame(errorMsg: string, tokenAddy?: string) {
     // Init frameContent
     const frameContent: FrameContent = {
         frameButtons: [
             {
                 action: "post",
-                label: "home",
+                label: "🟣",
             },
         ],
         frameImageUrl:
             AppConfig.hostUrl +
-            `/api/image/error?tokenAddy=${tokenAddy}&msg=${errorMsg}`,
+            `/api/image/error?tokenAddy=${tokenAddy}&msg=${encodeURIComponent(errorMsg)}`,
         framePostUrl:
             AppConfig.hostUrl + `/api/error?tokenAddy=${tokenAddy}`,
-        frameTitle: "see Zora | Holders (graph)",
+        frameTitle: "error | interframe",
         frameVersion: "vNext",
     };
-    console.log(`Could not get holder info results.`);
-    frameContent.frameButtons = [
-        {
-            action: "push",
-            label: "<Home>",
-        },
-    ];
     return Frame200Response(frameContent);
 }
 
@@ -35,7 +28,7 @@ function RoutingErrorFrame(errorMsg?: string, tokenAddy?: string) {
 export function GET(req: NextRequest) {
     const errorMsg = req.nextUrl.searchParams.get("errorMsg");
     const tokenAddy = req.nextUrl.searchParams.get("tokenAddy");
-    return RoutingErrorFrame(errorMsg ?? undefined, tokenAddy ?? undefined);
+    return RoutingErrorFrame(errorMsg ?? "Error", tokenAddy ?? undefined);
 }
 
 export async function POST(req: NextRequest) {
