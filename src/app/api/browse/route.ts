@@ -6,7 +6,7 @@ import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 import { zdk } from "@/src/zora/zsk";
 
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     const frameContent: FrameContent = {
         frameButtons: [],
         frameImageUrl: "",
