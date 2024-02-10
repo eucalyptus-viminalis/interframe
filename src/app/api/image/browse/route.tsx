@@ -103,6 +103,7 @@ export async function GET(req: NextRequest) {
                             height: 420,
                             borderRadius: '100%',
                             backgroundColor: '#ff0000',
+                            textAlign: 'center'
                         }}
                     >
                         {token1Text}
