@@ -99,7 +99,7 @@ export async function GET(req: NextRequest) {
         // }
     ]
 
-    frameContent.framePostUrl = AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`
+    frameContent.framePostUrl = AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy}`
     return Frame200Response(frameContent)
 }
 
@@ -128,12 +128,12 @@ export async function POST(req: NextRequest) {
         // Case 4: pressed "casts" button
         // TODO: Take user to casts page
         // FIXME: "Under construction"
-        const errorMsg = 'Route under construction. Watch this cast to be notified of updates.'
+        const errorMsg = encodeURIComponent('Route under construction. Watch this cast to be notified of updates.')
         const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}tokenAddy=${tokenAddy}`)
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     } else {
         // Case 5: Routing error
-        const errorMsg = 'Bad route. Watch this cast to be notified of updates.'
+        const errorMsg = encodeURIComponent('Bad route. Watch this cast to be notified of updates.')
         const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}tokenAddy=${tokenAddy}`)
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }
