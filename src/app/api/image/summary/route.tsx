@@ -1,188 +1,189 @@
+import { CurrentRoute } from "@/src/components/CurrentRoute";
+import { MyFrame } from "@/src/components/MyFrame";
+import MyTable from "@/src/components/MyTable";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
 export const runtime = "edge";
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // GET: /api/image/summary
 export async function GET(req: NextRequest) {
-
-    const searchParams = req.nextUrl.searchParams
+    const searchParams = req.nextUrl.searchParams;
 
     // Fonts
     const barcode = await fetch(
-        new URL('@/assets/LibreBarcode128Text-Regular.ttf', import.meta.url),
+        new URL("@/assets/LibreBarcode128Text-Regular.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
-    const roboto = await fetch(
-        new URL('@/assets/RobotoMono-Regular.ttf', import.meta.url),
+    const robotoMonoBold = await fetch(
+        new URL("@/assets/RobotoMono-Bold.ttf", import.meta.url)
+    ).then((res) => res.arrayBuffer());
+    const robotoMono = await fetch(
+        new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
     // Token details
-    const ca = searchParams.get("ca")
-    const tokenName = searchParams.get('name') ? decodeURIComponent(searchParams.get("name")!) : 'Unknown'
+    const ca = searchParams.get("ca");
+    const tokenName = searchParams.get("name")
+        ? decodeURIComponent(searchParams.get("name")!)
+        : "Unknown";
     // const totalMinted = searchParams.get('totalMinted')
-    const mintStatus = searchParams.get('mintStatus') ? decodeURIComponent(searchParams.get('mintStatus')!): 'Unknown'
-    const networkName = searchParams.get('networkName')
-    const mintPrice = searchParams.get('mintPrice')
+    const mintStatus = searchParams.get("mintStatus")
+        ? decodeURIComponent(searchParams.get("mintStatus")!)
+        : "Unknown";
+    const networkName = searchParams.get("networkName");
+    const mintPrice = searchParams.get("mintPrice");
     // const img = searchParams.get("img");
     const totalSupply = searchParams.get("totalSupply");
-    const tokenDescription = searchParams.get("desc")
+    const tokenDescription = searchParams.get("desc");
 
     // Styles
-    const secondaryTextOpacity = 0.35
+    const secondaryTextOpacity = 0.35;
 
     // const total = searchParams.get("total");
     // const timestamp = searchParams.get("timestamp");
 
     return new ImageResponse(
         (
-            <div
-                id= "frame"
-                style={{
-                    display: "flex",
-                    width: "100%",
-                    height: "100%",
-                    color: "white",
-                    alignItems: "center",
-                    letterSpacing: '-.02em',
-                    fontFamily: 'roboto',
-                    fontWeight: 700,
-                    fontSize: 60,
-                    background: "linear-gradient(to bottom right, #343E90, #210446)",
-                    flexDirection: "column",
-                    justifyContent: "space-between"
-                    // textAlign: "center",
-                }}
-            >
+            <MyFrame>
                 <div
                     id="top-bar"
                     style={{
                         padding: 0,
                         margin: 0,
-                        width: '100%',
+                        width: "100%",
                         display: "flex",
                         height: "12%",
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        alignItems: 'flex-start',
-                        opacity: secondaryTextOpacity
+                        alignItems: "flex-start",
+                        opacity: secondaryTextOpacity,
                     }}
                 >
-                    <div
-                        id="contract-address"
+                    <CurrentRoute pathname={req.nextUrl.pathname} />
+                    <span
+                        id="token-name"
                         style={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: 34
+                            display: "flex",
+                            position: "absolute",
+                            top: 0,
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            opacity: 100,
                         }}
                     >
-                        {'/' + ca}
-                    </div>
+                        {tokenName}
+                    </span>
                     <div
                         id="mint-status"
                         style={{
                             display: "flex",
                             flexDirection: "row",
-                            alignItems: 'flex-end',
-                            justifyContent: 'flex-end',
-                            letterSpacing: '-.035em',
+                            alignItems: "flex-end",
+                            justifyContent: "flex-end",
+                            letterSpacing: "-.035em",
                         }}
                     >
-                    {mintStatus == "Minting" ? (
-                        <span
-                            tw="m-1"
-                            style={{
-                                width: '23px',
-                                height: '23px',
-                                background: '#1BE33B',
-                                borderRadius: 100
-                            }}
-                        />
-                    ) : null}
-                    {mintStatus ? (
-                        <span
-                            tw="p-1"
-                            style={{
-                                fontFamily: '"barcode"',
-                                fontSize: 80
-                            }}
-                        >
-                            {mintStatus}
-                        </span>
-                    ) : null}
+                        {mintStatus == "Minting" ? (
+                            <span
+                                tw="m-1"
+                                style={{
+                                    width: "23px",
+                                    height: "23px",
+                                    background: "#1BE33B",
+                                    borderRadius: 100,
+                                }}
+                            />
+                        ) : null}
+                        {mintStatus ? (
+                            <span
+                                tw="p-1"
+                                style={{
+                                    fontFamily: '"barcode"',
+                                    fontSize: 80,
+                                }}
+                            >
+                                {mintStatus}
+                            </span>
+                        ) : null}
                     </div>
                 </div>
                 <div
-                    id="token-name"
+                    id="summary-list" 
                     style={{
-                        fontSize: "100px",
-                        margin: 0,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '100%',
+                        fontSize: 40,
+                        color: '#28E93B',
+                        gap: 20,
+                        padding: 20
                     }}
-                >{tokenName}</div>
-                <div
-                    id="description"
-                    tw=""
-                    style={{
-                        fontSize: '20px'
-                    }}
-                >{tokenDescription}</div>
+                >
+                    <span>
+                       Description: {tokenDescription} 
+                    </span>
+                    <span>
+                       Total supply: {totalSupply} 
+                    </span>
+                    <span>
+                       Mint price: {mintPrice} 
+                    </span>
+                    <span>
+                       Network: {networkName} 
+                    </span>
+                </div>
                 <div
                     id="bottom-bar"
                     style={{
-                        height: '15%',
-                        width: '100%',
-                        display: 'flex',
-                        fontSize: 88,
+                        width: "100%",
+                        display: "flex",
                         alignItems: "flex-end",
-                        justifyContent: "flex-start",
-                        letterSpacing: '-.08em',
-                        gap: 48,
-                        opacity: secondaryTextOpacity
+                        justifyContent: "space-between",
+                        // letterSpacing: "-.08em",
+                        gap: 32,
+                        color: "rgba(255, 255, 255, 0.9)",
+                        // opacity: secondaryTextOpacity,
                     }}
                 >
-                    <span
-                        id="total-supply"
-                        tw="p-2 m-0"
+                    <div id="route-1" tw="p-2 m-0" style={{}}>
+                        🟣 Home
+                    </div>
+                    <div
                         style={{
-                            fontFamily: '"barcode"'
-                        }}
-                    >Total supply: {totalSupply ?? "Unknown"}</span>
-                {mintPrice ? (
-                    <span
-                        id="mint-price"
-                        tw="p-2 m-0"
-                        style={{
-                            fontFamily: '"barcode"'
-                        }}
-                    >Mint price: {mintPrice}E</span>
-                ) : null}
-                    <span
-                        id="network"
-                        tw="p-2 m-0"
-                        style={{
-                            fontFamily: '"barcode"'
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: 200,
+                            height: 200,
+                            borderRadius: "100%",
+                            backgroundColor: "#ff0000",
+                            textAlign: "center",
                         }}
                     >
-                        Network: {networkName}
-                    </span>
-                    <span
-                        id="safe-area"
-                        tw="p-2 m-0"
+                        latest mints
+                    </div>
+                    <div
                         style={{
-                            fontFamily: '"barcode"',
-                            width: '30px',
-                            height: '100%',
-
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: 200,
+                            height: 200,
+                            borderRadius: "100%",
+                            backgroundColor: "#0000ff",
+                            textAlign: "center",
                         }}
                     >
-                    </span>
-
-
+                        top holders
+                    </div>
+                    <div id="route-1" tw="p-2 m-0" style={{}}>
+                        link 🟢
+                    </div>
                 </div>
-
 
                 {/* <img
         alt="img"
@@ -194,22 +195,27 @@ export async function GET(req: NextRequest) {
             // borderRadius: 128,
         }}
     /> */}
-            </div>
+            </MyFrame>
         ),
         {
             width: 1200,
             height: 630,
             fonts: [
                 {
-                    name: 'barcode',
+                    name: "barcode",
                     data: barcode,
-                    style: 'normal',
+                    style: "normal",
                 },
                 {
-                    name: 'roboto',
-                    data: roboto,
-                    style: 'normal',
-                }
+                    name: "robotoMono",
+                    data: robotoMono,
+                    style: "normal",
+                },
+                {
+                    name: "robotoMonoBold",
+                    data: robotoMonoBold,
+                    style: "normal",
+                },
             ],
         }
     );

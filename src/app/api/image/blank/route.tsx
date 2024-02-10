@@ -1,5 +1,6 @@
 import { AppConfig } from "@/src/app/AppConfig";
 import { MyButton } from "@/src/components/MyButton";
+import { MyFrame } from "@/src/components/MyFrame";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
@@ -11,34 +12,17 @@ export async function GET(req: NextRequest) {
     // Fonts
     const robotoMonoBold = await fetch(
         new URL("@/assets/RobotoMono-Bold.ttf", import.meta.url)
-    ).then(res => res.arrayBuffer())
+    ).then((res) => res.arrayBuffer());
     const robotoMono = await fetch(
         new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
-    ).then(res => res.arrayBuffer())
+    ).then((res) => res.arrayBuffer());
 
     // Styles
     const secondaryTextOpacity = 0.35;
 
     return new ImageResponse(
         (
-            <div
-                id="frame"
-                style={{
-                    display: "flex",
-                    width: "100%",
-                    height: "100%",
-                    color: "white",
-                    alignItems: "center",
-                    letterSpacing: "-.02em",
-                    fontFamily: "robotoMono",
-                    fontSize: 50,
-                    background:
-                        "linear-gradient(to bottom right, #343E90, #210446)",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    // textAlign: "center",
-                }}
-            >
+            <MyFrame>
                 <div
                     id="top-bar"
                     style={{
@@ -60,10 +44,9 @@ export async function GET(req: NextRequest) {
                             flexDirection: "column",
                             alignItems: "center",
                             justifyContent: "center",
-                            opacity: 0.8
+                            opacity: 0.8,
                         }}
                     >
-                        {"/" + "browse"}
                     </div>
                     <div
                         id="blank"
@@ -76,7 +59,7 @@ export async function GET(req: NextRequest) {
                         }}
                     ></div>
                 </div>
-            </div>
+            </MyFrame>
         ),
         {
             width: 1200,
@@ -85,13 +68,13 @@ export async function GET(req: NextRequest) {
                 {
                     name: "robotoMono",
                     data: robotoMono,
-                    style: "normal"
+                    style: "normal",
                 },
                 {
                     name: "robotoMonoBold",
                     data: robotoMonoBold,
-                    style: "normal"
-                }
+                    style: "normal",
+                },
             ],
         }
     );

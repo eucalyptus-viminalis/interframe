@@ -44,7 +44,7 @@ const frameContent: FrameContent = {
     frameVersion: "vNext"
 }
 
-// GET /api/home?tokenAddy=
+// GET /api/summary?tokenAddy=
 export async function GET(req: NextRequest) {
     const tokenAddy = req.nextUrl.searchParams.get('tokenAddy') as `0x${string}`
 
@@ -77,20 +77,25 @@ export async function GET(req: NextRequest) {
     frameContent.frameButtons = [
         {
             action: "post",
-            label: "Home"
+            label: "🔴"
         },
         {
             action: "post",
-            label: "Latest Mints"
+            label: "🔵"
         },
         {
             action: "post",
-            label: "Holders"
+            label: "🟣"
         },
-        // TODO: Add redirect button
+        {
+            action: "post",
+            label: "🟢"
+        },
+        // TODO: Add redirect button?
+        // e.g. Link out to opensea/zora/warpcast page for token
         // {
         //     action: "post_redirect",
-        //     label: "<See Zora>"
+        //     label: "🟢"
         // }
     ]
 
@@ -98,6 +103,7 @@ export async function GET(req: NextRequest) {
     return Frame200Response(frameContent)
 }
 
+// POST: /api/summary?tokenAddy=
 export async function POST(req: NextRequest) {
     const tokenAddy = req.nextUrl.searchParams.get('tokenAddy')
 
@@ -105,82 +111,55 @@ export async function POST(req: NextRequest) {
 
     // Route request
     if (data.untrustedData.buttonIndex == 1) {
-        // Case 1: pressed "Home" button
-        // - take user to home page
-        return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
+        // Case 1: pressed "latest mints" button
+        // - take user to latest mints page
+        const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?tokenAddy=${tokenAddy}`)
+        return new Response(response.body, { headers: { 'Content-Type': 'text/html' }})
     } else if (data.untrustedData.buttonIndex == 2) {
-        // Case 2: If pressed "Latest Mints" button
-        const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?from=home&tokenAddy=${tokenAddy}`, {
-            method: 'POST', // specify the method of your original request
-            headers: {
-                'Content-Type': 'application/json', // adjust headers if needed
-            },
-            body: JSON.stringify(data), // send the original request body
-        });
-
-        // Handle the response and return it
-        if (response.ok) {
-            const responseData = response.body;
-            return new Response(responseData, {
-                status: response.status,
-                headers: {
-                    'Content-Type': 'text/html',
-                },
-            });
-        } else {
-            return new Response('Error handling the request', {
-                status: response.status,
-            });
-        }
+        // Case 2: pressed "top holders" button
+        // - take user to top holders page
+        const response = await fetch(AppConfig.hostUrl + `/api/holders?&tokenAddy=${tokenAddy}`)
+        return new Response(response.body, { headers: { 'Content-Type': 'text/html' }})
     } else if (data.untrustedData.buttonIndex == 3) {
-        // Case 3: If "Holders" button clicked
-        const response = await fetch(AppConfig.hostUrl + `/api/holders?from=home&tokenAddy=${tokenAddy}`, {
-            method: 'POST', // specify the method of your original request
-            headers: {
-                'Content-Type': 'application/json', // adjust headers if needed
-            },
-            body: JSON.stringify(data), // send the original request body
-        });
-
-        // Handle the response and return it
-        if (response.ok) {
-            console.log('RESPONSE OK!')
-            const responseData = response.body;
-            return new Response(responseData, {
-                status: response.status,
-                headers: {
-                    'Content-Type': 'text/html',
-                },
-            });
-        } else {
-            return new Response('Error handling the request', {
-                status: response.status,
-            });
-        }
+        // Case 3: pressed "home" button 
+        const res = await fetch(AppConfig.hostUrl + `/api/home`)
+        return new Response(res.body, { headers: { 'Content-Type': 'text/html' }})
     } else if (data.untrustedData.buttonIndex == 4) {
-        // Try input
-        const input = data.untrustedData.inputText!
-        if (!isValidEthereumAddress(input)) {
-            frameContent.frameButtons = [
-                {
-                    action: 'push',
-                    label: '<Home>'
-                }
-            ]
-            const msg = 'Input error. Enter a valid Ethereum address'
-            frameContent.frameImageUrl = AppConfig.hostUrl + `/api/image/error?tokenAddy=${tokenAddy}&msg=${msg}`
-            frameContent.input = false
-            return Frame200Response(frameContent)
-        } else {
-            return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${input}`)
-        }
-        
+        // Case 4: pressed "casts" button
+        // TODO: Take user to casts page
+        // FIXME: "Under construction"
+        const errorMsg = 'Route under construction. Watch this cast to be notified of updates.'
+        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}tokenAddy=${tokenAddy}`)
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
+    } else {
+        // Case 5: Routing error
+        const errorMsg = 'Bad route. Watch this cast to be notified of updates.'
+        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}tokenAddy=${tokenAddy}`)
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }
-
 }
 
-function isValidEthereumAddress(address: string): boolean {
-    const ethereumAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/;
-  
-    return ethereumAddressRegex.test(address);
-  }
+//   REFERENCE:
+//   Making post request to url and error handling on response status
+        // const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?from=home&tokenAddy=${tokenAddy}`, {
+        //     method: 'POST', // specify the method of your original request
+        //     headers: {
+        //         'Content-Type': 'application/json', // adjust headers if needed
+        //     },
+        //     body: JSON.stringify(data), // send the original request body
+        // });
+
+        // // Handle the response and return it
+        // if (response.ok) {
+        //     const responseData = response.body;
+        //     return new Response(responseData, {
+        //         status: response.status,
+        //         headers: {
+        //             'Content-Type': 'text/html',
+        //         },
+        //     });
+        // } else {
+        //     return new Response('Error handling the request', {
+        //         status: response.status,
+        //     });
+        // }

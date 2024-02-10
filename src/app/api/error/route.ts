@@ -31,6 +31,7 @@ function RoutingErrorFrame(errorMsg?: string, tokenAddy?: string) {
     return Frame200Response(frameContent);
 }
 
+// GET: /api/error?errorMsg&tokenAddy
 export function GET(req: NextRequest) {
     const errorMsg = req.nextUrl.searchParams.get("errorMsg");
     const tokenAddy = req.nextUrl.searchParams.get("tokenAddy");

@@ -13,8 +13,6 @@ import { MintSortKey } from "@zoralabs/zdk/dist/queries/queries-sdk";
 //   runtime: 'edge',
 // }
 
-
-
 async function MintFrame(idx: number, collectionAddress: string) {
     const frameContent: FrameContent = {
         frameButtons: [],
@@ -35,31 +33,31 @@ async function MintFrame(idx: number, collectionAddress: string) {
             sortKey: "TIME" as MintSortKey
         }
     })
-    // Set button names
+    // Set buttons
     frameContent.frameButtons = res.mints.nodes.length - 1 <= idx ?
         [
             {
                 action: 'push',
-                label: '<< Back'
+                label: '🔴'
             },
             {
                 action: 'push',
-                label: 'Home'
+                label: '🟣'
             }
         ] 
         : 
         [
             {
                 action: 'push',
-                label: '<< Back'
+                label: '🔴'
             },
             {
                 action: 'push',
-                label: 'Next >>'
+                label: '🔵'
             },
             {
                 action: 'push',
-                label: 'Home'
+                label: '🟣'
             }
         ]
     const mint = res.mints.nodes[idx]
@@ -80,25 +78,37 @@ async function MintFrame(idx: number, collectionAddress: string) {
         const pfp = user.result.user.pfp.url
         frameContent.frameImageUrl += `&username=${username}&pfp=${pfp}`
     } catch {
+        console.log('neynar lookupUserByVerification failed.')
+        // TODO: handle error
     }
     return Frame200Response(frameContent)
 }
 
-// POST /api/latest-mints //
+// GET: /api/latst-mints
+// Params:
+// idx?
+// tokenAddy
+export async function GET(req: NextRequest) {
+    const tokenAddy = req.nextUrl.searchParams.get('tokenAddy') as string
+    const idx = req.nextUrl.searchParams.get('idx')
+    return await MintFrame(idx ? +idx : 0, tokenAddy)
+}
+
+// POST /api/latest-mints
+// Params:
+// idx
+// tokenAddy
 export async function POST(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const idx = +searchParams.get('idx')!
     const tokenAddy = searchParams.get('tokenAddy') as string
-    const from = searchParams.get('from')
     const data: FrameSignaturePacket = await req.json()
-    // Case 1: Called from /api/home
-    // - show latest mint
-    if (from == "home") {
-        const res = await MintFrame(0, tokenAddy)
-        return res
-    } else if (data.untrustedData.buttonIndex == 1 && idx == 0) {
+    
+    // Route request
+    if (data.untrustedData.buttonIndex == 1 && idx == 0) {
         // Case 2: Pressed Back button from page index 0
-        return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
+        const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy}`)
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     } else if (data.untrustedData.buttonIndex == 1) {
         // Case 3: Pressed Back button from page index not 0
         return await MintFrame(idx - 1, tokenAddy)
@@ -106,15 +116,11 @@ export async function POST(req: NextRequest) {
         // Case 4: Pressed Next button
         return await MintFrame(idx + 1, tokenAddy)
     } else if (data.untrustedData.buttonIndex == 3) {
-        return await fetch(AppConfig.hostUrl + `/api/home?tokenAddy=${tokenAddy}`)
+        // Case 5: pressed "home" button
+        const res =  await fetch(AppConfig.hostUrl + `/api/home`)
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }
     // Case 5: Pressed redirect to Zora button
     console.log(`FIXME: routing case not found`)
-    return new Response()
-}
-
-
-export async function GET(req: NextRequest) {
-    console.log('GET /api/mint')
     return new Response()
 }
