@@ -13,63 +13,83 @@ import { NextRequest } from "next/server";
 const frameContent: FrameContent = {
     frameButtons: [],
     frameImageUrl: "",
-    framePostUrl: AppConfig.hostUrl + '/api/home',
+    framePostUrl: AppConfig.hostUrl + "/api/home",
     frameTitle: "interframe",
-    frameVersion: "vNext"
-}
+    frameVersion: "vNext",
+};
 
 // GET /api/home
 export async function GET(req: NextRequest) {
-
-    frameContent.frameImageUrl = AppConfig.hostUrl
-        + "/api/image/home"
+    frameContent.frameImageUrl = AppConfig.hostUrl + "/api/image/home";
     frameContent.frameButtons = [
         {
             action: "post",
-            label: "home"
+            label: "home",
         },
         {
             action: "post",
-            label: "browse"
+            label: "browse",
         },
         {
             action: "post",
-            label: "search"
+            label: "search",
         },
         {
             action: "post",
-            label: "interframe?"
+            label: "interframe?",
         },
-    ]
-    return Frame200Response(frameContent)
+    ];
+    return Frame200Response(frameContent);
 }
 
 // POST: /api/home
 export async function POST(req: NextRequest) {
-    const data: FrameSignaturePacket = await req.json()
-    const buttonIndex = data.untrustedData.buttonIndex
+    const data: FrameSignaturePacket = await req.json();
+    const buttonIndex = +data.untrustedData.buttonIndex;
 
     // Route request
     if (buttonIndex == 1) {
         // Case 1: pressed "home" button
         // - go to home page (refresh)
-        return await fetch(AppConfig.hostUrl + `/api/home`)
-    } else if (buttonIndex === 2) {
+        return await fetch(AppConfig.hostUrl + `/api/home`);
+    } else if (buttonIndex == 2) {
         // Case 2: pressed "browse" button
         // - go to browse page
-        return await fetch(AppConfig.hostUrl + `/api/browse`)
+        // return await fetch(AppConfig.hostUrl + `/api/browse`)
+        // DEBUG: Testing validator is working
+        frameContent.frameImageUrl = AppConfig.hostUrl + "/api/image/home";
+        frameContent.frameButtons = [
+            {
+                action: "post",
+                label: "it",
+            },
+            {
+                action: "post",
+                label: "is",
+            },
+            {
+                action: "post",
+                label: "working",
+            },
+            {
+                action: "post",
+                label: "!!!",
+            },
+        ];
+        return Frame200Response(frameContent);
     } else if (buttonIndex == 3) {
         // Case 3: pressed "search" button
         // - go to search page
-        return await fetch(AppConfig.hostUrl + `/api/search`)
+        return await fetch(AppConfig.hostUrl + `/api/search`);
     } else if (buttonIndex == 4) {
         // Case 4: pressed "interframe"
         // - go to interframe page
-        return await fetch(AppConfig.hostUrl + `/api/interframe`)
+        return await fetch(AppConfig.hostUrl + `/api/interframe`);
     } else {
         // Case 5: bad request
-        const errorMsg = `Bad request\nat route: ${req.nextUrl}\nbuttonIndex: ${data.untrustedData.buttonIndex}`
-        return await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
+        const errorMsg = `Bad request\nat route: ${req.nextUrl}\nbuttonIndex: ${data.untrustedData.buttonIndex}`;
+        return await fetch(
+            AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`
+        );
     }
-
 }
