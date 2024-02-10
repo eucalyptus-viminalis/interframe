@@ -5,7 +5,6 @@ import { AppConfig } from "../../AppConfig";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 import { zdk } from "@/src/zora/zsk";
 
-
 export async function GET() {
     const frameContent: FrameContent = {
         frameButtons: [],
@@ -40,7 +39,8 @@ export async function POST(req: NextRequest) {
     if (data.untrustedData.buttonIndex == 3) {
         // Case 1: pressed "home" button
         // - go to home page (refresh)
-        return await fetch(AppConfig.hostUrl + `/api/home`)
+        const res = await fetch(AppConfig.hostUrl + `/api/home`)
+        return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
     } else if (data.untrustedData.buttonIndex == 1) {
         // Case 2: pressed action button 1
         return await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy1}`)

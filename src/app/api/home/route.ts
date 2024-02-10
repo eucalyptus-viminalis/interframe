@@ -53,28 +53,28 @@ export async function POST(req: NextRequest) {
         // Case 1: pressed "home" button
         // - go to home page (refresh)
         const response = await fetch(AppConfig.hostUrl + `/api/home`);
-        return new Response(response.body, {headers: {'Content-Type': 'text-html'}})
+        return new Response(response.body, {headers: {'Content-Type': 'text/html'}})
     } else if (buttonIndex == 2) {
         // Case 2: pressed "browse" button
         // - go to browse page
         const response = await fetch(AppConfig.hostUrl + `/api/browse`)
-        return new Response(response.body, {headers: {'Content-Type': 'text-html'}})
+        return new Response(response.body, {headers: {'Content-Type': 'text/html'}})
     } else if (buttonIndex == 3) {
         // Case 3: pressed "search" button
         // - go to search page
         const res = await fetch(AppConfig.hostUrl + `/api/search`);
-        return new Response(res.body, {headers: {'Content-Type': 'text-html'}})
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     } else if (buttonIndex == 4) {
         // Case 4: pressed "interframe"
         // - go to interframe page
         const res = await fetch(AppConfig.hostUrl + `/api/interframe`);
-        return new Response(res.body, {headers: {'Content-Type': 'text-html'}})
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     } else {
         // Case 5: bad request
         const errorMsg = `Bad request\nat route: ${req.nextUrl}\nbuttonIndex: ${data.untrustedData.buttonIndex}`;
         const res = await fetch(
             AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`
         );
-        return new Response(res.body, {headers: {'Content-Type': 'text-html'}})
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }
 }
