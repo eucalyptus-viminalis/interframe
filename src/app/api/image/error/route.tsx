@@ -77,13 +77,12 @@ export async function GET(req: NextRequest) {
                 <div
                     id="bottom-bar"
                     style={{
-                        height: '15%',
+                        // height: '15%',
                         width: '100%',
                         display: 'flex',
-                        fontSize: 88,
                         alignItems: "flex-end",
                         justifyContent: "flex-start",
-                        letterSpacing: '-.08em',
+                        // letterSpacing: '-.08em',
                         gap: 48,
                     }}
                 >
