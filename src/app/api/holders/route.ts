@@ -73,7 +73,7 @@ async function HolderFrame(idx: number, collectionAddress: string) {
     const count = holder.count
     const rank = idx + 1
 
-    frameContent.frameImageUrl += `/api/image/holder?tokenAddy=${collectionAddress}&to=${to}&count=${count}&rank=${rank}&date=${Date.now()}`
+    frameContent.frameImageUrl += `/api/image/holder?tokenAddy=${collectionAddress}&to=${to}&count=${count}&rank=${rank}}`
 
     try {
         // Example

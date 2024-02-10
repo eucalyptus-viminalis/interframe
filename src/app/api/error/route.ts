@@ -15,7 +15,7 @@ function RoutingErrorFrame(errorMsg: string, tokenAddy?: string) {
         ],
         frameImageUrl:
             AppConfig.hostUrl +
-            `/api/image/error?tokenAddy=${tokenAddy}&msg=${encodeURIComponent(errorMsg)}`,
+            `/api/image/error?tokenAddy=${tokenAddy}&msg=${encodeURIComponent(errorMsg)}}`,
         framePostUrl:
             AppConfig.hostUrl + `/api/error?tokenAddy=${tokenAddy}`,
         frameTitle: "error | interframe",

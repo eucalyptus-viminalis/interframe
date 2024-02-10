@@ -3,6 +3,8 @@ import { ImageResponse } from '@vercel/og'
 import { NextRequest } from 'next/server'
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function GET(req: NextRequest) {
 
@@ -68,7 +70,7 @@ export async function GET(req: NextRequest) {
                 <div
                     id="error-msg"
                     style={{
-                        fontSize: 80,
+                        fontSize: 60,
                         margin: 0,
                     }}
                 >{msg}</div>

@@ -81,7 +81,7 @@ async function HolderFrame(idx: number, collectionAddress: string) {
                 const { account, tokenCount } = eth721Result;
                 frameContent.frameImageUrl += `/api/image/holder?tokenAddy=${collectionAddress}&rank=${
                     idx + 1
-                }&date=${Date.now()}`;
+                }`;
                 frameContent.frameImageUrl += `&to=${account.id}&count=${tokenCount}`;
                 // Get Farcaster user data
                 try {
@@ -103,7 +103,7 @@ async function HolderFrame(idx: number, collectionAddress: string) {
                 const { account, balance } = eth1155Result;
                 frameContent.frameImageUrl += `/api/image/holder?tokenAddy=${collectionAddress}&rank=${
                     idx + 1
-                }&date=${Date.now()}`;
+                }`;
                 frameContent.frameImageUrl += `&to=${account.id}&count=${balance}`;
                 // Get Farcaster user data
                 try {
@@ -188,7 +188,7 @@ async function HolderFrame(idx: number, collectionAddress: string) {
             const { count, owner } = zdkResult;
             frameContent.frameImageUrl += `/api/image/holder?tokenAddy=${collectionAddress}&rank=${
                 idx + 1
-            }&date=${Date.now()}`;
+            }`;
             frameContent.frameImageUrl += `&count=${count}&to=${owner}`;
             try {
                 // Example
@@ -206,7 +206,7 @@ async function HolderFrame(idx: number, collectionAddress: string) {
             const { account, balance } = base1155Result;
             frameContent.frameImageUrl += `/api/image/holder?tokenAddy=${collectionAddress}&rank=${
                 idx + 1
-            }&date=${Date.now()}`;
+            }`;
             frameContent.frameImageUrl += `&count=${balance}&to=${account.id}`;
             try {
                 // Example
