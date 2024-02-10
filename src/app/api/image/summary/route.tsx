@@ -1,6 +1,5 @@
 import { CurrentRoute } from "@/src/components/CurrentRoute";
 import { MyFrame } from "@/src/components/MyFrame";
-import MyTable from "@/src/components/MyTable";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
