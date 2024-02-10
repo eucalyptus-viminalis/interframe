@@ -35,6 +35,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     const data: FrameSignaturePacket = await req.json()
     const tokenAddy1 = req.nextUrl.searchParams.get('tokenAddy1')
+    const tokenAddy2 = req.nextUrl.searchParams.get('tokenAddy2')
     // Route request
     if (data.untrustedData.buttonIndex == 3) {
         // Case 1: pressed "home" button
@@ -49,7 +50,7 @@ export async function POST(req: NextRequest) {
     } else if (data.untrustedData.buttonIndex == 2) {
         // Case 3: pressed action button 2
         // - go to summary page for selected token
-        const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy1}`)
+        const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy2}`)
         return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
     } else if (data.untrustedData.buttonIndex == 4) {
         // Case 4: pressed "random" button
