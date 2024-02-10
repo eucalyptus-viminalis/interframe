@@ -2,7 +2,7 @@ import { AppConfig } from "@/src/app/AppConfig";
 import { Frame200Response } from "@/src/fc/Frame200Response";
 import { FrameContent } from "@/src/fc/FrameContent";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 // Route segment config
 // export const dynamic = 'force-dynamic'
@@ -61,22 +61,23 @@ export async function POST(req: NextRequest) {
         const response = await fetch(AppConfig.hostUrl + `/api/browse`, {
             method: 'GET', // specify the method of your original request
         });
+        return new Response(response.body)
 
-        // Handle the response and return it
-        if (response.ok) {
-            console.log('RESPONSE OK!')
-            const responseData = response.body;
-            return new Response(responseData, {
-                status: response.status,
-                headers: {
-                    'Content-Type': 'text/html',
-                },
-            });
-        } else {
-            return new Response('Error handling the request', {
-                status: response.status,
-            });
-        }
+        // // Handle the response and return it
+        // if (response.ok) {
+        //     console.log('RESPONSE OK!')
+        //     const responseData = response.body;
+        //     return new Response(responseData, {
+        //         status: response.status,
+        //         headers: {
+        //             'Content-Type': 'text/html',
+        //         },
+        //     });
+        // } else {
+        //     return new Response('Error handling the request', {
+        //         status: response.status,
+        //     });
+        // }
     } else if (buttonIndex == 3) {
         // Case 3: pressed "search" button
         // - go to search page
