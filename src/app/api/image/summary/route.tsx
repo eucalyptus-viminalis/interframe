@@ -128,6 +128,7 @@ export async function GET(req: NextRequest) {
                     ) : null}
                     {mintPrice ? <span>Mint price: {mintPrice}</span> : null}
                     {networkName ? <span>Network: {networkName}</span> : null}
+                    {ca ? <span>Address: {ca}</span> : null}
                 </div>
                 <div
                     id="bottom-bar"
