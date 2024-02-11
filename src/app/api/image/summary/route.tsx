@@ -74,7 +74,7 @@ export async function GET(req: NextRequest) {
                     >
                         {tokenName}
                     </span>
-                    <div
+                    {/* <div
                         id="mint-status"
                         style={{
                             display: "flex",
@@ -106,7 +106,7 @@ export async function GET(req: NextRequest) {
                                 {mintStatus}
                             </span>
                         ) : null}
-                    </div>
+                    </div> */}
                 </div>
                 <div
                     id="summary-list"
