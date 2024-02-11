@@ -38,26 +38,26 @@ async function MintFrame(idx: number, collectionAddress: string) {
         [
             {
                 action: 'push',
-                label: '🔴'
+                label: '<back'
             },
             {
                 action: 'push',
-                label: '🟣'
+                label: '<home>'
             }
         ] 
         : 
         [
             {
                 action: 'push',
-                label: '🔴'
+                label: '<back'
             },
             {
                 action: 'push',
-                label: '🔵'
+                label: 'next>'
             },
             {
                 action: 'push',
-                label: '🟣'
+                label: '<home>'
             }
         ]
     const mint = res.mints.nodes[idx]

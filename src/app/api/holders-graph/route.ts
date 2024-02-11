@@ -26,25 +26,25 @@ async function HolderFrame(idx: number, collectionAddress: string) {
             ? [
                   {
                       action: "post",
-                      label: "<Back",
+                      label: "<back",
                   },
                   {
                       action: "post",
-                      label: "<Home>",
+                      label: "<home>",
                   },
               ]
             : [
                   {
                       action: "post",
-                      label: "<Back",
+                      label: "<back",
                   },
                   {
                       action: "post",
-                      label: "Next>",
+                      label: "next>",
                   },
                   {
                       action: "post",
-                      label: "<Home>",
+                      label: "<home>",
                   },
               ];
     // Init frameContent
