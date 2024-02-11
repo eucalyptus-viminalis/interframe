@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# interframe
 
-## Getting Started
+## Overview
 
-First, run the development server:
+interframe is a Farcaster Frame implementation of a blockchain reader for NFT collections.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Frame Flow
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+After the user selects a particular token, interframe navigates the user to view useful information about that token.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This includes a summary, top holders, latest mints, and popular casts related to the selected token.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+It currently supports ERC-721 and ERC-1155 tokens on *Base*, *Ethereum*, and *Zora*.
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+### Browse (`/api/browse`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Users can browse from a hand-picked selection of token collections.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Search (`/api/search`)
 
-## Deploy on Vercel
+> Note: This feature is yet to be implemented
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Users can input and submit a contract address or token name to view blockchain data about that token.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Summary (`/api/summary`)
+
+The summary page gives a brief summary of the token collection that the user selects.
+
+### Top Holders (`/api/holders-graph`)
+
+The top holders page allows users to nagivate through the top 10 holders of a collection.
+
+### Latest Mints (`/api/latest-mints`)
+
+The latest mints page allows users to nagivate through the latest mints of a collection.
+
+### Popular Casts
+
+> Note: This feature is yet to be implemented
+
+## Technologies
+
+interframe uses several APIs to retreive its data.
+
+- `zdk`: ZDK is a Typescript abstraction of Zora's GraphQL API
+  - usage: the zdk is being used in interframe to retrieve basic information about a collection. This information is served in `/api/summary`
+  - website: [ZDK](https://docs.zora.co/docs/zora-api/zdk)
+- `The Graph`: The Graph is a collection of decentralized GraphQL APIs
+  - usage: The Graph is being used in interframe to retrieve information about top holders for collections on Ethereum and Base. This information is served in `/api/holders-graph`
+  - website: [The Graph](https://thegraph.com/)
+- `@vercel/og`: This Typescript library exposes a convenience method to generate a valid OpenGraph image using JSX elements. It uses `satori` under the hoood.
+  - usage: `ImageResponse` is used for generating all OpenGraph images for interframe. See: `/api/images/*`
+  - website: [Vercel OG](https://vercel.com/docs/functions/og-image-generation)
+- `Farcaster Frame`: Farcaster Frame(s) are an extension of the OpenGraph protocol to generate interactive content on decentralized social platforms.
+  - usage: The API routes return a valid response that adheres to the Farcaster Frames spec
+  - website: [Farcaster Frame spec](https://docs.farcaster.xyz/reference/frames/spec)
