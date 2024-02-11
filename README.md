@@ -26,8 +26,8 @@ If you'd like to **navigate user to a summary page for a particular token** that
 **Example**
 ```ts
 // Handing off frame to interframe/summary example:
-// request URL: https://interframe-eight.vercel.app/api/home?tokenAddy=0xb0349245e142635f0ea094e413502f6223d37cd7
-const res = await fetch('https://interframe-eight.vercel.app/api/home?tokenAddy=0xb0349245e142635f0ea094e413502f6223d37cd7)'
+// request URL: https://interframe-eight.vercel.app/api/summary?tokenAddy=0xb0349245e142635f0ea094e413502f6223d37cd7
+const res = await fetch('https://interframe-eight.vercel.app/api/summary?tokenAddy=0xb0349245e142635f0ea094e413502f6223d37cd7)'
 ```
 
 ### Endpoints
