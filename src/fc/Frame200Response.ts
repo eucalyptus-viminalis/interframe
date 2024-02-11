@@ -22,6 +22,7 @@ export function Frame200Response(frameContent: FrameContent): Response {
           ${frameButtons.map(
     (bn, i) => `
     <meta name="fc:frame:button:${i + 1}" content="${bn.label}" />
+    <meta name="fc:frame:button:${i + 1}:action" content="${bn.action}" />
     ${bn.target ? `<meta name="fc:frame:button:${i + 1}:target" content="${bn.target}"` : null}
     `
   )}

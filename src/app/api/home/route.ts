@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     } else if (buttonIndex == 4) {
         // Case 4: pressed "interframe"
-        // - go to interframe page
+        // - go to about page
         const res = await fetch(AppConfig.hostUrl + `/api/about`);
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     } else {
