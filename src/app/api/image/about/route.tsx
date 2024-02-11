@@ -53,6 +53,9 @@ export async function GET(req: NextRequest) {
                 <div>
                     {text}
                 </div>
+                <div>
+                    
+                </div>
             </MyFrame>
         ),
         {
