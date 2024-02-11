@@ -2,8 +2,7 @@ import { AppConfig } from "@/src/app/AppConfig";
 import { Frame200Response } from "@/src/fc/Frame200Response";
 import { FrameContent } from "@/src/fc/FrameContent";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
-import { getFrameHtmlResponse } from "@coinbase/onchainkit";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 // Route segment config
 // export const dynamic = 'force-dynamic'

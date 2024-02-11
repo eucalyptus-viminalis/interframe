@@ -21,14 +21,40 @@ const MAX_ROUTE_LENGTH = 10; // Maximum number of top holders to show
 const LAST_INDEX = MAX_ROUTE_LENGTH - 1; // Last page index to show
 
 async function HolderFrame(idx: number, collectionAddress: string) {
+    const frameButtons =
+        idx >= 9
+            ? [
+                  {
+                      action: "post",
+                      label: "<Back",
+                  },
+                  {
+                      action: "post",
+                      label: "<Home>",
+                  },
+              ]
+            : [
+                  {
+                      action: "post",
+                      label: "<Back",
+                  },
+                  {
+                      action: "post",
+                      label: "Next>",
+                  },
+                  {
+                      action: "post",
+                      label: "<Home>",
+                  },
+              ];
     // Init frameContent
     const frameContent: FrameContent = {
-        frameButtons: [],
+        frameButtons: frameButtons,
         frameImageUrl: AppConfig.hostUrl,
         framePostUrl:
             AppConfig.hostUrl +
             `/api/holders-graph?idx=${idx}&tokenAddy=${collectionAddress}`,
-        frameTitle: "see Zora | Holders (graph)",
+        frameTitle: "holders-graph | interframe",
         frameVersion: "vNext",
     };
     // Determine network and erc type
@@ -50,10 +76,8 @@ async function HolderFrame(idx: number, collectionAddress: string) {
         frameContent.frameImageUrl += `/api/image/holder?tokenAddy=${collectionAddress}`;
         frameContent.frameImageUrl += `&to=${rankedHolder.addressHash}&count=${rankedHolder.totalValue}`;
         frameContent.frameImageUrl += `&rank=${idx + 1}`;
+        // Try get FC user details
         try {
-            // Example
-            // vitalik.eth
-            // const to = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
             const user = await client.lookupUserByVerification(
                 rankedHolder.addressHash
             );
@@ -66,10 +90,6 @@ async function HolderFrame(idx: number, collectionAddress: string) {
     } else if (networkInfo.chain == Chain.Mainnet) {
         console.log("ETH Mainnet detected!");
         try {
-            // const { accountId, tokenCount } = await eth721Holder(
-            //     collectionAddress,
-            //     idx
-            // );
             const [eth721Result, eth1155Result] = await Promise.all([
                 eth721Holder(collectionAddress, idx),
                 eth1155Holder(collectionAddress, idx),
@@ -85,9 +105,6 @@ async function HolderFrame(idx: number, collectionAddress: string) {
                 frameContent.frameImageUrl += `&to=${account.id}&count=${tokenCount}`;
                 // Get Farcaster user data
                 try {
-                    // Example
-                    // vitalik.eth
-                    // const to = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
                     const user = await client.lookupUserByVerification(
                         account.id
                     );
@@ -107,9 +124,6 @@ async function HolderFrame(idx: number, collectionAddress: string) {
                 frameContent.frameImageUrl += `&to=${account.id}&count=${balance}`;
                 // Get Farcaster user data
                 try {
-                    // Example
-                    // vitalik.eth
-                    // const to = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
                     const user = await client.lookupUserByVerification(
                         account.id
                     );
@@ -127,53 +141,15 @@ async function HolderFrame(idx: number, collectionAddress: string) {
                         label: "<Home>",
                     },
                 ];
-                const msg = "API error: No holder information found.";
-                frameContent.frameImageUrl += `/api/image/error?tokenAddy=${collectionAddress}&msg=${msg}`;
+                const errorMsg = encodeURIComponent("No holder information found. Watch this cast to be notified of updates.")
+                const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
+                return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
             }
-            // Set button names
-            frameContent.frameButtons =
-                idx >= 9
-                    ? [
-                          {
-                              action: "push",
-                              label: "<<Back",
-                          },
-                          {
-                              action: "push",
-                              label: "<Home>",
-                          },
-                      ]
-                    : [
-                          {
-                              action: "push",
-                              label: "<<Back",
-                          },
-                          {
-                              action: "push",
-                              label: "Next>>",
-                          },
-                          {
-                              action: "push",
-                              label: "Home",
-                          },
-                      ];
         } catch (error) {
-            console.log(`error: ${error}`);
-            frameContent.frameButtons = [
-                {
-                    action: "push",
-                    label: "<Home>",
-                },
-            ];
-            const msg = "API error: No holder information found.";
-            frameContent.frameImageUrl += `/api/image/error?tokenAddy=${collectionAddress}&msg=${msg}`;
-            return Frame200Response(frameContent);
+            const errorMsg = encodeURIComponent("No holder information found. Watch this cast to be notified of updates.")
+            const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
+            return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
         }
-
-        // TODO: Other interesting stats? Last purchase, last sale? how many minted?
-
-        // Return frame
-        return Frame200Response(frameContent);
     } else if (networkInfo.chain == Chain.BaseMainnet) {
         console.log("Base Mainnet detected");
         // Try get ranked owner info
@@ -191,9 +167,6 @@ async function HolderFrame(idx: number, collectionAddress: string) {
             }`;
             frameContent.frameImageUrl += `&count=${count}&to=${owner}`;
             try {
-                // Example
-                // vitalik.eth
-                // const to = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
                 const user = await client.lookupUserByVerification(owner);
                 const username = user.result.user.username;
                 const pfp = user.result.user.pfp.url;
@@ -209,9 +182,6 @@ async function HolderFrame(idx: number, collectionAddress: string) {
             }`;
             frameContent.frameImageUrl += `&count=${balance}&to=${account.id}`;
             try {
-                // Example
-                // vitalik.eth
-                // const to = "0xd8da6bf26964af9d7eed9e03e53415d37aa96045";
                 const user = await client.lookupUserByVerification(account.id);
                 const username = user.result.user.username;
                 const pfp = user.result.user.pfp.url;
@@ -220,57 +190,28 @@ async function HolderFrame(idx: number, collectionAddress: string) {
                 console.log("Farcaster user not found!");
             }
         } else {
-            console.log(`Could not get holder info results.`);
-            const errorMsg = encodeURIComponent(
-                "No holder information found. Watch this cast to be notified about updates."
-            );
-            const res = await fetch(
-                AppConfig.hostUrl +
-                    `/api/error?errorMsg=${errorMsg}tokenAddy=${collectionAddress}`
-            );
-            return new Response(res.body, {
-                headers: { "Content-Type": "text/html" },
-            });
+            const errorMsg = encodeURIComponent("No holder information found. Watch this cast to be notified of updates.")
+            const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
+            return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
         }
     } else {
-        console.log("Unsupported chain: " + networkInfo.chain);
+        const errorMsg = encodeURIComponent("Unsupported network. Watch this cast to be notified of updates.")
+        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
+        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }
+    // TODO: Other interesting stats? Last purchase, last sale? how many minted?
     // Return 200 response with FrameContent
     return Frame200Response(frameContent);
 }
-
-// function RoutingErrorFrame(errorMsg: string, tokenAddy: string) {
-//     // Init frameContent
-//     const frameContent: FrameContent = {
-//         frameButtons: [{
-//             action: "post",
-//             label: "<Home>"
-//         }],
-//         frameImageUrl: AppConfig.hostUrl + `/api/image/error?tokenAddy=${tokenAddy}&msg=${errorMsg}`,
-//         framePostUrl:
-//             AppConfig.hostUrl +
-//             `/api/holders-graph?idx=${idx}&tokenAddy=${collectionAddress}`,
-//         frameTitle: "see Zora | Holders (graph)",
-//         frameVersion: "vNext",
-//     };
-//     console.log(`Could not get holder info results.`);
-//     frameContent.frameButtons = [
-//         {
-//             action: "push",
-//             label: "<Home>",
-//         },
-//     ];
-//     return Frame200Response(frameContent);
-// }
 
 // GET: /api/holder-graph
 // Params:
 // idx?
 // tokenAddy
 export async function GET(req: NextRequest) {
-    const tokenAddy = req.nextUrl.searchParams.get('tokenAddy') as string
-    const idx = req.nextUrl.searchParams.get('idx')
-    return await HolderFrame(idx ? +idx : 0, tokenAddy)
+    const tokenAddy = req.nextUrl.searchParams.get("tokenAddy") as string;
+    const idx = req.nextUrl.searchParams.get("idx");
+    return await HolderFrame(idx ? +idx : 0, tokenAddy);
 }
 
 // POST /api/holders-graph?
