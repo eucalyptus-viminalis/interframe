@@ -273,7 +273,10 @@ export async function GET(req: NextRequest) {
     return await HolderFrame(idx ? +idx : 0, tokenAddy)
 }
 
-// POST /api/holders-graph?idx=&tokenAddy=&from=
+// POST /api/holders-graph?
+// Params:
+// idx
+// tokenAddy
 export async function POST(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const idx = +searchParams.get("idx")!;
@@ -321,7 +324,7 @@ export async function POST(req: NextRequest) {
         );
         const res = await fetch(
             AppConfig.hostUrl +
-                `/api/error?errorMsg=${errorMsg}tokenAddy=${tokenAddy}`
+                `/api/error?errorMsg=${errorMsg}&tokenAddy=${tokenAddy}`
         );
         return new Response(res.body, {
             headers: { "Content-Type": "text/html" },
