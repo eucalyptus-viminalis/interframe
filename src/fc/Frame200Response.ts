@@ -20,11 +20,14 @@ export function Frame200Response(frameContent: FrameContent): Response {
           <meta name="fc:frame:post_url" content="${framePostUrl}" />
           ${input ? `<meta name="fc:frame:input:text" content="Enter a different token address:"/>` : null}
           ${frameButtons.map(
-    (bn, i) => `<meta name="fc:frame:button:${i + 1}" content="${bn.label}" />`
+    (bn, i) => `
+    <meta name="fc:frame:button:${i + 1}" content="${bn.label}" />
+    ${bn.target ? `<meta name="fc:frame:button:${i + 1}:target" content="${bn.target}"` : null}
+    `
   )}
         </head>
         <body>
-          <h1>inteframe</h1>
+          <h1>interframe</h1>
           <dl>
             <dt>In action</dt>
             <dd><a href="https://warpcast.com/3070">https://warpcast.com/3070</a></dd>

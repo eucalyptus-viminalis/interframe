@@ -66,7 +66,7 @@ export async function POST(req: NextRequest) {
     } else if (buttonIndex == 4) {
         // Case 4: pressed "interframe"
         // - go to interframe page
-        const res = await fetch(AppConfig.hostUrl + `/api/interframe`);
+        const res = await fetch(AppConfig.hostUrl + `/api/about`);
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     } else {
         // Case 5: bad request

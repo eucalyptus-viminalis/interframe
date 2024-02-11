@@ -1,4 +1,5 @@
 export const AppConfig = {
+    gitHubUrl: 'https://github.com/eucalyptus-viminalis/interframe',
     hostUrl: process.env['HOST']!,
     hubUrl: process.env['HUB_URL'] || "nemes.farcaster.xyz:2283",
     zoraRestUrl: "https://explorer.zora.energy/api/v2",
