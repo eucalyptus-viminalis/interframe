@@ -67,7 +67,7 @@ async function MintFrame(idx: number, collectionAddress: string) {
     const tokenId = mint.mint.tokenId
     const mintTimestamp = mint.mint.transactionInfo.blockTimestamp
     const to = mint.mint.toAddress
-    frameContent.frameImageUrl += `/api/image/mint?img=${img}&tokenId=${tokenId}&mintTimestamp=${mintTimestamp}&to=${to}}`
+    frameContent.frameImageUrl += `/api/image/mint?img=${img}&tokenId=${tokenId}&mintTimestamp=${mintTimestamp}&to=${to}`
 
     try {
         // Example
