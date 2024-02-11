@@ -152,7 +152,8 @@ export async function GET(req: NextRequest) {
             id="token-image"
             alt="tokenImage"
             height="400"
-            src={`${img}`}
+            width="400"
+            src={`"${img}"`}
             style={{
               opacity: 1
             }}
