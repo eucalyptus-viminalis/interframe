@@ -1,14 +1,45 @@
 # interframe
 
+![home](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/22988dc5-4704-4d71-84af-71818a0dc45b)
+
 1. [Overview](https://github.com/eucalyptus-viminalis/interframe#overview)
-2. [Frame Flow](https://github.com/eucalyptus-viminalis/interframe#frame-flow)
-3. [Features](https://github.com/eucalyptus-viminalis/interframe#features)
-4. [Technologies](https://github.com/eucalyptus-viminalis/interframe#technnologies)
-5. [Frame Screenshots](https://github.com/eucalyptus-viminalis/interframe#frame-screenshots)
+2. [Integration](https://github.com/eucalyptus-viminalis/interframe#integration)
+3. [Frame Flow](https://github.com/eucalyptus-viminalis/interframe#frame-flow)
+4. [Features](https://github.com/eucalyptus-viminalis/interframe#features)
+5. [Technologies](https://github.com/eucalyptus-viminalis/interframe#technnologies)
 
 ## Overview
 
 interframe is a Farcaster Frame implementation of a blockchain reader for NFT collections.
+
+## Integration
+
+> a.k.a. interframation
+
+This is a special note to any frame devs out there
+
+If you'd like to refer to this frame in anyway, the home page can be retrived by fetching this url:
+`https://interframe-eight.vercel.app/api/home`
+
+If you'd like to **navigate user to a summary page for a particular token** that you'd provide to interframe, fetch the `/api/summary` endpoint with the collection address as a `tokenAddy` query parameter.
+
+**Example**
+```ts
+// Handing off frame to interframe/summary example:
+// request URL: https://interframe-eight.vercel.app/api/home?tokenAddy=0xb0349245e142635f0ea094e413502f6223d37cd7
+const res = await fetch('https://interframe-eight.vercel.app/api/home?tokenAddy=0xb0349245e142635f0ea094e413502f6223d37cd7)'
+```
+
+### Endpoints
+
+Name | Endpoint | Notes
+-|-|-
+Homepage | https://interframe-eight.vercel.app/api/home | No query parameters required
+Summary | https://interframe-eight.vercel.app/api/summary?tokenAddy= | tokenAddy: a string representing a token address
+Latest mints | https://interframe-eight.vercel.app/api/latest-mints?tokenAddy= | tokenAddy: a string representing a token address
+Top holders | https://interframe-eight.vercel.app/api/holders-graph?tokenAddy= | tokenAddy: a string representing a token address
+
+> These endpoints can all be fetched with a `GET` request as in the example shown above.
 
 ## Frame Flow
 
@@ -24,6 +55,8 @@ It currently supports ERC-721 and ERC-1155 tokens on *Base*, *Ethereum*, and *Zo
 
 Users can browse from a hand-picked selection of token collections.
 
+![browse](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/441d02d8-d130-433f-b326-7867ea468d89)
+
 ### Search (`/api/search`)
 
 > Note: This feature is yet to be implemented
@@ -34,13 +67,22 @@ Users can input and submit a contract address or token name to view blockchain d
 
 The summary page gives a brief summary of the token collection that the user selects.
 
+![summary](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/f3a524f8-47b0-4da5-aa75-b68f918b299c)
+
+
 ### Top Holders (`/api/holders-graph`)
 
 The top holders page allows users to nagivate through the top 10 holders of a collection.
 
+![holder](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/79346301-c187-4c8c-a489-5002ed6ec476)
+
+
 ### Latest Mints (`/api/latest-mints`)
 
 The latest mints page allows users to nagivate through the latest mints of a collection.
+
+![mint](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/d029d62d-d461-4477-99ce-403fd48886d3)
+
 
 ### Popular Casts
 
@@ -63,25 +105,4 @@ interframe uses several APIs to retreive its data.
   - usage: The API routes return a valid response that adheres to the Farcaster Frames spec
   - website: [Farcaster Frame spec](https://docs.farcaster.xyz/reference/frames/spec)
 
-## Frame Screenshots
-
-### /api/home
-
-![home](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/22988dc5-4704-4d71-84af-71818a0dc45b)
-
-### /api/browse
-
-![browse](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/441d02d8-d130-433f-b326-7867ea468d89)
-
-### /api/summary
-
-![summary](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/f3a524f8-47b0-4da5-aa75-b68f918b299c)
-
-### /api/holders-graph
-
-![holder](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/79346301-c187-4c8c-a489-5002ed6ec476)
-
-### /api/latest-mints
-
-![mint](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/d029d62d-d461-4477-99ce-403fd48886d3)
 
