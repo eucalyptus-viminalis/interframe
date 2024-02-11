@@ -19,7 +19,7 @@ type SummaryImageParams = {
     mintPrice?: number
     totalSupply: number | null | undefined
     description: string | null | undefined
-    totalMinted: number | null | undefined
+    totalMinted?: number | null | undefined
 }
 
 // Function to convert TypeScript object to URLSearchParams
@@ -55,12 +55,14 @@ export async function GET(req: NextRequest) {
         address: tokenAddy,
         includeFullDetails: false
     })
+    console.log(`zdk.collection: ${JSON.stringify(collection, null, 2)}`)
 
+    // TODO: zdk.collectionStatsAggregate does not work with many collections
     // Get collection stats
-    const stats = await zdk.collectionStatsAggregate({
-        collectionAddress: tokenAddy,
-        network: collection.networkInfo,
-    })
+    // const stats = await zdk.collectionStatsAggregate({
+    //     collectionAddress: tokenAddy,
+    //     network: collection.networkInfo,
+    // })
 
     const summaryImageParams: SummaryImageParams = {
         ca: tokenAddy as `0x${string}`,
@@ -69,7 +71,6 @@ export async function GET(req: NextRequest) {
         symbol: collection.symbol,
         totalSupply: collection.totalSupply,
         networkName: collection.networkInfo.network,
-        totalMinted: stats.aggregateStat.nftCount,
         // TODO: Calculate mint price
         // mintPrice:
     }
