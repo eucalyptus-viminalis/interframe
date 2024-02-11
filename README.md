@@ -56,3 +56,26 @@ interframe uses several APIs to retreive its data.
 - `Farcaster Frame`: Farcaster Frame(s) are an extension of the OpenGraph protocol to generate interactive content on decentralized social platforms.
   - usage: The API routes return a valid response that adheres to the Farcaster Frames spec
   - website: [Farcaster Frame spec](https://docs.farcaster.xyz/reference/frames/spec)
+
+## Frame Screenshots
+
+### /api/home
+
+![home](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/22988dc5-4704-4d71-84af-71818a0dc45b)
+
+### /api/browse
+
+![browse](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/441d02d8-d130-433f-b326-7867ea468d89)
+
+### /api/summary
+
+![summary](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/f3a524f8-47b0-4da5-aa75-b68f918b299c)
+
+### /api/holders-graph
+
+![holder](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/79346301-c187-4c8c-a489-5002ed6ec476)
+
+### /api/latest-mints
+
+![mint](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/d029d62d-d461-4477-99ce-403fd48886d3)
+
