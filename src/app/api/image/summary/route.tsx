@@ -180,7 +180,7 @@ export async function GET(req: NextRequest) {
                         top holders
                     </div>
                     <div id="route-1" tw="p-2 m-0" style={{}}>
-                        link 🟢
+                        casts 🟢
                     </div>
                 </div>
 
