@@ -134,12 +134,12 @@ export async function POST(req: NextRequest) {
         // TODO: Take user to casts page
         // FIXME: "Under construction"
         const errorMsg = encodeURIComponent('Route under construction. Watch this cast to be notified of updates.')
-        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}tokenAddy=${tokenAddy}`)
+        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}&tokenAddy=${tokenAddy}`)
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     } else {
         // Case 5: Routing error
         const errorMsg = encodeURIComponent('Bad route. Watch this cast to be notified of updates.')
-        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}tokenAddy=${tokenAddy}`)
+        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}&tokenAddy=${tokenAddy}`)
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }
 }
