@@ -220,7 +220,7 @@ export async function GET(req: NextRequest) {
                     style: "normal",
                 },
             ],
-            debug: true,
+            // debug: true,
         }
     );
 }
