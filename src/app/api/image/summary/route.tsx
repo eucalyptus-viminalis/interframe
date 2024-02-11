@@ -109,29 +109,25 @@ export async function GET(req: NextRequest) {
                     </div>
                 </div>
                 <div
-                    id="summary-list" 
+                    id="summary-list"
                     style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        width: '100%',
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "100%",
                         fontSize: 40,
-                        color: '#28E93B',
+                        color: "#28E93B",
                         gap: 20,
-                        padding: 20
+                        padding: 20,
                     }}
                 >
-                    <span>
-                       Description: {tokenDescription} 
-                    </span>
-                    <span>
-                       Total supply: {totalSupply} 
-                    </span>
-                    <span>
-                       Mint price: {mintPrice} 
-                    </span>
-                    <span>
-                       Network: {networkName} 
-                    </span>
+                    {tokenDescription ? (
+                        <span>Description: {tokenDescription}</span>
+                    ) : null}
+                    {totalSupply ? (
+                        <span>Total supply: {totalSupply}</span>
+                    ) : null}
+                    {mintPrice ? <span>Mint price: {mintPrice}</span> : null}
+                    {networkName ? <span>Network: {networkName}</span> : null}
                 </div>
                 <div
                     id="bottom-bar"
@@ -141,7 +137,9 @@ export async function GET(req: NextRequest) {
                         alignItems: "flex-end",
                         justifyContent: "space-between",
                         // letterSpacing: "-.08em",
-                        gap: 32,
+                        gap: 8,
+                        letterSpacing: -6,
+                        wordSpacing: "-30px",
                         color: "rgba(255, 255, 255, 0.9)",
                         // opacity: secondaryTextOpacity,
                     }}
@@ -149,7 +147,7 @@ export async function GET(req: NextRequest) {
                     <div id="route-1" tw="p-2 m-0" style={{}}>
                         🟣 Home
                     </div>
-                    <div
+                    {/* <div
                         style={{
                             display: "flex",
                             flexDirection: "column",
@@ -178,9 +176,15 @@ export async function GET(req: NextRequest) {
                         }}
                     >
                         top holders
+                    </div> */}
+                    <div id="route-2" tw="p-2 m-0" style={{}}>
+                        🔴 latest mints
                     </div>
-                    <div id="route-1" tw="p-2 m-0" style={{}}>
-                        casts 🟢
+                    <div id="route-3" tw="p-2 m-0" style={{}}>
+                        🔵 top holders
+                    </div>
+                    <div id="route-4" tw="p-2 m-0" style={{}}>
+                        🟢 casts
                     </div>
                 </div>
 
@@ -216,6 +220,7 @@ export async function GET(req: NextRequest) {
                     style: "normal",
                 },
             ],
+            debug: true,
         }
     );
 }
