@@ -1,5 +1,11 @@
 # interframe
 
+1. [Overview](https://github.com/eucalyptus-viminalis/interframe#overview)
+2. [Frame Flow](https://github.com/eucalyptus-viminalis/interframe#frame-flow)
+3. [Features](https://github.com/eucalyptus-viminalis/interframe#features)
+4. [Technologies](https://github.com/eucalyptus-viminalis/interframe#technnologies)
+5. [Frame Screenshots](https://github.com/eucalyptus-viminalis/interframe#frame-screenshots)
+
 ## Overview
 
 interframe is a Farcaster Frame implementation of a blockchain reader for NFT collections.
