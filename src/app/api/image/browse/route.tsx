@@ -128,7 +128,6 @@ export async function GET(req: NextRequest) {
                 <div
                     id="bottom-bar"
                     style={{
-                        // height: "15%",
                         width: "100%",
                         display: "flex",
                         alignItems: "center",
