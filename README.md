@@ -12,6 +12,8 @@
 
 interframe is a Farcaster Frame implementation of a blockchain reader for NFT collections.
 
+Try it in action: [https://warpcast.com/3070/0x316492d0](Try me)
+
 ## Integration
 
 > a.k.a. interframation
