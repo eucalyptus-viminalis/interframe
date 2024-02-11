@@ -31,7 +31,7 @@ export function Frame200Response(frameContent: FrameContent): Response {
           <h1>interframe</h1>
           <dl>
             <dt>In action</dt>
-            <dd><a href="https://warpcast.com/3070">https://warpcast.com/3070</a></dd>
+            <dd><a href="https://warpcast.com/3070/0x316492d0">https://warpcast.com/3070/0x316492d0</a></dd>
             <dt>Code</dt>
             <dd><a href="https://github.com/eucalyptus-viminalis/interframe">GitHub</a></dd>
           </dl>
