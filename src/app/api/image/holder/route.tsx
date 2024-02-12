@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
     const pfp = searchParams.get("pfp");
     const ens = searchParams.get("ens");
     const tokenAddy = searchParams.get("tokenAddy");
+    const tokenName = searchParams.get("tokenName");
 
     const secondaryTextOpacity = 0.35;
 
@@ -71,7 +72,6 @@ export async function GET(req: NextRequest) {
                             flexDirection: "column",
                             alignItems: "center",
                             justifyContent: "center",
-                            fontSize: 64,
                             opacity: secondaryTextOpacity,
                         }}
                     >
@@ -80,7 +80,6 @@ export async function GET(req: NextRequest) {
                     <span
                         tw="p-1"
                         style={{
-                            fontSize: 50,
                             opacity: secondaryTextOpacity,
                         }}
                     >
@@ -151,7 +150,6 @@ export async function GET(req: NextRequest) {
                         height: "15%",
                         width: "100%",
                         display: "flex",
-                        fontSize: 88,
                         alignItems: "flex-end",
                         justifyContent: "flex-start",
                         letterSpacing: "-.08em",
@@ -159,15 +157,28 @@ export async function GET(req: NextRequest) {
                         opacity: 0.3,
                     }}
                 >
+                    {tokenName ? (
+                        <span
+                            id="token-name"
+                            tw="p-2 m-0"
+                            style={{
+                                fontFamily: '"roboto"',
+                            }}
+                        >
+                            {tokenName}
+                        </span>
+                    ) : (
                     <span
                         id="tokenAddy"
                         tw="p-2 m-0"
                         style={{
                             fontFamily: '"roboto"',
+                            fontSize: 32
                         }}
                     >
                         {"/" + tokenAddy}
                     </span>
+                    )}
                     <span
                         id="empty"
                         tw="p-2 m-0"

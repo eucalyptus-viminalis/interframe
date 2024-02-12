@@ -31,7 +31,7 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
         const data = await getHolderData(tokenAddy, idx);
         frameContent.frameImageUrl += `/api/image/holder?tokenAddy=${tokenAddy}`;
         frameContent.frameImageUrl += `&to=${data.ownerAddress}&count=${data.count}`;
-        frameContent.frameImageUrl += `&rank=${idx}`;
+        frameContent.frameImageUrl += `&rank=${idx}&tokenName=${data.tokenName ? encodeURIComponent(data.tokenName) : ""}`;
         // Generate market link
         const zoraNetworkName = 
             data.networkName.toLowerCase() == 'ethereum'

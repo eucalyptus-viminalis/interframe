@@ -14,6 +14,7 @@ type HolderData = {
     tokenStandard: string;
     networkName: string;
     numHolders: number;
+    tokenName: string | undefined
     // TODO: Other interesting stats? Last purchase, last sale? how many minted?
 };
 
@@ -60,6 +61,7 @@ export async function getHolderData(
             networkName: collection.networkInfo.network,
             tokenStandard: collection.tokenStandard,
             numHolders: ownerCount.aggregateStat.ownerCount,
+            tokenName: collection.name ?? undefined
         };
     } else if (collection.tokenStandard == TokenStandard.Erc1155) {
         console.log('ERC1155 Detected...')
@@ -75,6 +77,7 @@ export async function getHolderData(
                 networkName: collection.networkInfo.network,
                 tokenStandard: collection.tokenStandard,
                 numHolders: totalHolders,
+                tokenName: collection.name ?? undefined
             };
         } else if (collection.networkInfo.chain == Chain.BaseMainnet) {
             // Base 1155
@@ -85,6 +88,7 @@ export async function getHolderData(
                 networkName: collection.networkInfo.network,
                 tokenStandard: collection.tokenStandard,
                 numHolders: data.numHolders,
+                tokenName: collection.name ?? undefined
             };
         } else if (collection.networkInfo.chain == Chain.Mainnet) {
             // ETH 1155
@@ -96,6 +100,7 @@ export async function getHolderData(
                 networkName: collection.networkInfo.network,
                 tokenStandard: collection.tokenStandard,
                 numHolders: data.numHolders,
+                tokenName: collection.name ?? undefined
             };
         } else {
             throw new Error(
