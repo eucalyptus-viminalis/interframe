@@ -15,8 +15,10 @@ const baseMainnet: NetworkInfo = {
     network: ZDKNetwork.Base,
     chain: ZDKChain.BaseMainnet,
 };
+
+export const ZDKNetworkInfos = [ethMainnet, zoraMainnet, baseMainnet]
 const args = {
-    endPoint: AppConfig.zoradGraphql,
+    endPoint: AppConfig.zoraGraphql,
     networks: [ethMainnet, zoraMainnet, baseMainnet],
 };
 
