@@ -2,16 +2,8 @@ import { NextRequest } from "next/server";
 import { AppConfig } from "@/src/app/AppConfig";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 import { Frame200Response } from "@/src/fc/Frame200Response";
-import { rankedOwnerByZdk, zdk } from "@/src/zora/zsk";
 import { client } from "@/src/neynar/client";
 import { FrameContent } from "@/src/fc/FrameContent";
-import { Chain } from "@zoralabs/zdk/dist/queries/queries-sdk";
-import {
-    GraphCall,
-    eth1155Holder,
-    eth721Holder,
-} from "@/src/the-graph/queries";
-import { zoraRankedHolderByREST } from "@/src/zora/blockscout";
 import { FrameButton } from "@/src/fc/FrameButton";
 import { getHolderData } from "./data";
 
@@ -29,8 +21,8 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
         frameImageUrl: AppConfig.hostUrl,
         framePostUrl:
             AppConfig.hostUrl +
-            `/api/holders-graph?idx=${idx}&tokenAddy=${tokenAddy}`,
-        frameTitle: "holders-graph | interframe",
+            `/api/holders?idx=${idx}&tokenAddy=${tokenAddy}`,
+        frameTitle: "holders | interframe",
         frameVersion: "vNext",
     };
     // Try get Holder data
@@ -112,7 +104,7 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
     }
 }
 
-// GET: /api/holder-graph
+// GET: /api/holder
 // Params:
 // idx?
 // tokenAddy
@@ -122,7 +114,7 @@ export async function GET(req: NextRequest) {
     return await HolderFrame(idx ? +idx : 0, tokenAddy, req.nextUrl.toString());
 }
 
-// POST /api/holders-graph?
+// POST /api/holders
 // Params:
 // idx
 // tokenAddy
