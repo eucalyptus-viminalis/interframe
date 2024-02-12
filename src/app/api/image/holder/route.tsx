@@ -77,14 +77,16 @@ export async function GET(req: NextRequest) {
                     >
                         Holder
                     </div>
+                    {rank ? (
                     <span
                         tw="p-1"
                         style={{
                             opacity: secondaryTextOpacity,
                         }}
                     >
-                        Rank {rank}
+                        Rank {+rank + 1}
                     </span>
+                    ) : null}
                 </div>
 
                 <div
