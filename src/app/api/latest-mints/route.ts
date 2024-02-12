@@ -31,6 +31,9 @@ async function MintFrame(idx: number, collectionAddress: string) {
         sort: {
             sortDirection: "DESC" as SortDirection,
             sortKey: "TIME" as MintSortKey
+        },
+        pagination: {
+            limit: 10
         }
     })
     // Set buttons
