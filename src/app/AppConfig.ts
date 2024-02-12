@@ -6,7 +6,9 @@ export const AppConfig = {
     neynarApiKey: process.env['NEYNAR_API_KEY']!,
     neynarGrpc: process.env['NEYNAR_GRPC']!,
     neynarHub: process.env['NEYNAR_HUB']!,
-    zoradGraphql: "https://api.zora.co/graphql",
+    zoraGraphql: "https://api.zora.co/graphql",
+    theGraphUrl: "https://gateway-arbitrum.network.thegraph.com/api",
+    theGraphApiKey: process.env['GRAPH_API_KEY']!,
     contracts: {
         base1155Based: "0x77f58006c8dc6089e2a8cf461eff74cacc2111a7",
         base1155FrameOG: "0xb0349245e142635f0ea094e413502f6223d37cd7",
