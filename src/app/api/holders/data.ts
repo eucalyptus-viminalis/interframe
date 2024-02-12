@@ -214,10 +214,10 @@ type BlockscoutHolder = {
     value: string; // number of tokens (with token_id) held
 };
 
-type BASE721Collection = {
+type BASE1155Collection = {
     collection?: {
-        holdings: {
-            tokenCount: string;
+        collectionHoldings: {
+            balance: string;
             account: {
                 id: string;
             };
@@ -254,17 +254,17 @@ async function holderByBase1155Subgraph(tokenAddy: string, rank: number) {
             headers: { "Content-Type": "application/json" },
         }
     );
-    const { data }: { data: BASE721Collection } = await res.json();
+    const { data }: { data: BASE1155Collection } = await res.json();
     if (!data.collection) {
         throw new Error("The Graph API failed.");
     }
-    if (rank >= data.collection.holdings.length) {
+    if (rank >= data.collection.collectionHoldings.length) {
         throw new Error("Less holders than specified rank.");
     }
     return {
-        address: data.collection.holdings[rank].account.id,
-        count: parseInt(data.collection.holdings[rank].tokenCount),
-        numHolders: data.collection.holdings.length,
+        address: data.collection.collectionHoldings[rank].account.id,
+        count: parseInt(data.collection.collectionHoldings[rank].balance),
+        numHolders: data.collection.collectionHoldings.length,
     };
 }
 
