@@ -132,7 +132,7 @@ export async function GET(req: NextRequest) {
                                 fontSize: 50,
                                 width: "200",
                                 wordBreak: "break-all",
-                                // opacity: secondaryTextOpacity
+                                opacity: secondaryTextOpacity
                             }}
                         >
                             {to}
@@ -156,7 +156,7 @@ export async function GET(req: NextRequest) {
                         justifyContent: "flex-start",
                         letterSpacing: "-.08em",
                         gap: 48,
-                        opacity: 0.3,
+                        opacity: secondaryTextOpacity
                     }}
                 >
                     {tokenName ? (
