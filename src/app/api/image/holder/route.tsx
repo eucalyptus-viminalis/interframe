@@ -84,7 +84,7 @@ export async function GET(req: NextRequest) {
                             opacity: secondaryTextOpacity,
                         }}
                     >
-                        Top {rank}
+                        Rank {rank}
                     </span>
                 </div>
 
