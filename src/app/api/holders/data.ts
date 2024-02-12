@@ -1,9 +1,9 @@
 import { zdk } from "@/src/zora/zsk";
 import { AppConfig } from "../../AppConfig";
-import { CollectionsData } from "../zora-graphql/collections/route";
 import { SortDirection } from "@zoralabs/zdk";
 import {
     Chain,
+    Collection,
     OwnerCountSortKey,
     TokenStandard,
 } from "@zoralabs/zdk/dist/queries/queries-sdk";
@@ -138,7 +138,11 @@ query MyQuery {
         method: "POST",
         headers: { "Content-Type": "application/json" },
     });
-    const { data }: { data: CollectionsData } = await res.json();
+    const { data }: { data: {
+        collections: {
+            nodes: Collection[]
+        }
+    } } = await res.json();
     console.log(`zoraGraphql: ${JSON.stringify(data, null ,2)}`)
     return data.collections.nodes[0];
 }
