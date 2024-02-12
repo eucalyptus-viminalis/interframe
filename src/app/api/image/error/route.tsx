@@ -1,25 +1,25 @@
-import { CurrentRoute } from '@/src/components/CurrentRoute';
-import { ImageResponse } from '@vercel/og'
-import { NextRequest } from 'next/server'
+import { CurrentRoute } from "@/src/components/CurrentRoute";
+import { ImageResponse } from "@vercel/og";
+import { NextRequest } from "next/server";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export async function GET(req: NextRequest) {
-
     // Fonts
     const robotoMono = await fetch(
-        new URL('@/assets/RobotoMono-Regular.ttf', import.meta.url),
+        new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
     // Query Params
-    const { searchParams } = req.nextUrl
+    const { searchParams } = req.nextUrl;
 
-    const tokenAddy = searchParams.get('tokenAddy')
-    const msg = searchParams.get('msg')
+    const tokenAddy = searchParams.get("tokenAddy");
+    const msg = searchParams.get("msg");
+    const backUrl = searchParams.get("backUrl");
 
-    const secondaryTextOpacity = 0.35
+    const secondaryTextOpacity = 0.35;
 
     return new ImageResponse(
         (
@@ -34,11 +34,12 @@ export async function GET(req: NextRequest) {
                     fontWeight: 700,
                     fontSize: 50,
                     // padding: 16,
-                    background: "linear-gradient(to bottom right, #343E90, #210446)",
+                    background:
+                        "linear-gradient(to bottom right, #343E90, #210446)",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    fontFamily: 'robotoMono',
-                    opacity: 100
+                    fontFamily: "robotoMono",
+                    opacity: 100,
                     // textAlign: "center",
                 }}
             >
@@ -47,60 +48,62 @@ export async function GET(req: NextRequest) {
                     style={{
                         padding: 0,
                         margin: 0,
-                        width: '100%',
+                        width: "100%",
                         display: "flex",
                         height: "12%",
                         flexDirection: "row",
                         justifyContent: "space-between",
-                        alignItems: 'flex-start',
-                        opacity: secondaryTextOpacity
+                        alignItems: "flex-start",
+                        opacity: secondaryTextOpacity,
                     }}
                 >
-                    <CurrentRoute pathname={req.nextUrl.pathname}/>
+                    <CurrentRoute pathname={req.nextUrl.pathname} />
                     <span
                         tw="p-1"
                         style={{
                             fontSize: 50,
-                            opacity: secondaryTextOpacity
+                            opacity: secondaryTextOpacity,
                         }}
-                    >
-                    </span>
-
+                    ></span>
                 </div>
                 <div
                     id="error-msg"
                     style={{
                         fontSize: 60,
                         margin: 0,
+                        padding: 16
                     }}
-                >{msg}</div>
+                >
+                    {msg}
+                </div>
                 <div
                     id="bottom-bar"
                     style={{
                         // height: '15%',
-                        width: '100%',
-                        display: 'flex',
+                        width: "100%",
+                        display: "flex",
                         alignItems: "flex-end",
                         justifyContent: "flex-start",
                         // letterSpacing: '-.08em',
                         gap: 48,
                     }}
                 >
-                    <span
-                        id="home-btn"
-                        tw="p-2 m-0"
-                    >
+                    {backUrl ? (
+                        <span id="home-btn" tw="p-2 m-0">
+                            🔴 back
+                        </span>
+                    ) : null}
+                    <span id="home-btn" tw="p-2 m-0">
                         🟣 home
                     </span>
                     <span
                         id="empty"
                         tw="p-2 m-0"
                         style={{
-                            width: '30px',
-                            height: '100%',
+                            width: "30px",
+                            height: "100%",
                         }}
-                    >
-                    </span>
+                    ></span>
                 </div>
             </div>
         ),
@@ -109,10 +112,10 @@ export async function GET(req: NextRequest) {
             height: 630,
             fonts: [
                 {
-                    name: 'robotoMono',
+                    name: "robotoMono",
                     data: robotoMono,
-                    style: 'normal',
-                }
+                    style: "normal",
+                },
             ],
         }
     );
