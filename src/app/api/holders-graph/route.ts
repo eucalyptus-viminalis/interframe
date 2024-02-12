@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import { AppConfig } from "@/src/app/AppConfig";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 import { Frame200Response } from "@/src/fc/Frame200Response";
@@ -12,6 +12,7 @@ import {
     eth721Holder,
 } from "@/src/the-graph/queries";
 import { zoraRankedHolderByREST } from "@/src/zora/blockscout";
+import { FrameButton } from "@/src/fc/FrameButton";
 
 // export const config = {
 //   runtime: 'edge',
@@ -21,35 +22,9 @@ const MAX_ROUTE_LENGTH = 10; // Maximum number of top holders to show
 const LAST_INDEX = MAX_ROUTE_LENGTH - 1; // Last page index to show
 
 async function HolderFrame(idx: number, collectionAddress: string) {
-    const frameButtons =
-        idx >= 9
-            ? [
-                  {
-                      action: "post",
-                      label: "<back",
-                  },
-                  {
-                      action: "post",
-                      label: "<home>",
-                  },
-              ]
-            : [
-                  {
-                      action: "post",
-                      label: "<back",
-                  },
-                  {
-                      action: "post",
-                      label: "next>",
-                  },
-                  {
-                      action: "post",
-                      label: "<home>",
-                  },
-              ];
     // Init frameContent
     const frameContent: FrameContent = {
-        frameButtons: frameButtons,
+        frameButtons: [],
         frameImageUrl: AppConfig.hostUrl,
         framePostUrl:
             AppConfig.hostUrl +
@@ -65,7 +40,46 @@ async function HolderFrame(idx: number, collectionAddress: string) {
     console.log(`zdk.collection: ${JSON.stringify(collection, null, 2)}`);
     // Network info:
     const networkInfo = collection.networkInfo;
-
+    const networkName = collection.networkInfo.network!.toLowerCase();
+    const marketLink = `https://zora.co/${networkName}:${collectionAddress}`;
+    // Set frame buttons
+    const frameButtons: FrameButton[] =
+        idx >= 9
+            ? [
+                  {
+                      action: "post",
+                      label: "<back",
+                  },
+                  {
+                      action: "post",
+                      label: "<home>",
+                  },
+                  {
+                      action: "link",
+                      label: ">market<",
+                      target: marketLink,
+                  },
+              ]
+            : [
+                  {
+                      action: "post",
+                      label: "<back",
+                  },
+                  {
+                      action: "post",
+                      label: "next>",
+                  },
+                  {
+                      action: "post",
+                      label: "<home>",
+                  },
+                  {
+                      action: "link",
+                      label: ">market<",
+                      target: marketLink,
+                  },
+              ];
+    frameContent.frameButtons = frameButtons
     // Switch on network chain
     if (networkInfo.chain == Chain.ZoraMainnet) {
         console.log("ZORA Mainnet detected!");
@@ -141,14 +155,26 @@ async function HolderFrame(idx: number, collectionAddress: string) {
                         label: "<Home>",
                     },
                 ];
-                const errorMsg = encodeURIComponent("No holder information found. Watch this cast to be notified of updates.")
-                const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
-                return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
+                const errorMsg = encodeURIComponent(
+                    "No holder information found. Watch this cast to be notified of updates."
+                );
+                const res = await fetch(
+                    AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`
+                );
+                return new Response(res.body, {
+                    headers: { "Content-Type": "text/html" },
+                });
             }
         } catch (error) {
-            const errorMsg = encodeURIComponent("No holder information found. Watch this cast to be notified of updates.")
-            const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
-            return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
+            const errorMsg = encodeURIComponent(
+                "No holder information found. Watch this cast to be notified of updates."
+            );
+            const res = await fetch(
+                AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`
+            );
+            return new Response(res.body, {
+                headers: { "Content-Type": "text/html" },
+            });
         }
     } else if (networkInfo.chain == Chain.BaseMainnet) {
         console.log("Base Mainnet detected");
@@ -190,14 +216,26 @@ async function HolderFrame(idx: number, collectionAddress: string) {
                 console.log("Farcaster user not found!");
             }
         } else {
-            const errorMsg = encodeURIComponent("No holder information found. Watch this cast to be notified of updates.")
-            const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
-            return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
+            const errorMsg = encodeURIComponent(
+                "No holder information found. Watch this cast to be notified of updates."
+            );
+            const res = await fetch(
+                AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`
+            );
+            return new Response(res.body, {
+                headers: { "Content-Type": "text/html" },
+            });
         }
     } else {
-        const errorMsg = encodeURIComponent("Unsupported network. Watch this cast to be notified of updates.")
-        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`)
-        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
+        const errorMsg = encodeURIComponent(
+            "Unsupported network. Watch this cast to be notified of updates."
+        );
+        const res = await fetch(
+            AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}`
+        );
+        return new Response(res.body, {
+            headers: { "Content-Type": "text/html" },
+        });
     }
     // TODO: Other interesting stats? Last purchase, last sale? how many minted?
     // Return 200 response with FrameContent
@@ -226,7 +264,7 @@ export async function POST(req: NextRequest) {
 
     // Route request
     if (data.untrustedData.buttonIndex == 1 && idx == 0) {
-        // Case 2: Pressed Back button from page index 0
+        // Case 1: Pressed Back button from page index 0
         const res = await fetch(
             AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy}`
         );
@@ -234,17 +272,21 @@ export async function POST(req: NextRequest) {
             headers: { "Content-Type": "text/html" },
         });
     } else if (data.untrustedData.buttonIndex == 1) {
-        // Case 3: Pressed Back button from page index not 0
+        // Case 2: Pressed Back button from page index not 0
         return await HolderFrame(idx - 1, tokenAddy);
     } else if (data.untrustedData.buttonIndex == 2) {
-        // Case 4: Pressed Next button
+        // Case 3: Pressed Next button
         return await HolderFrame(idx + 1, tokenAddy);
     } else if (data.untrustedData.buttonIndex == 3) {
-        // Case 5: pressed "home" button
+        // Case 4: pressed "home" button
         const res = await fetch(AppConfig.hostUrl + `/api/home`);
         return new Response(res.body, {
             headers: { "Content-Type": "text/html" },
         });
+    } else if (data.untrustedData.buttonIndex == 4) {
+        // Case 5:
+        // - link out
+        // > No need to handle this as it's handled by Farcaster client with 'link' button
         // TODO: Linkout
         // } else if (data.untrustedData.buttonIndex == 4) {
         //     const collection = await zdk.collection({

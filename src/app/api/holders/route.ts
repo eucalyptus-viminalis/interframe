@@ -40,7 +40,7 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
         
         const marketLink = `https://zora.co/collect/${zoraNetworkName}:${tokenAddy}`;
         const frameButtons: FrameButton[] =
-            idx >= data.numHolders || idx > LAST_INDEX
+            idx >= data.numHolders || idx >= LAST_INDEX
                 ? [
                       {
                           action: "post",
@@ -77,7 +77,7 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
                   ];
         frameContent.frameButtons = frameButtons;
         // If it's the last holder to show, append a query param to postUrl
-        if (idx >= data.numHolders || idx > LAST_INDEX) {
+        if (idx >= data.numHolders || idx >= LAST_INDEX) {
             frameContent.framePostUrl += '&last=true'
         }
         // Try get FC user details
