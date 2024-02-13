@@ -18,7 +18,7 @@ export function Frame200Response(frameContent: FrameContent): Response {
 
           <meta name="fc:frame:image" content="${imgUrlWithDate}" />
           <meta name="fc:frame:post_url" content="${framePostUrl}" />
-          ${input ? `<meta name="fc:frame:input:text" content="Enter a different token address:"/>` : ''}
+          ${input ? `<meta name="fc:frame:input:text" content="Enter any NFT token address:"/>` : ''}
           ${frameButtons.map(
     (bn, i) => `
     <meta name="fc:frame:button:${i + 1}" content="${bn.label}" />
