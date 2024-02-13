@@ -14,7 +14,7 @@ Live on Warpcast: https://warpcast.com/3070/0x316492d0
 
 interframe is a Farcaster Frame implementation of a blockchain reader for NFT collections.
 
-Try it in action: [https://warpcast.com/3070/0x316492d0](Try me)
+Try it in action: [Try me](https://warpcast.com/3070/0x316492d0)
 
 ## Integration
 
