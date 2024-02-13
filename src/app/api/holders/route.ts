@@ -80,7 +80,7 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
             frameContent.frameImageUrl += `&username=${username}&pfp=${pfp}`;
             // Add button to warpcast profile if found
             const wcProfileLink = `https://warpcast.com/${username}`
-            frameContent.frameButtons.push({action: 'link', label: '>wc profile<', target: wcProfileLink})
+            frameContent.frameButtons.push({action: 'link', label: 'WC Profile', target: wcProfileLink})
 
         } catch {
             console.log("Farcaster user not found!");
