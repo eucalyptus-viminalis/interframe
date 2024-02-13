@@ -69,6 +69,10 @@ async function MintFrame(idx: number, collectionAddress: string) {
                       label: "<home>",
                   },
               ];
+    // If it's the last holder to show, append a query param to postUrl
+    if (idx >= data.mints.nodes.length - 1 || idx >= LAST_INDEX) {
+        frameContent.framePostUrl += '&last=true'
+    }
     const mint = data.mints.nodes[idx];      
     const img = ipfsSrcToUrl(mint.token!.image!.url!);
     // const img = sanitiseForPossibleIPFS(mint.token?.image?.url)
@@ -110,6 +114,7 @@ export async function POST(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
     const idx = +searchParams.get("idx")!;
     const tokenAddy = searchParams.get("tokenAddy") as string;
+    const last = searchParams.get("last");
     const data: FrameSignaturePacket = await req.json();
 
     // Route request
@@ -124,9 +129,15 @@ export async function POST(req: NextRequest) {
     } else if (data.untrustedData.buttonIndex == 1) {
         // Case 3: Pressed Back button from page index not 0
         return await MintFrame(idx - 1, tokenAddy);
-    } else if (data.untrustedData.buttonIndex == 2) {
+    } else if (data.untrustedData.buttonIndex == 2 && last != 'true') {
         // Case 4: Pressed Next button
         return await MintFrame(idx + 1, tokenAddy);
+    } else if (data.untrustedData.buttonIndex == 2 && last == 'true') {
+        // Case 4: Pressed "home" button
+        const res = await fetch(AppConfig.hostUrl + `/api/home`);
+        return new Response(res.body, {
+            headers: { "Content-Type": "text/html" },
+        });
     } else if (data.untrustedData.buttonIndex == 3) {
         // Case 5: pressed "home" button
         const res = await fetch(AppConfig.hostUrl + `/api/home`);
