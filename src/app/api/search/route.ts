@@ -50,10 +50,6 @@ export async function POST(req: NextRequest) {
         const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${data.untrustedData.inputText}`)
         return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
     }
-
-    const errorMsg = "Under construction. Watch this cast to be notified of updates."
-    const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}&tokenAddy=${tokenAddy}`)
-    return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
 }
 
 
