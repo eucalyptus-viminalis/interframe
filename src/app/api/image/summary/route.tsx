@@ -12,9 +12,6 @@ export async function GET(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams;
 
     // Fonts
-    const barcode = await fetch(
-        new URL("@/assets/LibreBarcode128Text-Regular.ttf", import.meta.url)
-    ).then((res) => res.arrayBuffer());
     const robotoMonoBold = await fetch(
         new URL("@/assets/RobotoMono-Bold.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
@@ -99,7 +96,6 @@ export async function GET(req: NextRequest) {
                             <span
                                 tw="p-1"
                                 style={{
-                                    fontFamily: '"barcode"',
                                     fontSize: 80,
                                 }}
                             >
@@ -205,11 +201,6 @@ export async function GET(req: NextRequest) {
             width: 1200,
             height: 630,
             fonts: [
-                {
-                    name: "barcode",
-                    data: barcode,
-                    style: "normal",
-                },
                 {
                     name: "robotoMono",
                     data: robotoMono,
