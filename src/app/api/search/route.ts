@@ -3,6 +3,7 @@ import { AppConfig } from "../../AppConfig"
 import { Frame200Response } from "@/src/fc/Frame200Response"
 import { FrameContent } from "@/src/fc/FrameContent"
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket"
+import "@/src/utils/ethereum-address";
 
 async function SearchFrame() {
     const frameContent: FrameContent = {
@@ -24,7 +25,6 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-    const tokenAddy = req.nextUrl.searchParams.get('tokenAddy')
     const data: FrameSignaturePacket = await req.json();
     if (data.untrustedData.buttonIndex == 2) {
         // Case 1: pressed home button
