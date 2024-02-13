@@ -7,7 +7,7 @@ import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket"
 async function SearchFrame() {
     const frameContent: FrameContent = {
         frameButtons: [
-            {action: 'post', label: '<submit>'}
+            {action: 'post', label: '<submit>'},
             {action: 'post', label: '<home>'},
         ],
         frameImageUrl: AppConfig.hostUrl + '/api/image/search',
