@@ -52,71 +52,79 @@ export async function GET(req: NextRequest) {
         "tokenAddy"
     ) as `0x${string}`;
 
-    // Get collection details
-    const collection = await zdk.collection({
-        address: tokenAddy,
-        includeFullDetails: false,
-    });
-    console.log(`zdk.collection: ${JSON.stringify(collection, null, 2)}`);
+    // Try get collection details
+    try {
+        const collection = await zdk.collection({
+            address: tokenAddy,
+            includeFullDetails: false,
+        });
+        console.log(`zdk.collection: ${JSON.stringify(collection, null, 2)}`);
 
-    // TODO: zdk.collectionStatsAggregate does not work with many collections
-    // Get collection stats
-    // const stats = await zdk.collectionStatsAggregate({
-    //     collectionAddress: tokenAddy,
-    //     network: collection.networkInfo,
-    // })
+        // TODO: zdk.collectionStatsAggregate does not work with many collections
+        // Get collection stats
+        // const stats = await zdk.collectionStatsAggregate({
+        //     collectionAddress: tokenAddy,
+        //     network: collection.networkInfo,
+        // })
 
-    const summaryImageParams: SummaryImageParams = {
-        ca: tokenAddy as `0x${string}`,
-        description: collection.description,
-        name: collection.name,
-        symbol: collection.symbol,
-        totalSupply: collection.totalSupply,
-        networkName: collection.networkInfo.network,
-        // TODO: Calculate mint price
-        // mintPrice:
-    };
+        const summaryImageParams: SummaryImageParams = {
+            ca: tokenAddy as `0x${string}`,
+            description: collection.description,
+            name: collection.name,
+            symbol: collection.symbol,
+            totalSupply: collection.totalSupply,
+            networkName: collection.networkInfo.network,
+            // TODO: Calculate mint price
+            // mintPrice:
+        };
 
-    frameContent.frameImageUrl =
-        AppConfig.hostUrl +
-        "/api/image/summary?" +
-        objectToSearchParams(summaryImageParams).toString();
-    // Generate market link
-    const zoraNetworkName =
-        collection.networkInfo.network.toLowerCase() == "ethereum"
-            ? "eth"
-            : collection.networkInfo.network.toLowerCase();
+        frameContent.frameImageUrl =
+            AppConfig.hostUrl +
+            "/api/image/summary?" +
+            objectToSearchParams(summaryImageParams).toString();
+        // Generate market link
+        const zoraNetworkName =
+            collection.networkInfo.network.toLowerCase() == "ethereum"
+                ? "eth"
+                : collection.networkInfo.network.toLowerCase();
 
-    const marketLink = `https://zora.co/collect/${zoraNetworkName}:${tokenAddy}`;
-    frameContent.frameButtons = [
-        {
-            action: "post",
-            label: "🔴",
-        },
-        {
-            action: "post",
-            label: "🔵",
-        },
-        {
-            action: "post",
-            label: "🟣",
-        },
-        {
-            action: "link",
-            label: "🟢",
-            target: marketLink,
-        },
-        // TODO: Add redirect button?
-        // e.g. Link out to opensea/zora/warpcast page for token
-        // {
-        //     action: "post_redirect",
-        //     label: "🟢"
-        // }
-    ];
+        const marketLink = `https://zora.co/collect/${zoraNetworkName}:${tokenAddy}`;
+        frameContent.frameButtons = [
+            {
+                action: "post",
+                label: "🔴",
+            },
+            {
+                action: "post",
+                label: "🔵",
+            },
+            {
+                action: "post",
+                label: "🟣",
+            },
+            {
+                action: "link",
+                label: "🟢",
+                target: marketLink,
+            },
+            // TODO: Add redirect button?
+            // e.g. Link out to opensea/zora/warpcast page for token
+            // {
+            //     action: "post_redirect",
+            //     label: "🟢"
+            // }
+        ];
 
-    frameContent.framePostUrl =
-        AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy}`;
-    return Frame200Response(frameContent);
+        frameContent.framePostUrl =
+            AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy}`;
+        return Frame200Response(frameContent);
+    } catch {
+        // Collection not found
+        const errorMsg = encodeURIComponent('Collection not found.')
+        const backUrl = req.nextUrl.searchParams.get("backUrl") ?? ""
+        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}&backUrl=${backUrl}`)
+        return new Response(res.body, {headers:{'Content-Type':'text/html'}})
+    }
 }
 
 // POST: /api/summary
