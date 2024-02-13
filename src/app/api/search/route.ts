@@ -20,11 +20,7 @@ async function SearchFrame() {
 }
 
 export async function GET(req: NextRequest) {
-    const tokenAddy = req.nextUrl.searchParams.get('tokenAddy')
-
-    const errorMsg = "Under construction. Watch this cast to be notified of updates."
-    const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}&tokenAddy=${tokenAddy}`)
-    return new Response(res.body, {headers:{'Content-Type': 'text/html'}})
+    return await SearchFrame()
 }
 
 export async function POST(req: NextRequest) {
