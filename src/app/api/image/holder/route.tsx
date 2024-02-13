@@ -175,7 +175,7 @@ export async function GET(req: NextRequest) {
                         tw="p-2 m-0"
                         style={{
                             fontFamily: '"roboto"',
-                            fontSize: 32
+                            fontSize: 40
                         }}
                     >
                         {"/" + tokenAddy}
