@@ -40,26 +40,26 @@ async function MintFrame(idx: number, collectionAddress: string) {
     frameContent.frameButtons = res.mints.nodes.length - 1 <= idx ?
         [
             {
-                action: 'push',
+                action: 'post',
                 label: '<back'
             },
             {
-                action: 'push',
+                action: 'post',
                 label: '<home>'
             }
         ] 
         : 
         [
             {
-                action: 'push',
+                action: 'post',
                 label: '<back'
             },
             {
-                action: 'push',
+                action: 'post',
                 label: 'next>'
             },
             {
-                action: 'push',
+                action: 'post',
                 label: '<home>'
             }
         ]
