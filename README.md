@@ -104,7 +104,7 @@ interframe uses several APIs to retreive its data.
   - usage: the zdk is being used in interframe to retrieve basic information about a collection. This information is served in `/api/summary`
   - website: [ZDK](https://docs.zora.co/docs/zora-api/zdk)
 - `The Graph`: The Graph is a collection of decentralized GraphQL APIs
-  - usage: The Graph is being used in interframe to retrieve information about top holders for collections on Ethereum and Base. This information is served in `/api/holders-graph`
+  - usage: The Graph is being used in interframe to retrieve information about top holders for collections on Ethereum and Base. This information is served in `/api/holders`
   - website: [The Graph](https://thegraph.com/)
 - `@vercel/og`: This Typescript library exposes a convenience method to generate a valid OpenGraph image using JSX elements. It uses `satori` under the hoood.
   - usage: `ImageResponse` is used for generating all OpenGraph images for interframe. See: `/api/images/*`
