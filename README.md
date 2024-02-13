@@ -63,9 +63,12 @@ Users can browse from a hand-picked selection of token collections.
 
 ### Search (`/api/search`)
 
-> Note: This feature is yet to be implemented
+Users can input and submit a contract address to view blockchain data about that token.
 
-Users can input and submit a contract address or token name to view blockchain data about that token.
+TODO: Ability to search by human-readable query. e.g. token name
+
+<img width="605" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/7fcbb7a0-a2f9-47fc-99bd-835faab16833">
+
 
 ### Summary (`/api/summary`)
 
