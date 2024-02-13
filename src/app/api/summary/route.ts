@@ -12,15 +12,15 @@ import { NextRequest } from "next/server";
 
 // Data we want to display in the frame image
 type SummaryImageParams = {
-    ca: `0x${string}`
-    networkName: string | null | undefined
-    name: string | null | undefined
-    symbol: string | null | undefined
-    mintPrice?: number
-    totalSupply: number | null | undefined
-    description: string | null | undefined
-    totalMinted?: number | null | undefined
-}
+    ca: `0x${string}`;
+    networkName: string | null | undefined;
+    name: string | null | undefined;
+    symbol: string | null | undefined;
+    mintPrice?: number;
+    totalSupply: number | null | undefined;
+    description: string | null | undefined;
+    totalMinted?: number | null | undefined;
+};
 
 // Function to convert TypeScript object to URLSearchParams
 function objectToSearchParams(obj: Record<string, any>): URLSearchParams {
@@ -41,21 +41,23 @@ const frameContent: FrameContent = {
     frameImageUrl: "",
     framePostUrl: AppConfig.hostUrl,
     frameTitle: "see Zora",
-    frameVersion: "vNext"
-}
+    frameVersion: "vNext",
+};
 
 // GET /api/summary
 // Params:
 // tokenAddy
 export async function GET(req: NextRequest) {
-    const tokenAddy = req.nextUrl.searchParams.get('tokenAddy') as `0x${string}`
+    const tokenAddy = req.nextUrl.searchParams.get(
+        "tokenAddy"
+    ) as `0x${string}`;
 
     // Get collection details
     const collection = await zdk.collection({
         address: tokenAddy,
-        includeFullDetails: false
-    })
-    console.log(`zdk.collection: ${JSON.stringify(collection, null, 2)}`)
+        includeFullDetails: false,
+    });
+    console.log(`zdk.collection: ${JSON.stringify(collection, null, 2)}`);
 
     // TODO: zdk.collectionStatsAggregate does not work with many collections
     // Get collection stats
@@ -73,26 +75,36 @@ export async function GET(req: NextRequest) {
         networkName: collection.networkInfo.network,
         // TODO: Calculate mint price
         // mintPrice:
-    }
+    };
 
-    frameContent.frameImageUrl = AppConfig.hostUrl
-        + "/api/image/summary?" + objectToSearchParams(summaryImageParams).toString()
+    frameContent.frameImageUrl =
+        AppConfig.hostUrl +
+        "/api/image/summary?" +
+        objectToSearchParams(summaryImageParams).toString();
+    // Generate market link
+    const zoraNetworkName =
+        collection.networkInfo.network.toLowerCase() == "ethereum"
+            ? "eth"
+            : collection.networkInfo.network.toLowerCase();
+
+    const marketLink = `https://zora.co/collect/${zoraNetworkName}:${tokenAddy}`;
     frameContent.frameButtons = [
         {
             action: "post",
-            label: "🔴"
+            label: "🔴",
         },
         {
             action: "post",
-            label: "🔵"
+            label: "🔵",
         },
         {
             action: "post",
-            label: "🟣"
+            label: "🟣",
         },
         {
-            action: "post",
-            label: "🟢"
+            action: "link",
+            label: "🟢",
+            target: marketLink,
         },
         // TODO: Add redirect button?
         // e.g. Link out to opensea/zora/warpcast page for token
@@ -100,71 +112,85 @@ export async function GET(req: NextRequest) {
         //     action: "post_redirect",
         //     label: "🟢"
         // }
-    ]
+    ];
 
-    frameContent.framePostUrl = AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy}`
-    return Frame200Response(frameContent)
+    frameContent.framePostUrl =
+        AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy}`;
+    return Frame200Response(frameContent);
 }
 
 // POST: /api/summary
 // Params:
 // tokenAddy
 export async function POST(req: NextRequest) {
-    const tokenAddy = req.nextUrl.searchParams.get('tokenAddy')
+    const tokenAddy = req.nextUrl.searchParams.get("tokenAddy");
 
-    const data: FrameSignaturePacket = await req.json()
+    const data: FrameSignaturePacket = await req.json();
 
     // Route request
     if (data.untrustedData.buttonIndex == 1) {
         // Case 1: pressed "latest mints" button
         // - take user to latest mints page
-        const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?tokenAddy=${tokenAddy}`)
-        return new Response(response.body, { headers: { 'Content-Type': 'text/html' }})
+        const response = await fetch(
+            AppConfig.hostUrl + `/api/latest-mints?tokenAddy=${tokenAddy}`
+        );
+        return new Response(response.body, {
+            headers: { "Content-Type": "text/html" },
+        });
     } else if (data.untrustedData.buttonIndex == 2) {
         // Case 2: pressed "top holders" button
         // - take user to top holders page
-        const response = await fetch(AppConfig.hostUrl + `/api/holders?&tokenAddy=${tokenAddy}`)
-        return new Response(response.body, { headers: { 'Content-Type': 'text/html' }})
+        const response = await fetch(
+            AppConfig.hostUrl + `/api/holders?&tokenAddy=${tokenAddy}`
+        );
+        return new Response(response.body, {
+            headers: { "Content-Type": "text/html" },
+        });
     } else if (data.untrustedData.buttonIndex == 3) {
-        // Case 3: pressed "home" button 
-        const res = await fetch(AppConfig.hostUrl + `/api/home`)
-        return new Response(res.body, { headers: { 'Content-Type': 'text/html' }})
+        // Case 3: pressed "home" button
+        const res = await fetch(AppConfig.hostUrl + `/api/home`);
+        return new Response(res.body, {
+            headers: { "Content-Type": "text/html" },
+        });
     } else if (data.untrustedData.buttonIndex == 4) {
-        // Case 4: pressed "casts" button
-        // TODO: Take user to casts page
-        // FIXME: "Under construction"
-        const errorMsg = encodeURIComponent('Route under construction. Watch this cast to be notified of updates.')
-        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}&tokenAddy=${tokenAddy}`)
-        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
+        // Case 4: pressed "🟢" button
+        // External link; no need to handle with link button action type
     } else {
         // Case 5: Routing error
-        const errorMsg = encodeURIComponent('Bad route. Watch this cast to be notified of updates.')
-        const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}&tokenAddy=${tokenAddy}`)
-        return new Response(res.body, {headers: {'Content-Type': 'text/html'}})
+        const errorMsg = encodeURIComponent(
+            "Bad route. Watch this cast to be notified of updates."
+        );
+        const res = await fetch(
+            AppConfig.hostUrl +
+                `/api/error?errorMsg=${errorMsg}&tokenAddy=${tokenAddy}`
+        );
+        return new Response(res.body, {
+            headers: { "Content-Type": "text/html" },
+        });
     }
 }
 
 //   REFERENCE:
 //   Making post request to url and error handling on response status
-        // const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?from=home&tokenAddy=${tokenAddy}`, {
-        //     method: 'POST', // specify the method of your original request
-        //     headers: {
-        //         'Content-Type': 'application/json', // adjust headers if needed
-        //     },
-        //     body: JSON.stringify(data), // send the original request body
-        // });
+// const response = await fetch(AppConfig.hostUrl + `/api/latest-mints?from=home&tokenAddy=${tokenAddy}`, {
+//     method: 'POST', // specify the method of your original request
+//     headers: {
+//         'Content-Type': 'application/json', // adjust headers if needed
+//     },
+//     body: JSON.stringify(data), // send the original request body
+// });
 
-        // // Handle the response and return it
-        // if (response.ok) {
-        //     const responseData = response.body;
-        //     return new Response(responseData, {
-        //         status: response.status,
-        //         headers: {
-        //             'Content-Type': 'text/html',
-        //         },
-        //     });
-        // } else {
-        //     return new Response('Error handling the request', {
-        //         status: response.status,
-        //     });
-        // }
+// // Handle the response and return it
+// if (response.ok) {
+//     const responseData = response.body;
+//     return new Response(responseData, {
+//         status: response.status,
+//         headers: {
+//             'Content-Type': 'text/html',
+//         },
+//     });
+// } else {
+//     return new Response('Error handling the request', {
+//         status: response.status,
+//     });
+// }

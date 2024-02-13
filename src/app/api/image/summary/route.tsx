@@ -185,7 +185,7 @@ export async function GET(req: NextRequest) {
                         🔵 top holders
                     </div>
                     <div id="route-4" tw="p-2 m-0" style={{}}>
-                        🟢 casts
+                        🟢 market
                     </div>
                 </div>
 
