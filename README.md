@@ -41,7 +41,7 @@ Name | Endpoint | Notes
 Homepage | https://interframe-eight.vercel.app/api/home | No query parameters required
 Summary | https://interframe-eight.vercel.app/api/summary?tokenAddy= | tokenAddy: a string representing a token address
 Latest mints | https://interframe-eight.vercel.app/api/latest-mints?tokenAddy= | tokenAddy: a string representing a token address
-Top holders | https://interframe-eight.vercel.app/api/holders-graph?tokenAddy= | tokenAddy: a string representing a token address
+Top holders | https://interframe-eight.vercel.app/api/holders?tokenAddy= | tokenAddy: a string representing a token address
 
 > These endpoints can all be fetched with a `GET` request as in the example shown above.
 
@@ -74,11 +74,12 @@ The summary page gives a brief summary of the token collection that the user sel
 ![summary](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/f3a524f8-47b0-4da5-aa75-b68f918b299c)
 
 
-### Top Holders (`/api/holders-graph`)
+### Top Holders (`/api/holders`)
 
 The top holders page allows users to nagivate through the top 10 holders of a collection.
 
-![holder](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/79346301-c187-4c8c-a489-5002ed6ec476)
+<img width="600" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/6a7bead8-735d-4b7e-a10f-f918c7305aa3">
+
 
 
 ### Latest Mints (`/api/latest-mints`)
