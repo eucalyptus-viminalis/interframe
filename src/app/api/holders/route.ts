@@ -50,11 +50,6 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
                           action: "post",
                           label: "<home>",
                       },
-                      {
-                          action: "link",
-                          label: ">market<",
-                          target: marketLink,
-                      },
                   ]
                 : [
                       {
@@ -68,11 +63,6 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
                       {
                           action: "post",
                           label: "<home>",
-                      },
-                      {
-                          action: "link",
-                          label: ">market<",
-                          target: marketLink,
                       },
                   ];
         frameContent.frameButtons = frameButtons;
@@ -88,6 +78,10 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
             const username = user.result.user.username;
             const pfp = user.result.user.pfp.url;
             frameContent.frameImageUrl += `&username=${username}&pfp=${pfp}`;
+            // Add button to warpcast profile if found
+            const wcProfileLink = `https://warpcast.com/${username}`
+            frameContent.frameButtons.push({action: 'link', label: '>wc profile<', target: wcProfileLink})
+
         } catch {
             console.log("Farcaster user not found!");
         }
