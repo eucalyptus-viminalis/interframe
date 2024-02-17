@@ -32,10 +32,20 @@ export async function GET() {
     return Frame200Response(frameContent)
 }
 
+
+// POST: /api/browse
+// Params:
+// tokenAddy1!: string
+// tokenAddy2!: string
 export async function POST(req: NextRequest) {
     const data: FrameSignaturePacket = await req.json()
     const tokenAddy1 = req.nextUrl.searchParams.get('tokenAddy1')
-    const tokenAddy2 = req.nextUrl.searchParams.get('tokenAddy2')
+    const tokenAddy2 = req.nextUrl.searchParams.get('tokenAddy2')!
+    if (!tokenAddy1) {
+        return new Response('missing param: tokenAddy1', {status: 400})
+    } else if (!tokenAddy2) {
+        return new Response('missing param: tokenAddy2', {status: 400})
+    }
     // Route request
     if (data.untrustedData.buttonIndex == 3) {
         // Case 1: pressed "home" button
