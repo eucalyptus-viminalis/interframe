@@ -32,16 +32,17 @@ If you'd like to **navigate user to a summary page for a particular token** that
 // Handing off frame to interframe/summary example:
 // request URL: https://interframe-eight.vercel.app/api/summary?tokenAddy=0xb0349245e142635f0ea094e413502f6223d37cd7
 const res = await fetch('https://interframe-eight.vercel.app/api/summary?tokenAddy=0xb0349245e142635f0ea094e413502f6223d37cd7)'
+return new Response(res.body, {headers: {'Content-Type'}: 'text/html'})
 ```
 
 ### Endpoints
 
 Name | Endpoint | Notes
 -|-|-
-Homepage | https://interframe-eight.vercel.app/api/home | No query parameters required
-Summary | https://interframe-eight.vercel.app/api/summary?tokenAddy= | tokenAddy: a string representing a token address
-Latest mints | https://interframe-eight.vercel.app/api/latest-mints?tokenAddy= | tokenAddy: a string representing a token address
-Top holders | https://interframe-eight.vercel.app/api/holders?tokenAddy= | tokenAddy: a string representing a token address
+Homepage | `https://interframe-eight.vercel.app/api/home` | No query parameters required
+Summary | `https://interframe-eight.vercel.app/api/summary?tokenAddy=` | tokenAddy: a string representing a token address
+Latest mints | `https://interframe-eight.vercel.app/api/latest-mints?tokenAddy=` | tokenAddy: a string representing a token address
+Top holders | `https://interframe-eight.vercel.app/api/holders?tokenAddy=` | tokenAddy: a string representing a token address
 
 > These endpoints can all be fetched with a `GET` request as in the example shown above.
 
