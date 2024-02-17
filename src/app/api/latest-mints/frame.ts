@@ -1,6 +1,5 @@
 import { FrameContent } from "@/src/fc/FrameContent";
 import { AppConfig } from "../../AppConfig";
-import { zdk } from "@/src/zora/zsk";
 import { SortDirection } from "@zoralabs/zdk";
 import { MintSortKey } from "@zoralabs/zdk/dist/queries/queries-sdk";
 import { ipfsSrcToUrl } from "@/src/ipfs/ipfs";
@@ -8,6 +7,7 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import { client } from "@/src/neynar/client";
 import { Frame200Response } from "@/src/fc/Frame200Response";
+import { zdk } from "@/src/zdk/client";
 
 TimeAgo.addDefaultLocale(en);
 // Create formatter (English).

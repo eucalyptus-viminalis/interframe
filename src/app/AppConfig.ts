@@ -1,14 +1,16 @@
+const THE_GRAPH = "https://gateway-arbitrum.network.thegraph.com/api/";
+
 export const AppConfig = {
-    gitHubUrl: 'https://github.com/eucalyptus-viminalis/interframe',
-    hostUrl: process.env['HOST']!,
-    hubUrl: process.env['HUB_URL'] || "nemes.farcaster.xyz:2283",
+    gitHubUrl: "https://github.com/eucalyptus-viminalis/interframe",
+    hostUrl: process.env["HOST"]!,
+    hubUrl: process.env["HUB_URL"] || "nemes.farcaster.xyz:2283",
     zoraRestUrl: "https://explorer.zora.energy/api/v2",
-    neynarApiKey: process.env['NEYNAR_API_KEY']!,
-    neynarGrpc: process.env['NEYNAR_GRPC']!,
-    neynarHub: process.env['NEYNAR_HUB']!,
+    neynarApiKey: process.env["NEYNAR_API_KEY"]!,
+    neynarGrpc: process.env["NEYNAR_GRPC"]!,
+    neynarHub: process.env["NEYNAR_HUB"]!,
     zoraGraphql: "https://api.zora.co/graphql",
     theGraphUrl: "https://gateway-arbitrum.network.thegraph.com/api",
-    theGraphApiKey: process.env['GRAPH_API_KEY']!,
+    theGraphApiKey: process.env["GRAPH_API_KEY"]!,
     contracts: {
         base1155Based: "0x77f58006c8dc6089e2a8cf461eff74cacc2111a7",
         base1155FrameOG: "0xb0349245e142635f0ea094e413502f6223d37cd7",
@@ -22,5 +24,23 @@ export const AppConfig = {
         zora1155Zaibs: "0x040cABdDC5C1Ed83B66e0126E74E7F97e6eC36BC",
         zora721Canvas: "0x721cfd3742862b7067a3c19afc268b84a73836df",
         zora721DataField: "0x470856c6fc6ae555fce9ff2d90d4714d02979373",
-    }
-}
+    },
+    theGraph: {
+        eth721subgraph:
+            THE_GRAPH +
+            process.env["GRAPH_API_KEY"]! +
+            "/subgraphs/id/CBf1FtUKFnipwKVm36mHyeMtkuhjmh4KHzY3uWNNq5ow",
+        eth1155subgraph:
+            THE_GRAPH +
+            process.env["GRAPH_API_KEY"]! +
+            "/subgraphs/id/5C6JRVzKcE9AVbT7S71EycV8eEGcfkJB9gGsyTbHMVmN",
+        base721subgraph:
+            THE_GRAPH +
+            process.env["GRAPH_API_KEY"]! +
+            "/subgraphs/id/D4ab55j22wJLqdkmepiMVcSxQ44S2DTdh5aRQ5f5EqJF",
+        base1155subgraph:
+            THE_GRAPH +
+            process.env["GRAPH_API_KEY"]! +
+            "/subgraphs/id/9LyYqhj7LqDaivsifyeYF7ERqtmisnzXWm2799qo7Xfq",
+    },
+};

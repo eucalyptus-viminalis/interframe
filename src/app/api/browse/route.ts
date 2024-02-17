@@ -3,7 +3,7 @@ import { FrameContent } from "@/src/fc/FrameContent";
 import { NextRequest } from "next/server";
 import { AppConfig } from "../../AppConfig";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
-import { zdk } from "@/src/zora/zsk";
+import { zdk } from "@/src/zdk/client";
 
 export async function GET() {
     const frameContent: FrameContent = {

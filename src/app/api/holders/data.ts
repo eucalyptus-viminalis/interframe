@@ -1,4 +1,4 @@
-import { zdk } from "@/src/zora/zsk";
+import { zdk } from "@/src/zdk/client";
 import { AppConfig } from "../../AppConfig";
 import { SortDirection } from "@zoralabs/zdk";
 import {

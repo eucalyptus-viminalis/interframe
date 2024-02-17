@@ -1,4 +1,3 @@
-import { zdk } from "@/src/zora/zsk";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 

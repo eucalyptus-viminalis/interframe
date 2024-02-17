@@ -2,21 +2,12 @@ import { NextRequest } from "next/server";
 import { AppConfig } from "@/src/app/AppConfig";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 import { Frame200Response } from "@/src/fc/Frame200Response";
-import { rankedOwnerByZdk, zdk } from "@/src/zora/zsk";
 import { client } from "@/src/neynar/client";
 import { FrameContent } from "@/src/fc/FrameContent";
 import { Chain } from "@zoralabs/zdk/dist/queries/queries-sdk";
-import {
-    GraphCall,
-    eth1155Holder,
-    eth721Holder,
-} from "@/src/the-graph/queries";
-import { zoraRankedHolderByREST } from "@/src/zora/blockscout";
 import { FrameButton } from "@/src/fc/FrameButton";
-
-// export const config = {
-//   runtime: 'edge',
-// }
+import { GraphCall, eth1155Holder, eth721Holder, rankedOwnerByZdk, zoraRankedHolderByREST } from "./data";
+import { zdk } from "@/src/zdk/client";
 
 const MAX_ROUTE_LENGTH = 10; // Maximum number of top holders to show
 const LAST_INDEX = MAX_ROUTE_LENGTH - 1; // Last page index to show

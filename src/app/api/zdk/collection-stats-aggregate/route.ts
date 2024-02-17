@@ -1,6 +1,6 @@
-import { zdk } from "@/src/zora/zsk";
 import { NextRequest } from "next/server";
 import "@/src/utils/ethereum-address";
+import { zdk } from "@/src/zdk/client";
 
 export async function GET(req: NextRequest) {
     const tokenAddy = req.nextUrl.searchParams.get("tokenAddy");

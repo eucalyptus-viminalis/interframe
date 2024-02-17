@@ -1,7 +1,7 @@
-import { zdk } from "@/src/zora/zsk";
 import { NextRequest } from "next/server";
 import "@/src/utils/ethereum-address"
 import { SearchableEntity } from "@zoralabs/zdk/dist/queries/queries-sdk";
+import { zdk } from "@/src/zdk/client";
 
 export async function GET(req: NextRequest) {
     const limit = req.nextUrl.searchParams.get('limit')
