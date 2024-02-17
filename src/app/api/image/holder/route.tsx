@@ -1,3 +1,5 @@
+import { FrameDiv } from "@/src/components/FrameDiv";
+import TopBar from "@/src/components/TopBar";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
@@ -5,13 +7,7 @@ export const runtime = "edge";
 
 export async function GET(req: NextRequest) {
     // Fonts
-    const barcode = await fetch(
-        new URL(
-            "@/assets/LibreBarcode128Text-Regular.ttf",
-            import.meta.url
-        )
-    ).then((res) => res.arrayBuffer());
-    const roboto = await fetch(
+    const mono = await fetch(
         new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
@@ -32,39 +28,8 @@ export async function GET(req: NextRequest) {
 
     return new ImageResponse(
         (
-            <div
-                style={{
-                    display: "flex",
-                    width: "100%",
-                    height: "100%",
-                    color: "white",
-                    alignItems: "center",
-                    // letterSpacing: '-.02em',
-                    fontWeight: 700,
-                    fontSize: 60,
-                    // padding: 16,
-                    background:
-                        "linear-gradient(to bottom right, #343E90, #210446)",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    fontFamily: "roboto",
-                    opacity: 1,
-                    // textAlign: "center",
-                }}
-            >
-                <div
-                    id="top-bar"
-                    style={{
-                        padding: 0,
-                        margin: 0,
-                        width: "100%",
-                        display: "flex",
-                        height: "12%",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "flex-start",
-                    }}
-                >
+            <FrameDiv>
+                <TopBar>
                     <div
                         id="route-name"
                         style={{
@@ -73,21 +38,23 @@ export async function GET(req: NextRequest) {
                             alignItems: "center",
                             justifyContent: "center",
                             opacity: secondaryTextOpacity,
+                            paddingLeft: 10
                         }}
                     >
                         Holder
                     </div>
                     {rank ? (
-                    <span
-                        tw="p-1"
-                        style={{
-                            opacity: secondaryTextOpacity,
-                        }}
-                    >
-                        Rank {+rank + 1}
-                    </span>
+                        <span
+                            // tw="p-1"
+                            style={{
+                                opacity: secondaryTextOpacity,
+                                paddingRight: 10
+                            }}
+                        >
+                            Rank {+rank + 1}
+                        </span>
                     ) : null}
-                </div>
+                </TopBar>
 
                 <div
                     id="mid-section"
@@ -127,86 +94,96 @@ export async function GET(req: NextRequest) {
                         </div>
                     ) : (
                         <span
-                            tw="p-1"
+                            // tw="p-1"
                             style={{
                                 fontSize: 50,
                                 width: "200",
                                 wordBreak: "break-all",
-                                opacity: secondaryTextOpacity
+                                opacity: secondaryTextOpacity,
                             }}
                         >
                             {to}
                         </span>
                     )}
                     <div
+                        id="token-count"
                         style={{
-                            fontSize: 100,
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: 10,
+                            width: 420,
+                            justifyContent: "flex-start",
+                            alignItems: "center",
+                            textAlign: 'center'
                         }}
                     >
-                        {count}
+                        <span
+                            style={{
+                                fontSize: 80,
+                            }}
+                        >
+                            {count}
+                        </span>
+                        <span>x</span>
+                        {tokenName ? (
+                            <span
+                                id="token-name"
+                                style={{
+                                    wordBreak: "break-word",
+                                    width: 270,
+                                    fontSize: 55
+                                }}
+                            >
+                                {tokenName}
+                            </span>
+                        ) : (
+                            <span
+                                id="token-addy"
+                                style={{
+                                    wordBreak: "break-all",
+                                    width: 190,
+                                }}
+                            >
+                                {tokenAddy}
+                            </span>
+                        )}
                     </div>
                 </div>
                 <div
                     id="bottom-bar"
                     style={{
-                        height: "15%",
                         width: "100%",
                         display: "flex",
                         alignItems: "flex-end",
                         justifyContent: "flex-start",
                         letterSpacing: "-.08em",
-                        gap: 48,
-                        opacity: secondaryTextOpacity
+                        opacity: secondaryTextOpacity,
                     }}
                 >
-                    {tokenName ? (
-                        <span
-                            id="token-name"
-                            tw="p-2 m-0"
-                            style={{
-                                fontFamily: '"roboto"',
-                            }}
-                        >
-                            {tokenName}
-                        </span>
-                    ) : (
                     <span
                         id="tokenAddy"
-                        tw="p-2 m-0"
+                        tw="m-0"
                         style={{
                             fontFamily: '"roboto"',
-                            fontSize: 40
+                            fontSize: 52,
                         }}
                     >
                         {"/" + tokenAddy}
                     </span>
-                    )}
-                    <span
-                        id="empty"
-                        tw="p-2 m-0"
-                        style={{
-                            width: "30px",
-                            height: "100%",
-                        }}
-                    ></span>
                 </div>
-            </div>
+            </FrameDiv>
         ),
         {
             width: 1200,
             height: 630,
             fonts: [
                 {
-                    name: "barcode",
-                    data: barcode,
-                    style: "normal",
-                },
-                {
-                    name: "roboto",
-                    data: roboto,
+                    name: "mono",
+                    data: mono,
                     style: "normal",
                 },
             ],
+            // debug: true,
         }
     );
 }
