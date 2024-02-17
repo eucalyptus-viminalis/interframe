@@ -111,7 +111,7 @@ export async function GET(req: NextRequest) {
                             display: "flex",
                             flexDirection: "row",
                             gap: 10,
-                            width: 420,
+                            width: 600,
                             justifyContent: "flex-start",
                             alignItems: "center",
                             textAlign: 'center'
@@ -130,7 +130,7 @@ export async function GET(req: NextRequest) {
                                 id="token-name"
                                 style={{
                                     wordBreak: "break-word",
-                                    width: 270,
+                                    width: 'auto',
                                     fontSize: 55
                                 }}
                             >
