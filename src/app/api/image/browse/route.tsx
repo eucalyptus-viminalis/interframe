@@ -103,7 +103,9 @@ export async function GET(req: NextRequest) {
                             height: 420,
                             borderRadius: '100%',
                             backgroundColor: '#ff0000',
-                            textAlign: 'center'
+                            textAlign: 'center',
+                            wordWrap: 'break-word',
+                            wordBreak: 'break-word'
                         }}
                     >
                         {token1Text}
@@ -119,7 +121,9 @@ export async function GET(req: NextRequest) {
                             height: 420,
                             borderRadius: '100%',
                             backgroundColor: '#0000ff',
-                            textAlign: 'center'
+                            textAlign: 'center',
+                            wordWrap: 'break-word',
+                            wordBreak: 'break-word'
                         }}
                     >
                         {token2Text}
