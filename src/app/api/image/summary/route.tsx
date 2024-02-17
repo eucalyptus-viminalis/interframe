@@ -20,11 +20,11 @@ export async function GET(req: NextRequest) {
     const ca = searchParams.get("ca");
     const tokenName = searchParams.get("name")
         ? decodeURIComponent(searchParams.get("name")!)
-        : "Unknown";
+        : "Unknown token name";
     // const totalMinted = searchParams.get('totalMinted')
     const mintStatus = searchParams.get("mintStatus")
         ? decodeURIComponent(searchParams.get("mintStatus")!)
-        : "Unknown";
+        : "Unknown mint status";
     const networkName = searchParams.get("networkName");
     const mintPrice = searchParams.get("mintPrice");
     // const img = searchParams.get("img");
