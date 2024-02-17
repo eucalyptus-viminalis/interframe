@@ -1,6 +1,6 @@
 import { AppConfig } from "@/src/app/AppConfig";
 import { MyButton } from "@/src/components/MyButton";
-import { MyFrame } from "@/src/components/MyFrame";
+import { FrameDiv } from "@/src/components/FrameDiv";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
@@ -10,10 +10,7 @@ export const revalidate = 0;
 
 export async function GET(req: NextRequest) {
     // Fonts
-    const robotoMonoBold = await fetch(
-        new URL("@/assets/RobotoMono-Bold.ttf", import.meta.url)
-    ).then((res) => res.arrayBuffer());
-    const robotoMono = await fetch(
+    const mono = await fetch(
         new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
@@ -22,7 +19,7 @@ export async function GET(req: NextRequest) {
 
     return new ImageResponse(
         (
-            <MyFrame>
+            <FrameDiv>
                 <div
                     id="top-bar"
                     style={{
@@ -59,20 +56,15 @@ export async function GET(req: NextRequest) {
                         }}
                     ></div>
                 </div>
-            </MyFrame>
+            </FrameDiv>
         ),
         {
             width: 1200,
             height: 628,
             fonts: [
                 {
-                    name: "robotoMono",
-                    data: robotoMono,
-                    style: "normal",
-                },
-                {
-                    name: "robotoMonoBold",
-                    data: robotoMonoBold,
+                    name: "mono",
+                    data: mono,
                     style: "normal",
                 },
             ],

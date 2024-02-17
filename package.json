@@ -1,5 +1,5 @@
 {
-  "name": "zora-mint-stats",
+  "name": "interframe",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,6 +15,7 @@
     "@vercel/og": "^0.6.2",
     "@zoralabs/zdk": "^2.4.0",
     "gql": "^1.1.2",
+    "javascript-time-ago": "^2.5.9",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
