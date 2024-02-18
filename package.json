@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@airstack/node": "^0.0.5",
     "@apollo/client": "^3.9.4",
     "@coinbase/onchainkit": "^0.4.1",
     "@neynar/nodejs-sdk": "^1.9.4",

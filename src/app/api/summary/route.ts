@@ -4,6 +4,7 @@ import { FrameContent } from "@/src/fc/FrameContent";
 import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 import { zdk } from "@/src/zdk/client";
 import { NextRequest } from "next/server";
+import { getData } from "./data";
 
 // Route segment config
 // export const dynamic = 'force-dynamic'
@@ -54,39 +55,21 @@ export async function GET(req: NextRequest) {
 
     // Try get collection details
     try {
-        const collection = await zdk.collection({
-            address: tokenAddy,
-            includeFullDetails: false,
-        });
-        console.log(`zdk.collection: ${JSON.stringify(collection, null, 2)}`);
 
-        // TODO: zdk.collectionStatsAggregate does not work with many collections
-        // Get collection stats
-        // const stats = await zdk.collectionStatsAggregate({
-        //     collectionAddress: tokenAddy,
-        //     network: collection.networkInfo,
-        // })
-
-        const summaryImageParams: SummaryImageParams = {
-            ca: tokenAddy as `0x${string}`,
-            description: collection.description,
-            name: collection.name,
-            symbol: collection.symbol,
-            totalSupply: collection.totalSupply,
-            networkName: collection.networkInfo.network,
-            // TODO: Calculate mint price
-            // mintPrice:
-        };
+        const data = await getData(tokenAddy)
+        console.log(`data: ${JSON.stringify(data, null, 2)}`)
+        const params = objectToSearchParams(data)
+        const paramString = params.toString()
 
         frameContent.frameImageUrl =
             AppConfig.hostUrl +
             "/api/image/summary?" +
-            objectToSearchParams(summaryImageParams).toString();
+            paramString
         // Generate market link
         const zoraNetworkName =
-            collection.networkInfo.network.toLowerCase() == "ethereum"
+            data.networkName.toLowerCase() == "ethereum"
                 ? "eth"
-                : collection.networkInfo.network.toLowerCase();
+                : data.networkName.toLowerCase();
 
         const marketLink = `https://zora.co/collect/${zoraNetworkName}:${tokenAddy}`;
         frameContent.frameButtons = [

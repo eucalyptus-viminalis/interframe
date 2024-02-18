@@ -1,5 +1,6 @@
 import { CurrentRoute } from "@/src/components/CurrentRoute";
 import { FrameDiv } from "@/src/components/FrameDiv";
+import TopBar from "@/src/components/TopBar";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
@@ -27,6 +28,8 @@ export async function GET(req: NextRequest) {
         : "Unknown mint status";
     const networkName = searchParams.get("networkName");
     const mintPrice = searchParams.get("mintPrice");
+    const fcPercentage = searchParams.get("fcPercentage");
+    const avgFcFollowerCount = searchParams.get("avgFcFollowerCount");
     // const img = searchParams.get("img");
     const totalSupply = searchParams.get("totalSupply");
     const tokenDescription = searchParams.get("desc");
@@ -40,20 +43,7 @@ export async function GET(req: NextRequest) {
     return new ImageResponse(
         (
             <FrameDiv>
-                <div
-                    id="top-bar"
-                    style={{
-                        padding: 0,
-                        margin: 0,
-                        width: "100%",
-                        display: "flex",
-                        height: "12%",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "flex-start",
-                        opacity: secondaryTextOpacity,
-                    }}
-                >
+                <TopBar>
                     <CurrentRoute pathname={req.nextUrl.pathname} />
                     <span
                         id="token-name"
@@ -68,47 +58,18 @@ export async function GET(req: NextRequest) {
                     >
                         {tokenName}
                     </span>
-                    {/* <div
-                        id="mint-status"
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "flex-end",
-                            justifyContent: "flex-end",
-                            letterSpacing: "-.035em",
-                        }}
-                    >
-                        {mintStatus == "Minting" ? (
-                            <span
-                                tw="m-1"
-                                style={{
-                                    width: "23px",
-                                    height: "23px",
-                                    background: "#1BE33B",
-                                    borderRadius: 100,
-                                }}
-                            />
-                        ) : null}
-                        {mintStatus ? (
-                            <span
-                                tw="p-1"
-                                style={{
-                                    fontSize: 80,
-                                }}
-                            >
-                                {mintStatus}
-                            </span>
-                        ) : null}
-                    </div> */}
-                </div>
+                </TopBar>
                 <div
                     id="summary-list"
                     style={{
                         display: "flex",
                         flexDirection: "column",
-                        width: "100%",
+                        justifyContent: 'space-around',
+                        width: "92%",
+                        height: '70%',
                         fontSize: 40,
                         color: "#28E93B",
+                        backgroundColor: 'rgba(0, 0, 0, 0.3)',
                         gap: 20,
                         padding: 20,
                     }}
@@ -121,7 +82,9 @@ export async function GET(req: NextRequest) {
                     ) : null}
                     {mintPrice ? <span>Mint price: {mintPrice}</span> : null}
                     {networkName ? <span>Network: {networkName}</span> : null}
-                    {ca ? <span>Address: {ca}</span> : null}
+                    {fcPercentage ? <span>% of FC holders: {fcPercentage}%</span> : null}
+                    {avgFcFollowerCount ? <span>Avg. followers per FC holder: {avgFcFollowerCount}</span> : null}
+                    {ca ? <span>CA: {ca}</span> : null}
                 </div>
                 <div
                     id="bottom-bar"
