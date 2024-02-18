@@ -71,6 +71,9 @@ export async function GET(req: NextRequest) {
                 ? "eth"
                 : data.networkName.toLowerCase();
 
+        // Cache bust
+        frameContent.frameImageUrl += `&date=${Date.now()}`
+
         const marketLink = `https://zora.co/collect/${zoraNetworkName}:${tokenAddy}`;
         frameContent.frameButtons = [
             {
