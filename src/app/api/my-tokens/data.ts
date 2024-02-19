@@ -39,7 +39,7 @@ export async function getData(eoas: string, blockchain: string) {
     }
     if (results[1]) {
         myTokensData.token2 = {
-            ca: results[0].address,
+            ca: results[1].address,
             name: results[1].name
         }
     }
