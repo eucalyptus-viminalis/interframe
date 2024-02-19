@@ -24,7 +24,7 @@ type TokenBalance = {
 
 export async function getData(eoas: string[], blockchain: string) {
     const gql = () => `
-    query TokenAddysMulti($eoas: [Identity!]) {
+    query TokenAddys($eoas: [Identity!], $blockchain: TokenBlockchain!) {
         TokenBalances(
             input: {filter: {owner: {_in: $eoas}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: $blockchain, limit: 70}
           ) {
@@ -38,7 +38,8 @@ export async function getData(eoas: string[], blockchain: string) {
         eoas: eoas,
         blockchain: blockchain
     }
-    const {data,error}: QueryResponse = await fetchQuery(gql(), vars)
+    console.log(`vars: ${JSON.stringify(vars)}`)
+    const {data,error} = await fetchQuery(gql(), vars)
     if (error) {
         throw new Error(error.message)
     }
