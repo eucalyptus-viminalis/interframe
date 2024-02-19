@@ -11,10 +11,7 @@ const HOST_URL = AppConfig.hostUrl;
 
 export async function GET(req: NextRequest) {
     // Fonts
-    const robotoMonoBold = await fetch(
-        new URL("@/assets/RobotoMono-Bold.ttf", import.meta.url)
-    ).then(res => res.arrayBuffer())
-    const robotoMono = await fetch(
+    const mono = await fetch(
         new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
     ).then(res => res.arrayBuffer())
 
@@ -32,7 +29,7 @@ export async function GET(req: NextRequest) {
                     color: "white",
                     alignItems: "center",
                     letterSpacing: "-.02em",
-                    fontFamily: "robotoMono",
+                    fontFamily: "mono",
                     fontSize: 50,
                     background:
                         "linear-gradient(to bottom right, #343E90, #210446)",
@@ -142,7 +139,7 @@ export async function GET(req: NextRequest) {
                         style={{
                         }}
                     >
-                        /browse
+                        /my-tokens
                     </div>
                     <div
                         id="route-1"
@@ -168,15 +165,10 @@ export async function GET(req: NextRequest) {
             height: 628,
             fonts: [
                 {
-                    name: "robotoMono",
-                    data: robotoMono,
+                    name: "mono",
+                    data: mono,
                     style: "normal"
                 },
-                {
-                    name: "robotoMonoBold",
-                    data: robotoMonoBold,
-                    style: "normal"
-                }
             ],
         }
     );

@@ -1,3 +1,6 @@
+import { CurrentRoute } from "@/src/components/CurrentRoute";
+import { FrameDiv } from "@/src/components/FrameDiv";
+import TopBar from "@/src/components/TopBar";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 
@@ -7,6 +10,10 @@ export const revalidate = 0;
 
 
 export async function GET(req: NextRequest) {
+    // Params
+    const token1Text = req.nextUrl.searchParams.get('token1Text')!
+    const token2Text = req.nextUrl.searchParams.get('token2Text')!
+
     // Fonts
     const bold = await fetch(
         new URL("@/assets/RobotoMono-Bold.ttf", import.meta.url)
@@ -15,69 +22,15 @@ export async function GET(req: NextRequest) {
         new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
     ).then(res => res.arrayBuffer())
 
-    const token1Text = req.nextUrl.searchParams.get('token1Text')!
-    const token2Text = req.nextUrl.searchParams.get('token2Text')!
-
     // Styles
     const secondaryTextOpacity = 0.35;
 
     return new ImageResponse(
         (
-            <div
-                id="frame"
-                style={{
-                    display: "flex",
-                    width: "100%",
-                    height: "100%",
-                    color: "white",
-                    alignItems: "center",
-                    letterSpacing: "-.02em",
-                    fontFamily: "mono",
-                    fontSize: 50,
-                    background:
-                        "linear-gradient(to bottom right, #343E90, #210446)",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    // textAlign: "center",
-                }}
-            >
-                <div
-                    id="top-bar"
-                    style={{
-                        padding: 0,
-                        margin: 0,
-                        width: "100%",
-                        display: "flex",
-                        height: 80,
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "flex-start",
-                        // opacity: secondaryTextOpacity,
-                    }}
-                >
-                    <div
-                        id="current-route"
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            opacity: 0.8
-                        }}
-                    >
-                        {"/" + "browse"}
-                    </div>
-                    <div
-                        id="blank"
-                        style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "flex-end",
-                            justifyContent: "flex-end",
-                            letterSpacing: "-.035em",
-                        }}
-                    ></div>
-                </div>
+            <FrameDiv>
+                <TopBar>
+                    <CurrentRoute pathname="my-tokens" />
+                </TopBar>
                 <div
                     id="menu-items"
                     tw=""
@@ -133,7 +86,7 @@ export async function GET(req: NextRequest) {
                     style={{
                         width: "100%",
                         display: "flex",
-                        alignItems: "center",
+                        alignItems: "flex-end",
                         justifyContent: "space-between",
                         // letterSpacing: "-.08em",
                         gap: 32,
@@ -143,22 +96,16 @@ export async function GET(req: NextRequest) {
                 >
                     <div
                         id="route-1"
-                        tw="p-2 m-0"
-                        style={{
-                        }}
                     >
-                        🟣 Home
+                        {'<back'}
                     </div>
                     <div
                         id="route-1"
-                        tw="p-2 m-0"
-                        style={{
-                        }}
                     >
-                        🟢 random
+                        🟢 shuffle
                     </div>
                 </div>
-            </div>
+            </FrameDiv>
         ),
         {
             width: 1200,

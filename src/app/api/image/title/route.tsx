@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const barcode = await fetch(
         new URL('@/assets/LibreBarcode128Text-Regular.ttf', import.meta.url),
     ).then((res) => res.arrayBuffer());
-    const roboto = await fetch(
+    const mono = await fetch(
         new URL('@/assets/RobotoMono-Regular.ttf', import.meta.url),
     ).then((res) => res.arrayBuffer());
 
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
                     color: "white",
                     alignItems: "center",
                     letterSpacing: '-.02em',
-                    fontFamily: 'roboto',
+                    fontFamily: 'mono',
                     fontWeight: 700,
                     fontSize: 60,
                     background: "linear-gradient(to bottom right, #343E90, #210446)",
@@ -206,8 +206,8 @@ export async function GET(req: NextRequest) {
                     style: 'normal',
                 },
                 {
-                    name: 'roboto',
-                    data: roboto,
+                    name: 'mono',
+                    data: mono,
                     style: 'normal',
                 }
             ],

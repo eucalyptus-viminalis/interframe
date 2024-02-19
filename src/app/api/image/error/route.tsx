@@ -8,7 +8,7 @@ export const revalidate = 0;
 
 export async function GET(req: NextRequest) {
     // Fonts
-    const robotoMono = await fetch(
+    const mono = await fetch(
         new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
     ).then((res) => res.arrayBuffer());
 
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
                         "linear-gradient(to bottom right, #343E90, #210446)",
                     flexDirection: "column",
                     justifyContent: "space-between",
-                    fontFamily: "robotoMono",
+                    fontFamily: "mono",
                     opacity: 100,
                     // textAlign: "center",
                 }}
@@ -112,8 +112,8 @@ export async function GET(req: NextRequest) {
             height: 630,
             fonts: [
                 {
-                    name: "robotoMono",
-                    data: robotoMono,
+                    name: "mono",
+                    data: mono,
                     style: "normal",
                 },
             ],

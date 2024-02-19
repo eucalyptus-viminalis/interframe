@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
         },
         {
             action: "post",
-            label: "browse",
+            label: "my-tokens",
         },
         {
             action: "post",
@@ -54,9 +54,9 @@ export async function POST(req: NextRequest) {
         const response = await fetch(AppConfig.hostUrl + `/api/home`);
         return new Response(response.body, {headers: {'Content-Type': 'text/html'}})
     } else if (buttonIndex == 2) {
-        // Case 2: pressed "browse" button
-        // - go to browse page
-        const response = await fetch(AppConfig.hostUrl + `/api/browse`)
+        // Case 2: pressed "my-tokens" button
+        // - go to select-blockchain page
+        const response = await fetch(AppConfig.hostUrl + `/api/select-blockchain?fid=${data.untrustedData.fid}`)
         return new Response(response.body, {headers: {'Content-Type': 'text/html'}})
     } else if (buttonIndex == 3) {
         // Case 3: pressed "search" button
