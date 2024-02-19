@@ -26,7 +26,7 @@ export async function getData(eoas: string[], blockchain: string) {
     const gql = () => `
     query TokenAddys($eoas: [Identity!], $blockchain: TokenBlockchain!) {
         TokenBalances(
-            input: {filter: {owner: {_in: $eoas}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: $blockchain, limit: 70}
+            input: {filter: {owner: {_in: $eoas}, tokenType: {_in: [ERC1155, ERC721]}}, blockchain: $blockchain, limit: 200}
           ) {
             TokenBalance {
               tokenAddress
