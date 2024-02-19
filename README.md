@@ -115,5 +115,6 @@ interframe uses several APIs to retreive its data.
   - website: [Farcaster Frame spec](https://docs.farcaster.xyz/reference/frames/spec)
 - `Airstack`: A GraphQL API for decentralized social graphs and Ethereum+ blockchains
   - usage: Airstack is used to deduct Farcaster-related information about a token. E.g. using `TokenBalances` query to calculate what percentage of the holder base are verified Farcaster accounts
+  - website: [Airstack](https://www.airstack.xyz/)
 
 
