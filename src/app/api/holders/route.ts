@@ -48,7 +48,7 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
                       },
                       {
                           action: "post",
-                          label: "<home>",
+                          label: "<summary",
                       },
                   ]
                 : [
@@ -62,7 +62,7 @@ async function HolderFrame(idx: number, tokenAddy: string, currentUrl: string) {
                       },
                       {
                           action: "post",
-                          label: "<home>",
+                          label: "<summary",
                       },
                   ];
         frameContent.frameButtons = frameButtons;
