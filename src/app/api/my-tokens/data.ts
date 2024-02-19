@@ -1,7 +1,6 @@
 import { zdk } from "@/src/zdk/client"
 import { AppConfig } from "../../AppConfig"
-import { client } from "@/src/neynar/client"
-import { TokenAddysMulti } from "../../airstack/token-addys-multi/data"
+import { TokenAddys } from "../../airstack/token-addys/data"
 
 type MyTokensData = {
     token1?: {
@@ -17,11 +16,9 @@ type MyTokensData = {
 
 export async function getData(eoas: string, blockchain: string) {
     // Get list of verified accounts
-    const res = await fetch(AppConfig.hostUrl + `/airstack/token-addys-multi?eoas=${eoas}`)
-    const data: TokenAddysMulti = await res.json()
-    const addresses = data.Base.TokenBalance.map(tb=>tb.tokenAddress).concat(
-        data.Ethereum.TokenBalance.map(tb=>tb.tokenAddress)
-    ).concat(data.Zora.TokenBalance.map(tb=>tb.tokenAddress))
+    const res = await fetch(AppConfig.hostUrl + `/airstack/token-addys?eoas=${eoas}&blockchain=${blockchain}`)
+    const data: TokenAddys = await res.json()
+    const addresses = data.TokenBalances.TokenBalance.map(tb=>tb.tokenAddress)
     const randomAddys = addresses
         .sort(() => Math.random() - 0.5)
         .slice(0, 2);
