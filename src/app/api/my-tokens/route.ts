@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     // route request
     if (data.untrustedData.buttonIndex == 1) {
-        const res = await fetch(AppConfig.hostUrl + '/api/home')
+        const res = await fetch(AppConfig.hostUrl + '/api/select-blockchain?fid=' + data.untrustedData.fid)
         return new Response(res.body, {headers:{'content-type':'text/html'}})
     } else if (data.untrustedData.buttonIndex == 2 && tokenAddy1) {
         const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy1}`)
