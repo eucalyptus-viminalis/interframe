@@ -113,5 +113,7 @@ interframe uses several APIs to retreive its data.
 - `Farcaster Frame`: Farcaster Frame(s) are an extension of the OpenGraph protocol to generate interactive content on decentralized social platforms.
   - usage: The API routes return a valid response that adheres to the Farcaster Frames spec
   - website: [Farcaster Frame spec](https://docs.farcaster.xyz/reference/frames/spec)
+- `Airstack`: A GraphQL API for decentralized social graphs and Ethereum+ blockchains
+  - usage: Airstack is used to deduct Farcaster-related information about a token. E.g. using `TokenBalances` query to calculate what percentage of the holder base are verified Farcaster accounts
 
 
