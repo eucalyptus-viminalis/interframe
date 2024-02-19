@@ -8,10 +8,10 @@ export const revalidate = 0;
 
 export async function GET(req: NextRequest) {
     // Fonts
-    const robotoMonoBold = await fetch(
+    const bold = await fetch(
         new URL("@/assets/RobotoMono-Bold.ttf", import.meta.url)
     ).then(res => res.arrayBuffer())
-    const robotoMono = await fetch(
+    const mono = await fetch(
         new URL("@/assets/RobotoMono-Regular.ttf", import.meta.url)
     ).then(res => res.arrayBuffer())
 
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
                     color: "white",
                     alignItems: "center",
                     letterSpacing: "-.02em",
-                    fontFamily: "robotoMono",
+                    fontFamily: "mono",
                     fontSize: 50,
                     background:
                         "linear-gradient(to bottom right, #343E90, #210446)",
@@ -86,7 +86,7 @@ export async function GET(req: NextRequest) {
                         flexDirection: "row",
                         flexWrap: 'wrap',
                         gap: 50,
-                        fontFamily: 'robotoMonoBold',
+                        fontFamily: 'bold',
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}
@@ -165,13 +165,13 @@ export async function GET(req: NextRequest) {
             height: 628,
             fonts: [
                 {
-                    name: "robotoMono",
-                    data: robotoMono,
+                    name: "mono",
+                    data: mono,
                     style: "normal"
                 },
                 {
-                    name: "robotoMonoBold",
-                    data: robotoMonoBold,
+                    name: "bold",
+                    data: bold,
                     style: "normal"
                 }
             ],
