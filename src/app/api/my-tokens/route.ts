@@ -17,6 +17,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     const data: FrameSignaturePacket = await req.json()
     const tokenAddy1 = req.nextUrl.searchParams.get('tokenAddy1')
+    const eoas = req.nextUrl.searchParams.get('eoas')!
+    const blockchain = req.nextUrl.searchParams.get('blockchain')!
     const tokenAddy2 = req.nextUrl.searchParams.get('tokenAddy2')
 
     // route request
@@ -34,7 +36,7 @@ export async function POST(req: NextRequest) {
         const res = await fetch(AppConfig.hostUrl + '/api/error')
         return new Response(res.body, {headers:{'content-type':'text/html'}})
     } else if (data.untrustedData.buttonIndex == 4) {
-        const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy2}`)
+        const res = await fetch(AppConfig.hostUrl + `/api/my-tokens?eoas=${eoas}&blockchain=${blockchain}`)
         return new Response(res.body, {headers:{'content-type':'text/html'}})
     }
 }

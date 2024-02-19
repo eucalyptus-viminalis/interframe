@@ -9,7 +9,7 @@ export async function MyTokensFrame(eoas: string, blockchain: string) {
     const data = await getData(eoas, blockchain)
     const buttons: FrameButton[] = [{action: 'post', label: '<back'}]    
     let imageParams = ''
-    let postParams = ''
+    let postParams = `eoas=${eoas}&blockchain=${blockchain}`
     if (data.token1) {
         buttons.push({action: 'post', label: '🔴'})
         const tokenName1 = data.token1.name
