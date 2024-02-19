@@ -2,6 +2,7 @@ import { Frame200Response } from "@/src/fc/Frame200Response";
 import { NextRequest } from "next/server";
 import { AppConfig } from "../../AppConfig";
 import { FrameContent } from "@/src/fc/FrameContent";
+import { FrameSignaturePacket } from "@/src/fc/FrameSignaturePacket";
 
 async function AboutFrame() {
     const frameContent: FrameContent = {
@@ -25,6 +26,13 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
     const tokenAddy = req.nextUrl.searchParams.get('tokenAddy')
+
+    const data: FrameSignaturePacket = await req.json()
+
+    if (data.untrustedData.buttonIndex == 1) {
+        const res = await fetch(AppConfig.hostUrl + '/api/home')
+        return new Response(res.body, {headers: {'content-type': 'text/html'}})
+    }
 
     const errorMsg = "Bad route. Ping @3070 to improve this frame."
     const res = await fetch(AppConfig.hostUrl + `/api/error?errorMsg=${errorMsg}&tokenAddy=${tokenAddy}`)
