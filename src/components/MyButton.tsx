@@ -1,11 +1,15 @@
+import { ReactNode } from "react";
+
 type MyButtonProps = {
     id: string
     text?: string
     imgSrc?: string
     disabled?: boolean
+    buttonHint?: string
+    fontFamily?: string
 };
 export function MyButton(props: MyButtonProps) {
-    const { id, imgSrc, text, disabled } = props;
+    const { id, imgSrc, text, disabled,buttonHint, fontFamily} = props;
     const bg = "linear-gradient(to bottom, rgba(68, 57, 192, 1), rgba(9, 6, 44, 0))"
     const bgDisabled = "linear-gradient(to bottom, rgba(31, 31, 34, 1), rgba(86, 85, 94, 1))"
     const borderColor = "rgba(116, 114, 196, 0.15)"
@@ -14,7 +18,7 @@ export function MyButton(props: MyButtonProps) {
     return (
         <div
             id={id}
-            tw="p-2 m-0"
+            tw="m-0"
             style={{
                 display: "flex",
                 background: disabled ? bgDisabled : bg,
@@ -26,7 +30,7 @@ export function MyButton(props: MyButtonProps) {
                 borderColor: disabled ? borderColorDisabled : borderColor,
                 color: disabled ? colorDisabled : "",
                 borderRadius: "38px",
-                fontFamily: "robotoMonoBold",
+                fontFamily: fontFamily ?? "mono",
                 textAlign: "center",
                 alignItems: "center",
                 justifyContent: "center",
@@ -47,6 +51,20 @@ export function MyButton(props: MyButtonProps) {
                         objectPosition: "center", // Center the cropped area within the image container
                     }}
                 />
+            ) : null}
+            {buttonHint ? (
+                <div
+                    style={{
+                        position: 'absolute',
+                        display: 'flex',
+                        bottom: -10,
+                        left: '50%',
+                        transform: 'translate(-50%, 100%)',
+                        opacity: 0.85
+                    }}
+                >
+                    {buttonHint}
+                </div>
             ) : null}
         </div>
     );
