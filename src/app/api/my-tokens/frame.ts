@@ -14,7 +14,7 @@ export async function MyTokensFrame(eoas: string, blockchain: string) {
         buttons.push({action: 'post', label: '🔴'})
         const tokenName1 = data.token1.name
         imageParams += `token1Text=${tokenName1 ? encodeURIComponent(tokenName1) : data.token1.ca}`
-        postParams += `tokenAddy1=${data.token1.ca}`
+        postParams += `&tokenAddy1=${data.token1.ca}`
     }
     if (data.token2) {
         buttons.push({action: 'post', label: '🔵'})
