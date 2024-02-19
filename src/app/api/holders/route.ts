@@ -123,6 +123,7 @@ export async function POST(req: NextRequest) {
     // Route request
     if (data.untrustedData.buttonIndex == 1 && idx == 0) {
         // Case 1: Pressed Back button from page index 0
+        // - go to summary page
         const res = await fetch(
             AppConfig.hostUrl + `/api/summary?tokenAddy=${tokenAddy}`
         );
@@ -131,19 +132,22 @@ export async function POST(req: NextRequest) {
         });
     } else if (data.untrustedData.buttonIndex == 1) {
         // Case 2: Pressed Back button from page index not 0
+        // - go to previous holder
         return await HolderFrame(idx - 1, tokenAddy, req.nextUrl.toString());
     } else if (data.untrustedData.buttonIndex == 2 && last != 'true') {
         // Case 3: Pressed Next button
+        // - go to next holder
         return await HolderFrame(idx + 1, tokenAddy, req.nextUrl.toString());
     } else if (data.untrustedData.buttonIndex == 3 && last != 'true') {
-        // Case 4: pressed "home" button
-        const res = await fetch(AppConfig.hostUrl + `/api/home`);
+        // Case 4: pressed "summary" button
+        // - go to summary 
+        const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=` + tokenAddy);
         return new Response(res.body, {
             headers: { "Content-Type": "text/html" },
         });
     } else if (data.untrustedData.buttonIndex == 2 && last == 'true') {
-        // Case 4: pressed "home" button from last page
-        const res = await fetch(AppConfig.hostUrl + `/api/home`);
+        // Case 4: pressed "summary" button from last page
+        const res = await fetch(AppConfig.hostUrl + `/api/summary?tokenAddy=` + tokenAddy);
         return new Response(res.body, {
             headers: { "Content-Type": "text/html" },
         });
