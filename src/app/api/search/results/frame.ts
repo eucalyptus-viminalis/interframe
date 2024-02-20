@@ -9,7 +9,7 @@ export async function SearchResultsFrame(query: string, skip: number) {
   const slicedData = data.results.slice(skip);
   const frameButtons: FrameButton[] = [];
   let imageParams = "";
-  let postParams = `query=${encodeURIComponent(query)}`;
+  let postParams = `query=${encodeURIComponent(query)}&skip=${skip}`;
   if (slicedData[0]) {
     if (skip == 0) {
       frameButtons.push({ action: "post", label: "<back" });
