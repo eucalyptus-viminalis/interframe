@@ -56,42 +56,42 @@ It currently supports ERC-721 and ERC-1155 tokens on *Base*, *Ethereum*, and *Zo
 
 ## Features
 
-### Browse (`/api/browse`)
+### My Tokens (`/api/select-blockchain` `/api/my-tokens`)
 
-Users can browse from a hand-picked selection of token collections.
+Users can browse from a selection of tokens that they own.
 
-![browse](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/441d02d8-d130-433f-b326-7867ea468d89)
+<img width="517" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/d2da69e0-2fc9-4f22-9c96-161e80a82e1e">
+
+<img width="517" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/afd50f90-53c5-4c07-8340-ae4bd2d1dd5c">
 
 ### Search (`/api/search`)
 
-Users can input and submit a contract address to view blockchain data about that token.
+Users can input and submit a contract address or token name to view blockchain data about that token.
 
-TODO: Ability to search by human-readable query. e.g. token name
+<img width="517" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/57f277b6-a7fa-4fc0-ae06-5cac9f24c570">
 
-<img width="605" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/7fcbb7a0-a2f9-47fc-99bd-835faab16833">
+<img width="517" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/1580b1a2-488a-4543-9492-377e2c9e2494">
+
+
 
 
 ### Summary (`/api/summary`)
 
-The summary page gives a brief summary of the token collection that the user selects.
+The summary page gives a brief summary of a specific token.
 
-![summary](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/f3a524f8-47b0-4da5-aa75-b68f918b299c)
-
+<img width="517" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/11261951-0fd4-422f-83ec-94d30142a981">
 
 ### Top Holders (`/api/holders`)
 
 The top holders page allows users to nagivate through the top 10 holders of a collection.
 
-<img width="600" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/6a7bead8-735d-4b7e-a10f-f918c7305aa3">
-
-
+<img width="517" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/7b7b9fc6-8d38-4898-bacd-00d2a0929a73">
 
 ### Latest Mints (`/api/latest-mints`)
 
 The latest mints page allows users to nagivate through the latest mints of a collection.
 
-![mint](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/d029d62d-d461-4477-99ce-403fd48886d3)
-
+<img width="517" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/c33353ee-48cb-4254-afd2-943815fb668f">
 
 ### Popular Casts
 
@@ -114,7 +114,7 @@ interframe uses several APIs to retreive its data.
   - usage: The API routes return a valid response that adheres to the Farcaster Frames spec
   - website: [Farcaster Frame spec](https://docs.farcaster.xyz/reference/frames/spec)
 - `Airstack`: A GraphQL API for decentralized social graphs and Ethereum+ blockchains
-  - usage: Airstack is used to deduct Farcaster-related information about a token. E.g. using `TokenBalances` query to calculate what percentage of the holder base are verified Farcaster accounts
+  - usage: Airstack is used to deduce Farcaster-related information about a token. E.g. using `TokenBalances` query to calculate what percentage of the holder base are verified Farcaster accounts. It is also being used for the query string search functionality on `/api/search/results` route.
   - website: [Airstack](https://www.airstack.xyz/)
 
 
