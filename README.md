@@ -2,7 +2,7 @@
 
 Live on Warpcast: https://warpcast.com/3070/0xb1cfd7bc
 
-![home](https://github.com/eucalyptus-viminalis/interframe/assets/65995595/22988dc5-4704-4d71-84af-71818a0dc45b)
+<img width="517" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/79880bbb-f3cf-4cc9-a5c5-528211fe35e5">
 
 1. [Overview](https://github.com/eucalyptus-viminalis/interframe#overview)
 2. [Integration](https://github.com/eucalyptus-viminalis/interframe#integration)
