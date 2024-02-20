@@ -1,12 +1,19 @@
 import { FrameContent } from "./FrameContent";
 
 export function Frame200Response(frameContent: FrameContent): Response {
-  const { frameButtons, frameImageUrl, framePostUrl, frameTitle, frameVersion, input } = frameContent
-  const imgUrlWithDate = frameImageUrl.includes('?') ? 
-    frameImageUrl + `&date=${Date.now()}`
-    : frameImageUrl + `?date=${Date.now()}`
+  const {
+    frameButtons,
+    frameImageUrl,
+    framePostUrl,
+    frameTitle,
+    frameVersion,
+    input,
+  } = frameContent;
+  const imgUrlWithDate = frameImageUrl.includes("?")
+    ? frameImageUrl + `&date=${Date.now()}`
+    : frameImageUrl + `?date=${Date.now()}`;
   const html = `
-      <!DOCTYPE html> 
+      <!DOCTYPE html>
       <html>
         <head>
           <title>${frameTitle}</title>
@@ -18,14 +25,14 @@ export function Frame200Response(frameContent: FrameContent): Response {
 
           <meta name="fc:frame:image" content="${imgUrlWithDate}" />
           <meta name="fc:frame:post_url" content="${framePostUrl}" />
-          ${input ? `<meta name="fc:frame:input:text" content="Enter any NFT token address:"/>` : ''}
+          ${input ? `<meta name="fc:frame:input:text" content="Enter any NFT addy or name:"/>` : ""}
           ${frameButtons.map(
-    (bn, i) => `
+            (bn, i) => `
     <meta name="fc:frame:button:${i + 1}" content="${bn.label}" />
     <meta name="fc:frame:button:${i + 1}:action" content="${bn.action}" />
     ${bn.target ? `<meta name="fc:frame:button:${i + 1}:target" content="${bn.target}"` : ""}
-    `
-  )}
+    `,
+          )}
         </head>
         <body>
           <h1>interframe</h1>
