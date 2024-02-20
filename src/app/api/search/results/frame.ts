@@ -64,7 +64,7 @@ export async function SearchResultsFrame(query: string, skip: number) {
     imageParams += `&moreBtn=${skip + 3 + ".." + slicedData.length}`;
   }
   const frameContent: FrameContent = {
-    frameButtons: [],
+    frameButtons: frameButtons,
     frameImageUrl:
       AppConfig.hostUrl + `/api/search/results/image?` + imageParams,
     framePostUrl: AppConfig.hostUrl + `/api/search/results?` + postParams,
