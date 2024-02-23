@@ -1,5 +1,3 @@
-import { AppConfig } from "@/src/app/AppConfig";
-import { MyButton } from "@/src/components/MyButton";
 import { FrameDiv } from "@/src/components/FrameDiv";
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
