@@ -88,9 +88,15 @@ export async function POST(req: NextRequest) {
                     const hexString = fullMatch.split(":")[1];
                     console.log(hexString); // Output: 0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
                     // Publish cast 
-                    const castText = `revealing token\n\nhttps://interframe-eight.vercel.app/api/summary?tokenAddy=${hexString}`
+                    const castText = `revealing token`
+                    const frameUrl = `https://interframe-eight.vercel.app/api/summary?tokenAddy=${hexString}`
                     client.publishCast(AppConfig.botSignerUUID, castText, {
-                        replyTo: data.hash
+                        replyTo: data.hash,
+                        embeds: [
+                            {
+                                url: frameUrl
+                            }
+                        ]
                     })
                 } else {
                     console.log("No matching pattern found in the URL.");
