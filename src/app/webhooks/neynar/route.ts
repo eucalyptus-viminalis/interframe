@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
             if (parent_cast.result.cast.embeds) {
                 const zoraEmbeds = parent_cast.result.cast.embeds.filter(
                     (e) => {
+                        console.log('e', JSON.stringify(e))
                         e.url && e.url.includes("zora.co");
                     }
                 ).map(e=>e.url).join();
