@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
                         e.url && e.url.includes("zora.co");
                     }
                 ).map(e=>e.url).join();
+                console.log('zoraEmbeds', zoraEmbeds)
                 // Regular expression to match any prefix followed by a 0x string
                 const regex = /(?:zora|eth|base):(?:0x[a-fA-F0-9]{40})/;
 
