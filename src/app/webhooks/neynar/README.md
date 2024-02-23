@@ -2,7 +2,10 @@
 
 ## Payloads
 
-### Example
+### `cast.created` Example
+
+<img width="687" alt="image" src="https://github.com/eucalyptus-viminalis/interframe/assets/65995595/2ac68820-be14-439e-8859-9cb946ca64e7">
+
 
 ```json
 {
