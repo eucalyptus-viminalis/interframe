@@ -1,6 +1,7 @@
 const THE_GRAPH = "https://gateway-arbitrum.network.thegraph.com/api/";
 
 export const AppConfig = {
+    botSignerUUID: process.env.BOT_SIGNER_UUID!,
     airstackApiKey: process.env['AIRSTACK_API_KEY']!,
     gitHubUrl: "https://github.com/eucalyptus-viminalis/interframe",
     hostUrl: process.env["HOST"]!,
