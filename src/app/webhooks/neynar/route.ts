@@ -64,42 +64,84 @@ export async function POST(req: NextRequest) {
         // Grab parent cast
         if (data.parent_hash) {
             const parent_cast = await client.lookUpCastByHash(data.parent_hash);
+            // Check for embeds
             if (parent_cast.result.cast.embeds) {
-                const zoraEmbeds = parent_cast.result.cast.embeds.filter(
-                    (e) => {
-                        console.log('e', JSON.stringify(e))
-                        console.log('e.url', JSON.stringify(e.url))
+                const zoraEmbeds = parent_cast.result.cast.embeds
+                    .filter((e) => {
+                        console.log("e", JSON.stringify(e));
+                        console.log("e.url", JSON.stringify(e.url));
                         return e.url && e.url.includes("zora.co");
-                    }
-                ).map(e=>e.url).join();
-                console.log('zoraEmbeds', zoraEmbeds)
-                // Regular expression to match any prefix followed by a 0x string
-                const regex = /(?:zora|eth|base):(?:0x[a-fA-F0-9]{40})/;
-
-                // Execute the regular expression on the URL
-                const match = zoraEmbeds.match(regex);
-
-                // Check if a match is found
-                if (match) {
-                    // Extract the entire matched string
-                    const fullMatch = match[0];
-                    console.log(fullMatch); // Output: zora:0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
-                    // Extract the 0x string from the matched group
-                    const hexString = fullMatch.split(":")[1];
-                    console.log(hexString); // Output: 0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
-                    // Publish cast 
-                    const castText = `revealing token`
-                    const frameUrl = `https://interframe-eight.vercel.app/api/summary?tokenAddy=${hexString}`
-                    client.publishCast(AppConfig.botSignerUUID, castText, {
-                        replyTo: data.hash,
-                        embeds: [
-                            {
-                                url: frameUrl
-                            }
-                        ]
                     })
-                } else {
-                    console.log("No matching pattern found in the URL.");
+                    .map((e) => e.url)
+                    .join();
+                const mintFunEmbeds = parent_cast.result.cast.embeds
+                    .filter((e) => {
+                        console.log("e", JSON.stringify(e));
+                        console.log("e.url", JSON.stringify(e.url));
+                        return e.url && e.url.includes("mint.fun");
+                    })
+                    .map((e) => e.url)
+                    .join();
+                console.log("zoraEmbeds", zoraEmbeds);
+                console.log("mintFunEmbeds", zoraEmbeds);
+                if (zoraEmbeds) {
+                    // Regular expression to match any prefix followed by a 0x string
+                    const regex = /(?:zora|eth|base):(?:0x[a-fA-F0-9]{40})/;
+
+                    // Execute the regular expression on the URL
+                    const match = zoraEmbeds.match(regex);
+
+                    // Check if a match is found
+                    if (match) {
+                        // Extract the entire matched string
+                        const fullMatch = match[0];
+                        console.log(fullMatch); // Output: zora:0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
+                        // Extract the 0x string from the matched group
+                        const hexString = fullMatch.split(":")[1];
+                        console.log(hexString); // Output: 0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
+                        // Publish cast
+                        const castText = `revealing token`;
+                        const frameUrl = `https://interframe-eight.vercel.app/api/summary?tokenAddy=${hexString}`;
+                        client.publishCast(AppConfig.botSignerUUID, castText, {
+                            replyTo: data.hash,
+                            embeds: [
+                                {
+                                    url: frameUrl,
+                                },
+                            ],
+                        });
+                    } else {
+                        console.log("No matching pattern found in the URL.");
+                    }
+                } else if (mintFunEmbeds) {
+                    // Regular expression to match any prefix followed by a 0x string
+                    const regex = /(?:zora|eth|base)\/(?:0x[a-fA-F0-9]{40})/;
+
+                    // Execute the regular expression on the URL
+                    const match = mintFunEmbeds.match(regex);
+
+                    // Check if a match is found
+                    if (match) {
+                        // Extract the entire matched string
+                        const fullMatch = match[0];
+                        console.log(fullMatch); // Output: zora:0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
+                        // Extract the 0x string from the matched group
+                        const hexString = fullMatch.split("/")[1];
+                        console.log(hexString); // Output: 0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
+                        // Publish cast
+                        const castText = `revealing token`;
+                        const frameUrl = `https://interframe-eight.vercel.app/api/summary?tokenAddy=${hexString}`;
+                        client.publishCast(AppConfig.botSignerUUID, castText, {
+                            replyTo: data.hash,
+                            embeds: [
+                                {
+                                    url: frameUrl,
+                                },
+                            ],
+                        });
+                    } else {
+                        console.log("No matching pattern found in the URL.");
+                    }
                 }
             }
         }
