@@ -91,8 +91,8 @@ export async function POST(req: NextRequest) {
                     .map((e) => e.url)
                     .join();
                 console.log("zoraEmbeds", zoraEmbeds);
-                console.log("mintFunEmbeds", zoraEmbeds);
-                console.log("mintMarketEmbeds", zoraEmbeds);
+                console.log("mintFunEmbeds", mintFunEmbeds);
+                console.log("memeMarketEmbeds", memeMarketEmbeds);
                 if (zoraEmbeds) {
                     // Regular expression to match any prefix followed by a 0x string
                     const regex = /(?:zora|eth|base):(?:0x[a-fA-F0-9]{40})/;
@@ -156,7 +156,7 @@ export async function POST(req: NextRequest) {
                     const regex = /(?:0x[a-fA-F0-9]{40})/;
 
                     // Execute the regular expression on the URL
-                    const match = mintFunEmbeds.match(regex);
+                    const match = memeMarketEmbeds.match(regex);
 
                     // Check if a match is found
                     if (match) {
