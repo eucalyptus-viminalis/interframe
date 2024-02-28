@@ -82,8 +82,17 @@ export async function POST(req: NextRequest) {
                     })
                     .map((e) => e.url)
                     .join();
+                const memeMarketEmbeds = parent_cast.result.cast.embeds
+                    .filter((e) => {
+                        console.log("e", JSON.stringify(e));
+                        console.log("e.url", JSON.stringify(e.url));
+                        return e.url && e.url.includes("meme.market");
+                    })
+                    .map((e) => e.url)
+                    .join();
                 console.log("zoraEmbeds", zoraEmbeds);
                 console.log("mintFunEmbeds", zoraEmbeds);
+                console.log("mintMarketEmbeds", zoraEmbeds);
                 if (zoraEmbeds) {
                     // Regular expression to match any prefix followed by a 0x string
                     const regex = /(?:zora|eth|base):(?:0x[a-fA-F0-9]{40})/;
@@ -127,6 +136,33 @@ export async function POST(req: NextRequest) {
                         console.log(fullMatch); // Output: zora:0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
                         // Extract the 0x string from the matched group
                         const hexString = fullMatch.split("/")[1];
+                        console.log(hexString); // Output: 0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
+                        // Publish cast
+                        const castText = `revealing token`;
+                        const frameUrl = `https://interframe-eight.vercel.app/api/summary?tokenAddy=${hexString}`;
+                        client.publishCast(AppConfig.botSignerUUID, castText, {
+                            replyTo: data.hash,
+                            embeds: [
+                                {
+                                    url: frameUrl,
+                                },
+                            ],
+                        });
+                    } else {
+                        console.log("No matching pattern found in the URL.");
+                    }
+                } else if (memeMarketEmbeds) {
+                    // Regular expression to match any prefix followed by a 0x string
+                    const regex = /(?:0x[a-fA-F0-9]{40})/;
+
+                    // Execute the regular expression on the URL
+                    const match = mintFunEmbeds.match(regex);
+
+                    // Check if a match is found
+                    if (match) {
+                        // Extract the entire matched string
+                        const fullMatch = match[0];
+                        const hexString = fullMatch;
                         console.log(hexString); // Output: 0x67805fba9dffb9ae89ce1ba8acd5414253b85bdf
                         // Publish cast
                         const castText = `revealing token`;
